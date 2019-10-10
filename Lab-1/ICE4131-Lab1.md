@@ -17,7 +17,7 @@ At the beginning of the session next week, each student will demonstrate that th
 
 #  Logging in to the SuperComputer
 
-To  access  SuperComputing  Wales,  you  can  use  a  terminal  emulator,  which  connects  your  localkeyboard and screen to the remote system.  It uses a protocol called “Secure Shell”, or “SSH”; this is available as standard on a Linux workstation, but requires a terminal emulator to be downloadedand installed on a Windows workstation.  In order to access SuperComputing Wales, you need tolog  in  to  the  main  login  server  (see  Figure  1).   From  there  you  will  have  access  to  the  compute nodes:
+To  access  SuperComputing  Wales,  you  can  use  a  terminal  emulator,  which  connects  your  localkeyboard and screen to the remote system.  It uses a protocol called “Secure Shell”, or “SSH”; this is available as standard on a Linux workstation, but requires a terminal emulator to be downloadedand installed on a Windows workstation.  In order to access SuperComputing Wales, you need tolog  in  to  the  main  login  server  (see  Figure  [topology][1]).   From  there  you  will  have  access  to  the  compute nodes:
 
 - 201 nodes, 
 - totalling 8,040 cores, 
