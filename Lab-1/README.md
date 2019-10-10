@@ -628,7 +628,7 @@ Compile and run "HellowWorld-pthread3.cxx", voilà!
 The output is presented as expected. 
 Only one thread writes in the standard output at a time.
 
-[topology]: topology.eps "Overall structure"
+[topology]: topology.png "Overall structure"
 [putty1]: putty.png "PuTTY Configuration Screen"
 [putty2]: login.png "Login prompt in PuTTY"
 [putty3]: password.png "Entering Your Username in PuTTY"
