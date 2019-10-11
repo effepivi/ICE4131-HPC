@@ -1,15 +1,3 @@
----
-title: "ICE4131 - High Performance Computing (HPC)"
-author: "Tutor: Franck Vidal"
-date: "Semester 1"
-output:
-  html_document:
-     css: ../caption.css
-     self_contained: no
-
----
-
-
 # ICE4131 - High Performance Computing (HPC)
 ## Lab 1: Editing files
 ### Tutor: Franck Vidal
@@ -45,15 +33,15 @@ Each node has
     - 420TB of home directory space over NFS
 
 ![Overall structure][topology]
-.caption[
-**Fig. 1:** Overall structure
-]
+**Fig. 1:** Overall structure.
+
 
 ##    Logging in from Windows
 
 Check if your machine has “PuTTY” installed; if not, you can download a copy from [https://www.chiark.greenend.org.uk/ sgtatham/putty/](https://www.chiark.greenend.org.uk/ sgtatham/putty/). The software is open source and freely available.  If you cannot install the software locally (e.g.  as you do not have administrator rights/privileges), then you may be able to install a “portable application” packaged version, available from [http://portableapps.com/apps/internet/putty_portable](http://portableapps.com/apps/internet/putty_portable). When you have PuTTY installed, run it and you will see a screen similar to that presented in Figure 2.
 
 ![PuTTY Configuration Screen][putty1]
+**Fig. 2:** PuTTY Configuration Screen.
 
 
 In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into the “Host Name (or IP address)” box; you may wish to save this for reuse, in which case also enter a name in the “Saved Sessions” box, and click the “Save” button.
@@ -61,11 +49,13 @@ In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into 
 After entering the address of the machine you wish to log into the Hawk system, click on the “Open”  button  to  connect  to  SuperComputing  Wales.   You  may  be  asked  to  accept  a  securitycertificate.  This will happen the first time you log into the cluster from your machine.  Accept thecertificate by clicking on “yes”,  and you will be connected to the login node of SuperComputingWales, your first point of entry as shown in Figure 3.
 
 ![Login prompt in PuTTY][putty2]
+**Fig. 3:** Login prompt in PuTTY.
 
 
 You  are  now  ready  to  log  in,  please  enter  your  username,  in  the  form  “b.eese10”,  such  as presented in Figure 4 and press return.
 
 ![Entering Your Username in PuTTY][putty3]
+**Fig. 4:** Entering Your Username in PuTTY.
 
 
 ## Logging in from GNU/Linux or MacOSX
