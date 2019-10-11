@@ -1,3 +1,15 @@
+---
+title: "ICE4131 - High Performance Computing (HPC)"
+author: "Tutor: Franck Vidal"
+date: "Semester 1"
+output:
+  html_document:
+     css: ../caption.css
+     self_contained: no
+
+---
+
+
 # ICE4131 - High Performance Computing (HPC)
 ## Lab 1: Editing files
 ### Tutor: Franck Vidal
@@ -32,8 +44,10 @@ Each node has
     - 692TB (usable) scratch space on a Lustre filesystem
     - 420TB of home directory space over NFS
 
-![Overall structure][topology  "Overall structure"]
-
+![Overall structure][topology]
+.caption[
+**Fig. 1:** Overall structure
+]
 
 ##    Logging in from Windows
 
