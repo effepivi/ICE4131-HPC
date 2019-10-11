@@ -323,10 +323,11 @@ $ module avail compiler
 
 It will return:
 ```
----------------------------------------------- /apps/modules/compilers -----------------------------------------------
-compiler/gnu/4/8.5    compiler/gnu/7/3.0    compiler/intel/2017/4 compiler/intel/2018/3
-compiler/gnu/5/5.0    compiler/gnu/8/1.0    compiler/intel/2017/7 compiler/intel/2018/4
-compiler/gnu/6/4.0    compiler/intel/2016/4 compiler/intel/2018/2 compiler/pgi/18/4
+------------------------------------------ /apps/modules/compilers -------------------------------------------
+compiler/gnu/4/8.5    compiler/gnu/8/1.0    compiler/intel/2017/7 compiler/intel/2019/3
+compiler/gnu/5/5.0    compiler/gnu/9/2.0    compiler/intel/2018/2 compiler/intel/2019/5
+compiler/gnu/6/4.0    compiler/intel/2016/4 compiler/intel/2018/3 compiler/pgi/18/4
+compiler/gnu/7/3.0    compiler/intel/2017/4 compiler/intel/2018/4 compiler/pgi/19/4
 ```
 
 For us, we will require one tool to
@@ -339,17 +340,16 @@ $ icc
 the command prompt will respond with
 
 ```bash
--bash: icc:
-command not found
+-bash: icc: command not found
 ```
 If you type `g++ --version`, you will get an old version of g++, e.g. g++ (GCC) 4.8.5 from 2015. We will be using the latest GNU compiler suite; to
 install it, type:
 
 ```bash
-$ module load compiler/gnu/8/1.0
+$ module load compiler/gnu/9/2.0
 ```
 This will load in the new compiler we wish to use. Now, if you
-type in `g++ --version`, you will see "g++ (GCC) 8.1.0".
+type in `g++ --version`, you will see `g++ (GCC) 9.2.0`.
 
 To save having to type this in each time we log into the machine, we have put these
 commands in a batch script for you - this is a short text file that contains the above
