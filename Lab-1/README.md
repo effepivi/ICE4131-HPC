@@ -19,8 +19,8 @@ At the beginning of the session next week, each student will demonstrate that th
 
 To  access  SuperComputing  Wales,  you  can  use  a  terminal  emulator,  which  connects  your  localkeyboard and screen to the remote system.  It uses a protocol called “Secure Shell”, or “SSH”; this is available as standard on a Linux workstation, but requires a terminal emulator to be downloadedand installed on a Windows workstation.  In order to access SuperComputing Wales, you need tolog  in  to  the  main  login  server  (see  Figure  1).   From  there  you  will  have  access  to  the  compute nodes:
 
-- 201 nodes, 
-- totalling 8,040 cores, 
+- 201 nodes,
+- totalling 8,040 cores,
 - 46.080 TBytes total memory
 
 Each node has
@@ -32,7 +32,7 @@ Each node has
     - 692TB (usable) scratch space on a Lustre filesystem
     - 420TB of home directory space over NFS
 
-![Overall structure][topology]
+![Overall structure][topology  "Overall structure"]
 
 
 ##    Logging in from Windows
@@ -42,7 +42,7 @@ Check if your machine has “PuTTY” installed; if not, you can download a copy
 ![PuTTY Configuration Screen][putty1]
 
 
-In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into the “Host Name (or IP address)” box; you may wish to save this for reuse, in which case also enter a name in the “Saved Sessions” box, and click the “Save” button. 
+In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into the “Host Name (or IP address)” box; you may wish to save this for reuse, in which case also enter a name in the “Saved Sessions” box, and click the “Save” button.
 
 After entering the address of the machine you wish to log into the Hawk system, click on the “Open”  button  to  connect  to  SuperComputing  Wales.   You  may  be  asked  to  accept  a  securitycertificate.  This will happen the first time you log into the cluster from your machine.  Accept thecertificate by clicking on “yes”,  and you will be connected to the login node of SuperComputingWales, your first point of entry as shown in Figure 3.
 
@@ -57,7 +57,7 @@ You  are  now  ready  to  log  in,  please  enter  your  username,  in  the  for
 ## Logging in from GNU/Linux or MacOSX
 
 Linux and OSX have secure shell built-in, so you should not need to install it manually.  To log into SuperComputing Wales, open a Terminal Window and type:  
-```bash 
+```bash
 $ ssh b.eese10@hawklogin.cf.ac.uk
 ```
 
@@ -78,13 +78,13 @@ Your password will now be requested; please enter your password, only you knows 
 - `man [command]`
 
     Displays manual information on command
-    
+
 - `clear`
-    
+
     Clears the screen
 
 - `exit`
-    
+
     Exits the command interpreter
 
 ## Manipulating Directories
@@ -96,13 +96,13 @@ Your password will now be requested; please enter your password, only you knows 
 - `cd [directory]`
 
     Change to directory `[directory]`
-    
+
 - `mkdir [directory]`
 
     Create directory `[directory]`
-    
+
 - `rmdir [directory]`
-    
+
     Remove directory `[directory]`
 
 
@@ -120,16 +120,16 @@ Your password will now be requested; please enter your password, only you knows 
 
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>`
 - `ls -lh`
-    
+
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>` with human readable size
-    
+
 - `ls -lt`
 
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>` sorted by time
 - `ls -lr`
 
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>` in reverse order
-    
+
 - `ls -ltrh`
 
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>` sorted by time, in reverse order, with human readable size
@@ -151,13 +151,13 @@ Your password will now be requested; please enter your password, only you knows 
 ##    Removing Files
 
 - `rm [file]`
-    
+
     Remove file `[file]`
-    
+
 - `rm -i [file]`
     - Remove file `[file]`
     - Prompt before removing
-    
+
 - `rm -R [directory]`
     - Remove directory `[directory]`
     - Remove all sub directories and files
@@ -173,7 +173,7 @@ Your password will now be requested; please enter your password, only you knows 
     - Prompt before overwriting `[dest]` if it exists
 
 - `cp -R [source][dest]`
-    
+
     Copy directory [source] to directory [dest]Copy all sub directories and files
 
 ## Displaying Files
@@ -192,11 +192,11 @@ Your password will now be requested; please enter your password, only you knows 
     Display differences between `[file1]` and `[file2]`
 
 - `fgrep "string" [file]`
-    
+
     Find “`string`” in `[file]`
 
 - `sort [file]`
-    
+
     Sort `[file]`
 
 ## Command Modifiers
@@ -218,7 +218,7 @@ Your password will now be requested; please enter your password, only you knows 
     Show who is logged on
 
 - `top`
-    
+
     Show which tasks are running
 
 - `watch`
@@ -226,19 +226,19 @@ Your password will now be requested; please enter your password, only you knows 
     Run a task repeatedly
 
 - `history`
-    
+
     Show which tasks you ran
-    
+
 - `date`
-    
+
     Display or set the date and time
 
 - `cat`
-    
+
     Concatenate files and print on screen
-    
+
 - `head`
-    
+
     Print top of file on screen
 
 - `tail`
@@ -254,7 +254,7 @@ Your password will now be requested; please enter your password, only you knows 
     Display name of current/working directory
 
 - `hostname`
-    
+
     Display the system’s host name
 
 ## Editing Files
@@ -287,7 +287,7 @@ return (0);
 ```
 
 
-To create an executable file, you need to compile your source code. 
+To create an executable file, you need to compile your source code.
 This is what we are going to do next.
 
 ## Module Environment
@@ -302,7 +302,7 @@ available, type:
 $ module avail
 ```
 
-It lists all the available software for you to use. 
+It lists all the available software for you to use.
 
 To look at compilers only, type:
 
@@ -320,12 +320,12 @@ compiler/gnu/6/4.0    compiler/intel/2016/4 compiler/intel/2018/2 compiler/pgi/1
 
 For us, we will require one tool to
 compile some source code, and to run the resulting executable code. At present, compilation
-tools are not available - for example if you type 
+tools are not available - for example if you type
 
 ```bash
 $ icc
 ```
-the command prompt will respond with 
+the command prompt will respond with
 
 ```bash
 -bash: icc:
@@ -353,8 +353,8 @@ To compile your source code, just type:
 $ g++ HelloWorld.cxx -o HelloWorld
 ```
 
-If you did not make any mistake, it should compile without any error. 
-A new file, "HelloWorld", was created. 
+If you did not make any mistake, it should compile without any error.
+A new file, "HelloWorld", was created.
 To run it, type:
 
 ```bash
@@ -365,42 +365,42 @@ $ ./HelloWorld+
 
 ## General concepts
 
-A very common strategy to parallelise code is to identify for/while loops and replace them by parallel code. 
-In the listing above, there is a for loop at Line 5. 
-We are going to parallelise it using POSIX Threads (usually referred to as Pthreads). 
-It is a POSIX standard for threads. 
-Pthreads are a simple and effective way of creating a multi-threaded application. 
+A very common strategy to parallelise code is to identify for/while loops and replace them by parallel code.
+In the listing above, there is a for loop at Line 5.
+We are going to parallelise it using POSIX Threads (usually referred to as Pthreads).
+It is a POSIX standard for threads.
+Pthreads are a simple and effective way of creating a multi-threaded application.
 
 There are 5 main steps to convert serial code to parallel code with Pthreads:
 
 1. All C/C++ programs using Pthreads need to include the pthread.h header file.
-2. `#include <pthread.h>` at the top of your file. 
+2. `#include <pthread.h>` at the top of your file.
 3. Create an entry point for the thread
-    - When creating a thread using Pthreads, you need to point it to a function for it to start execution. 
-    - It is the thread's callback function. 
-    - It returns `void*` and take a single `void*` argument. 
+    - When creating a thread using Pthreads, you need to point it to a function for it to start execution.
+    - It is the thread's callback function.
+    - It returns `void*` and take a single `void*` argument.
     - For example, if you want the function to take an integer argument, you will need to pass the address of the integer and dereference it later. This may sound complicated but, as is shown below, it's pretty simple. An example function signature would be:
 ```c
 void* callback_function(void* param);
 ```
 4. Define thread reference variables
-    - The variable type `pthread_t` is a means of referencing threads. 
-    - There must be a `pthread_t` variable for every thread being created! 
+    - The variable type `pthread_t` is a means of referencing threads.
+    - There must be a `pthread_t` variable for every thread being created!
     - For example, it can be: `pthread_t thread0;`
 5. Create the thread
-    - Once the `pthread_t` variable has been defined and the entry point function created, we can create the thread using `pthread_create`. 
-    - This method takes four arguments: 
-        1. A pointer to the `pthread_t` variable, 
-        2. Any extra attributes (don't worry about this for now - just set it to `NULL`), 
-        3. A pointer to the function to call (i.e. the name of the callback) and 
-        4. The pointer being passed as the argument to the function. 
+    - Once the `pthread_t` variable has been defined and the entry point function created, we can create the thread using `pthread_create`.
+    - This method takes four arguments:
+        1. A pointer to the `pthread_t` variable,
+        2. Any extra attributes (don't worry about this for now - just set it to `NULL`),
+        3. A pointer to the function to call (i.e. the name of the callback) and
+        4. The pointer being passed as the argument to the function.
     - Now there's a lot of pointers in that call, but don't stress - it's not as tricky as it sounds. This call will look something like:
 ```c
     pthread_create(&thread0, NULL, callback_function, &parameter);
 ```
 6. Join everything back up
-    - When the newly-created thread has finished doing it's bits, we need to join everything back up. 
-    - This is done by the `pthread_join` function which takes two parameters: the `pthread_t` variable used when `pthread_create` was called (not a pointer this time) and a pointer to the return value pointer (don't worry about this for now - just set it to `NULL`). 
+    - When the newly-created thread has finished doing it's bits, we need to join everything back up.
+    - This is done by the `pthread_join` function which takes two parameters: the `pthread_t` variable used when `pthread_create` was called (not a pointer this time) and a pointer to the return value pointer (don't worry about this for now - just set it to `NULL`).
     - This call will look something like:
 ```c
 pthread_join(thread0, NULL);
@@ -411,7 +411,7 @@ And that's all there is to it. The function used as the thread entry point can c
 
 ## First example: parallel HelloWorld
 
-Below is the HelloWorld program with parallelisation using Pthread. 
+Below is the HelloWorld program with parallelisation using Pthread.
 The for loop has been replaced by concurrent threads.
 Create a new file "HelloWorld-pthread1.cxx" with the source code below.
 
@@ -466,14 +466,14 @@ When compiling the program, you will also need to add `-lpthread` to the compile
 g++ HelloWorld-pthread1.cxx -lpthread -o HelloWorld-pthread1
 ```
 Now run HelloWorld-pthread1. **Can you explain what happens?**
-To make it a little bit easier to understand what is happening, complete the next section. 
+To make it a little bit easier to understand what is happening, complete the next section.
 
 ## Second example: passing parameters
 
-In this example, we show how to pass parameters to a thread. 
-We add an extra `vector` to store a unique numerical ID (as `unsigned int`) for each thread (see Lines 20 and 25). 
+In this example, we show how to pass parameters to a thread.
+We add an extra `vector` to store a unique numerical ID (as `unsigned int`) for each thread (see Lines 20 and 25).
 Remember that the address of the variable is passed to the thread (see `&` at Line 26).
-In the callback, the address as to be converted from `void*` to `unsigned int*` (see Line 44). 
+In the callback, the address as to be converted from `void*` to `unsigned int*` (see Line 44).
 Then it is possible to retrieve the numerical value (see Line 47).
 
 ```c++
@@ -494,7 +494,7 @@ int main(int argc, char** argv)
     // 3. Declare an array of 10 pthreads
     std::vector<pthread_t> p_pthread_set(number_of_threads);
 
-    // Declare an array so that an unsigned int value 
+    // Declare an array so that an unsigned int value
     // is associated with a thread
     std::vector<unsigned int> p_data_set(number_of_threads);
 
@@ -531,7 +531,7 @@ void* callback_function(void* param)
 }
 ```
 
-Create a new file "HellowWorld-pthread2.cxx" with this source code. 
+Create a new file "HellowWorld-pthread2.cxx" with this source code.
 You can copy HellowWorld-pthread1.cxx into HellowWorld-pthread2.cxx to save some time:
 
 ```bash
@@ -539,21 +539,21 @@ $ cp HellowWorld-pthread1.cxx HellowWorld-pthread2.cxx
 ```
 
 Now modify the content of "HellowWorld-pthread2.cxx".
-Compile your new program and run it several times. 
+Compile your new program and run it several times.
 **Can you explain what is happening?**
 
 ## Third example: Mutual exclusion
 
-A critical section is a piece of code that accesses a shared resource. 
-In the previous example, threads shared the standard output and tried to write into it at the same time. 
-This is why the output is so messy. 
-To tidy it up, we want to make sure that only one thread writes in the console at a time. 
-In other words, we will ensure that no two concurrent threads are in their critical section at the same time. 
-This mechanism is called "Mutual exclusion" (commonly known as "mutex"). 
+A critical section is a piece of code that accesses a shared resource.
+In the previous example, threads shared the standard output and tried to write into it at the same time.
+This is why the output is so messy.
+To tidy it up, we want to make sure that only one thread writes in the console at a time.
+In other words, we will ensure that no two concurrent threads are in their critical section at the same time.
+This mechanism is called "Mutual exclusion" (commonly known as "mutex").
 
-We will add three lines of code to the previous example. 
+We will add three lines of code to the previous example.
 On Line 10, we declare and initialise a mutex.
-Before the critical section (i.e. before writing in the console), we lock the mutex (see Line 55). 
+Before the critical section (i.e. before writing in the console), we lock the mutex (see Line 55).
 After the critical section, we release the mutex (see Line 60).
 
 This is what we do in a new file "HellowWorld-pthread3.cxx":
@@ -581,7 +581,7 @@ int main(int argc, char** argv)
     // 3. Declare an array of 10 pthreads
     std::vector<pthread_t> p_pthread_set(number_of_threads);
 
-    // Declare an array so that an unsigned int value 
+    // Declare an array so that an unsigned int value
     // is associated with a thread
     std::vector<unsigned int> p_data_set(number_of_threads);
 
@@ -625,7 +625,7 @@ void* callback_function(void* param)
 ```
 
 Compile and run "HellowWorld-pthread3.cxx", voilà!
-The output is presented as expected. 
+The output is presented as expected.
 Only one thread writes in the standard output at a time.
 
 [topology]: topology.png "Overall structure"
