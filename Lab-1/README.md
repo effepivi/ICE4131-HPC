@@ -426,7 +426,7 @@ Below is the HelloWorld program with parallelisation using Pthread.
 The for loop has been replaced by concurrent threads.
 Create a new file "HelloWorld-pthread1.cxx" with the source code below.
 
-
+<!--
 ```c++
 #include <iostream>
 #include <vector>
@@ -470,6 +470,9 @@ void* callback_function(void* param)
     return (0);
 }
 ```
+-->
+
+![HelloWorld-pthread1.png](HelloWorld-pthread1.png)
 
 When compiling the program, you will also need to add `-lpthread` to the compile command:
 
@@ -487,6 +490,7 @@ Remember that the address of the variable is passed to the thread (see `&` at Li
 In the callback, the address as to be converted from `void*` to `unsigned int*` (see Line 44).
 Then it is possible to retrieve the numerical value (see Line 47).
 
+<!--
 ```c++
 #include <iostream>
 #include <vector>
@@ -541,6 +545,9 @@ void* callback_function(void* param)
     return (0);
 }
 ```
+-->
+
+![HelloWorld-pthread2.png](HelloWorld-pthread2.png)
 
 Create a new file "HellowWorld-pthread2.cxx" with this source code.
 You can copy HellowWorld-pthread1.cxx into HellowWorld-pthread2.cxx to save some time:
@@ -569,6 +576,7 @@ After the critical section, we release the mutex (see Line 60).
 
 This is what we do in a new file "HellowWorld-pthread3.cxx":
 
+<!--
 ```c++
 #include <iostream>
 #include <vector>
@@ -634,6 +642,9 @@ void* callback_function(void* param)
     return (0);
 }
 ```
+-->
+
+![HelloWorld-pthread3.png](HelloWorld-pthread3.png)
 
 Compile and run "HellowWorld-pthread3.cxx", voilà!
 The output is presented as expected.
