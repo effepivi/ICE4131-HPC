@@ -33,6 +33,7 @@ Each node has
     - 420TB of home directory space over NFS
 
 ![Overall structure][topology]
+
 **Fig. 1:** Overall structure.
 
 
@@ -41,6 +42,7 @@ Each node has
 Check if your machine has “PuTTY” installed; if not, you can download a copy from [https://www.chiark.greenend.org.uk/ sgtatham/putty/](https://www.chiark.greenend.org.uk/ sgtatham/putty/). The software is open source and freely available.  If you cannot install the software locally (e.g.  as you do not have administrator rights/privileges), then you may be able to install a “portable application” packaged version, available from [http://portableapps.com/apps/internet/putty_portable](http://portableapps.com/apps/internet/putty_portable). When you have PuTTY installed, run it and you will see a screen similar to that presented in Figure 2.
 
 ![PuTTY Configuration Screen][putty1]
+
 **Fig. 2:** PuTTY Configuration Screen.
 
 
@@ -49,12 +51,14 @@ In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into 
 After entering the address of the machine you wish to log into the Hawk system, click on the “Open”  button  to  connect  to  SuperComputing  Wales.   You  may  be  asked  to  accept  a  securitycertificate.  This will happen the first time you log into the cluster from your machine.  Accept thecertificate by clicking on “yes”,  and you will be connected to the login node of SuperComputingWales, your first point of entry as shown in Figure 3.
 
 ![Login prompt in PuTTY][putty2]
+
 **Fig. 3:** Login prompt in PuTTY.
 
 
 You  are  now  ready  to  log  in,  please  enter  your  username,  in  the  form  “b.eese10”,  such  as presented in Figure 4 and press return.
 
 ![Entering Your Username in PuTTY][putty3]
+
 **Fig. 4:** Entering Your Username in PuTTY.
 
 
@@ -276,6 +280,9 @@ If you are not familiar with Vi nor Emacs, then I recommend you to use Nano.  It
 
 In your home directory, create a new sub-directory called “LAB1”. In “LAB1”, create “HELLOWORLD”. Go to LAB2/HELLOWORLD, create a new file, “HelloWorld.cxx”, and type the source code as follows using your favourite text editor:
 
+![HelloWorld.png](HelloWorld.png)
+
+<!--
 ```c++
 #include <iostream>
 
@@ -289,7 +296,7 @@ int main(int argc, char** argv)
 return (0);
 }
 ```
-
+-->
 
 To create an executable file, you need to compile your source code.
 This is what we are going to do next.
