@@ -4,10 +4,7 @@
 
 ## Objectives
 
-
-<!-- Link to create images of code:
-https://carbon.now.sh
--->
+<!-- Link to create images of code: https://carbon.now.sh -->
 
 SuperComputing Wales uses SLURM (Simple Linux Utility for Resource Management). It is a free and open-source job scheduler for Linux and Unix-like operating systems. It is mainly used by supercomputers and computer clusters. In today’s lab, you will learn how to use it to submit your work to SuperComputing Wales’ supercomputer.
 
@@ -90,7 +87,6 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 7364889      work     test franck.v  R       0:02      1 bwc053
 $
 ```
-
 
 # Creating a job
 A job consists in two parts:

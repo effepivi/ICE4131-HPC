@@ -4,7 +4,6 @@
 
 ## Objectives
 
-
 <!-- Link to create images of code:
 https://carbon.now.sh
 -->
@@ -18,7 +17,6 @@ You will learn how to
 4. run your first parallel tasks using POSIX threads (also known as Pthreads).
 
 At the beginning of the session next week, each student will demonstrate that they are capable to complete every task. **You will demonstrate your work next week.  There will be a mark assigned to each task.  It will count toward the final lab mark.**
-
 
 #  Logging in to the SuperComputer
 
@@ -41,7 +39,6 @@ Each node has
 
 **Fig. 1:** Overall structure.
 
-
 ##    Logging in from Windows
 
 Check if your machine has “PuTTY” installed; if not, you can download a copy from [https://www.chiark.greenend.org.uk/ sgtatham/putty/](https://www.chiark.greenend.org.uk/ sgtatham/putty/). The software is open source and freely available.  If you cannot install the software locally (e.g.  as you do not have administrator rights/privileges), then you may be able to install a “portable application” packaged version, available from [http://portableapps.com/apps/internet/putty_portable](http://portableapps.com/apps/internet/putty_portable). When you have PuTTY installed, run it and you will see a screen similar to that presented in Figure 2.
@@ -49,7 +46,6 @@ Check if your machine has “PuTTY” installed; if not, you can download a copy
 ![PuTTY Configuration Screen][putty1]
 
 **Fig. 2:** PuTTY Configuration Screen.
-
 
 In order to log in to SuperComputing Wales, enter “hawklogin.cf.ac.uk” into the “Host Name (or IP address)” box; you may wish to save this for reuse, in which case also enter a name in the “Saved Sessions” box, and click the “Save” button.
 
@@ -59,13 +55,11 @@ After entering the address of the machine you wish to log into the Hawk system, 
 
 **Fig. 3:** Login prompt in PuTTY.
 
-
 You  are  now  ready  to  log  in,  please  enter  your  username,  in  the  form  “b.eese10”,  such  as presented in Figure 4 and press return.
 
 ![Entering Your Username in PuTTY][putty3]
 
 **Fig. 4:** Entering Your Username in PuTTY.
-
 
 ## Logging in from GNU/Linux or MacOSX
 
@@ -79,7 +73,6 @@ Where you should replace “b.eese10” with your username. DON'T FORGET THE “
 ##    Entering your Password
 
 Your password will now be requested; please enter your password, only you knows it. You are now at the command prompt on the login node of SuperComputing Wales.  This is the machine that links SuperComputing Wales to the internet, and is heavily secured (think of it as the gate keeper to the SuperComputing Wales network).
-
 
 # Basic Linux commands
 
@@ -117,7 +110,6 @@ Your password will now be requested; please enter your password, only you knows 
 - `rmdir [directory]`
 
     Remove directory `[directory]`
-
 
 ## Listing Files
 
@@ -196,7 +188,6 @@ Your password will now be requested; please enter your password, only you knows 
     - Will scroll through one screen at a time
     - Press space to scroll one screen at a time
     - Press enter to scroll one line at a time
-
 
 ##    Comparing Files
 
@@ -279,7 +270,6 @@ There are three main console-based text editor:
 - Vi
 
 If you are not familiar with Vi nor Emacs, then I recommend you to use Nano.  It is easier to handle.
-
 
 #    Compiling code
 
@@ -423,8 +413,6 @@ pthread_join(thread0, NULL);
 ```
 And that's all there is to it. The function used as the thread entry point can call other functions, create variables or do anything any other function can do. It can also use the variables set by the other thread.
 
-
-
 ## First example: parallel HelloWorld
 
 Below is the HelloWorld program with parallelisation using Pthread.
@@ -464,7 +452,6 @@ int main(int argc, char** argv)
 
     return (0);
 }
-
 
 //----------------------------------
 void* callback_function(void* param)
@@ -534,7 +521,6 @@ int main(int argc, char** argv)
     return (0);
 }
 
-
 //----------------------------------
 void* callback_function(void* param)
 //----------------------------------
@@ -590,10 +576,8 @@ This is what we do in a new file "HellowWorld-pthread3.cxx":
 // 2. Declare the callback
 void* callback_function(void* param);
 
-
 // Global variable
 pthread_mutex_t g_console_mutex = PTHREAD_MUTEX_INITIALIZER;
-
 
 //-----------------------------
 int main(int argc, char** argv)
@@ -624,7 +608,6 @@ int main(int argc, char** argv)
 
     return (0);
 }
-
 
 //----------------------------------
 void* callback_function(void* param)
