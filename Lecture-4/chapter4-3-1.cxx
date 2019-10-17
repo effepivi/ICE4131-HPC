@@ -58,5 +58,12 @@ int main(int argc, char** argv)
     time_taken = chrono::duration<double>(end - start).count();
     cout << "Products took " << time_taken << " seconds" << endl << endl;
 
+    // Print the result in the terminal
+    for (int i = 0; i < N; i++)
+    {
+        cout << c[i] << " = " << a[i] << " + " << b[i] << endl;
+        cout << d[i] << " = " << a[i] << " * " << b[i] << endl << endl;
+    }
+
     return 0;
 }

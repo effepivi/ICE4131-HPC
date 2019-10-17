@@ -41,5 +41,12 @@ int main(int argc, char** argv)
     for (int i = 0; i < N; i++)
         d[i] = a[i] * b[i];
 
+    // Print the result in the terminal
+    for (int i = 0; i < N; i++)
+    {
+        cout << c[i] << " = " << a[i] << " + " << b[i] << endl;
+        cout << d[i] << " = " << a[i] << " * " << b[i] << endl << endl;
+    }
+
     return 0;
 }
