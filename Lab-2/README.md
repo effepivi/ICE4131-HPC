@@ -18,7 +18,7 @@ $ ./HelloWorld
 ```
 
 It is not good practice to do so on a supercomputer. The overall topology of the supercomputer is
-![topology](topology).
+![SCW overall topology](../Lab-1/topology.png).
 It is because the execution will be performed on `hawklogin.cf.ac.uk` rather than a compute node. Absolutely all the users currently logged in are using `hawklogin.cf.ac.uk` and share its resources. Instead it is better to use [SLURM](https://slurm.schedmd.com/documentation.html) to make
 sure the code is running on a dedicated compute node rather than a shared resource. This way you can maximise performance, and you won't bother other users.
 
@@ -138,6 +138,3 @@ Submitted batch job 2825285
 ```bash
 more  slurm-2825285.out
 ```
-
-
-[topology]: ../Lab-1/topology.png "Overall structure"
