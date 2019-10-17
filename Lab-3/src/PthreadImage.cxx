@@ -124,7 +124,7 @@ PthreadImage& PthreadImage::operator=(const PthreadImage& anImage)
 bool PthreadImage::operator==(const Image& anImage) const
 //-------------------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return Image::operator==(anImage);
     }
@@ -154,7 +154,7 @@ bool PthreadImage::operator==(const Image& anImage) const
 PthreadImage PthreadImage::operator!() const
 //------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return PthreadImage(Image::operator!(), m_thread_number);
     }
@@ -178,7 +178,7 @@ PthreadImage PthreadImage::shiftScaleFilter(float aShiftValue,
                                             float aScaleValue) const
 //------------------------------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return PthreadImage(Image::shiftScaleFilter(aShiftValue, aScaleValue), m_thread_number);
     }
@@ -201,7 +201,7 @@ PthreadImage PthreadImage::shiftScaleFilter(float aShiftValue,
 PthreadImage PthreadImage::logFilter() const
 //------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return PthreadImage(Image::logFilter(), m_thread_number);
     }
@@ -224,7 +224,7 @@ PthreadImage PthreadImage::logFilter() const
 PthreadImage PthreadImage::flipHorizontally() const
 //-------------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return PthreadImage(Image::flipHorizontally(), m_thread_number);
     }
@@ -247,7 +247,7 @@ PthreadImage PthreadImage::flipHorizontally() const
 PthreadImage PthreadImage::flipVertically() const
 //-----------------------------------------------
 {
-    if (m_thread_number == 0)
+    if (m_thread_number == 0 || m_thread_number == 1)
     {
         return PthreadImage(Image::flipVertically(), m_thread_number);
     }
