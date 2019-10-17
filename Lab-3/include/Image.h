@@ -321,6 +321,7 @@ public:
 	/**
 	* @param aShiftValue: the shift parameter of the filter
 	* @param aScaleValue: the scale parameter of the filter
+    * @return the new image
 	*/
 	//------------------------------------------------------------------------
 	Image shiftScaleFilter(float aShiftValue, float aScaleValue) const;
@@ -328,27 +329,51 @@ public:
 
 	//------------------------------------------------------------------------
 	/// Normalise the image between 0 and 1
+    /**
+    * @return the new image
+	*/
 	//------------------------------------------------------------------------
 	Image getNormalised() const;
 
 
 	//------------------------------------------------------------------------
 	/// Normalize the image between 0 and 1
+    /**
+    * @return the new image
+	*/
 	//------------------------------------------------------------------------
 	Image getNormalized() const;
 
 
+    //------------------------------------------------------------------------
+	/// Apply a log filter on the image
+    /**
+    * @return the new image
+	*/
+	//------------------------------------------------------------------------
 	Image logFilter() const;
 
 
+    //------------------------------------------------------------------------
+	/// Flip the image horizonatally
+    /**
+    * @return the new image
+	*/
+	//------------------------------------------------------------------------
 	Image flipHorizontally() const;
 
 
+    //------------------------------------------------------------------------
+	/// Flip the image vertically
+    /**
+    * @return the new image
+	*/
+	//------------------------------------------------------------------------
 	Image flipVertically() const;
 
 
 //******************************************************************************
-private:
+protected:
     /// Number of pixel along the horizontal axis
     unsigned int m_width;
 
