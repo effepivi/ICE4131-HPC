@@ -101,7 +101,7 @@ $ sbatch  --account=scw1563 -c N submit.sh
 ## Add timestamps
 
 1. Edit the file `../src/flip.cxx` to add timestamps. You can use `nano`.
-2. See examples in [https://github.com/effepivi/ICE4131-HPC/blob/master/Lecture-4/chapter4-2.cxx](https://github.com/effepivi/ICE4131-HPC/blob/master/Lecture-4/chapter4-2.cxx).
+2. See examples in [chapter4-2.cxx](../Lecture-4/chapter4-2.cxx).
 3. You want to display how long it takes to flip the image horizontally and vertically, with and without threads, in other words you have to repeat the process 4 times.
 
 
