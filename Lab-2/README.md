@@ -21,7 +21,7 @@ The overall topology of the supercomputer looks like:
 It is not good practice to run your code on the login server when using a supercomputer. It is because the execution will be performed on `hawklogin.cf.ac.uk` rather than a compute node. Absolutely **ALL** the users currently logged in are using `hawklogin.cf.ac.uk` and share its resources. Instead it is better to use [SLURM](https://slurm.schedmd.com/documentation.html) to make
 sure the code is running on a dedicated compute node rather than a shared resource. This way you can maximise performance, and you won't bother other users.
 
-# sinfo
+## sinfo
 
 `sinfo` lists the partitions that are available. A partition is a set of compute nodes (computers dedicated to ... computing,) grouped logically. Typical examples include partitions dedicated to batch processing, debugging, post processing, or visualisation. Try to run the `sinfo` command. You'll see something like:
 
@@ -69,7 +69,7 @@ ccs2001        1       gpu   allocated   40   2:20:1 383000        0      1   (n
 ccs2002        1       gpu   allocated   40   2:20:1 383000        0      1   (null) none                
 ```
 
-# squeue
+## squeue
 
 The squeue command shows the list of jobs which are currently running (they are in the RUNNING state, noted as ’R’) or waiting for resources (noted as ’PD’). Try it:
 
@@ -88,7 +88,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 $
 ```
 
-# Creating a job
+## Creating a job
 A job consists in two parts:
 
 1. **Resource requests** consist in a number
@@ -137,7 +137,7 @@ Submitted batch job 2825285
 more  slurm-2825285.out
 ```
 
-# Back to the code of Lab 1
+## Back to the code of Lab 1
 
 - Go into the directory where the programs corresponding to Lab 1 are. Use the `cd` to change directory, and the `ls` command to check the content of the directory.
 - Copy the content of `HelloWorld-pthread3.cxx` into `HelloWorld-pthread4.cxx`.

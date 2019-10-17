@@ -39,7 +39,7 @@ Each node has
 
 **Fig. 1:** Overall structure.
 
-##    Logging in from Windows
+###    Logging in from Windows
 
 Check if your machine has “PuTTY” installed; if not, you can download a copy from [https://www.chiark.greenend.org.uk/ sgtatham/putty/](https://www.chiark.greenend.org.uk/ sgtatham/putty/). The software is open source and freely available.  If you cannot install the software locally (e.g.  as you do not have administrator rights/privileges), then you may be able to install a “portable application” packaged version, available from [http://portableapps.com/apps/internet/putty_portable](http://portableapps.com/apps/internet/putty_portable). When you have PuTTY installed, run it and you will see a screen similar to that presented in Figure 2.
 
@@ -61,7 +61,7 @@ You  are  now  ready  to  log  in,  please  enter  your  username,  in  the  for
 
 **Fig. 4:** Entering Your Username in PuTTY.
 
-## Logging in from GNU/Linux or MacOSX
+### Logging in from GNU/Linux or MacOSX
 
 Linux and OSX have secure shell built-in, so you should not need to install it manually.  To log into SuperComputing Wales, open a Terminal Window and type:  
 ```bash
@@ -70,13 +70,13 @@ $ ssh b.eese10@hawklogin.cf.ac.uk
 
 Where you should replace “b.eese10” with your username. DON'T FORGET THE “b.” as you are using a Bangor University account. You may be asked to accept a security certificate.  This will happen the first time you log into the cluster from your machine.  Accept the certificate by typing “yes” and press return.  Proceed to the next section
 
-##    Entering your Password
+###    Entering your Password
 
 Your password will now be requested; please enter your password, only you knows it. You are now at the command prompt on the login node of SuperComputing Wales.  This is the machine that links SuperComputing Wales to the internet, and is heavily secured (think of it as the gate keeper to the SuperComputing Wales network).
 
-# Basic Linux commands
+## Basic Linux commands
 
-## Command Prompt Basics
+### Command Prompt Basics
 
 - `man man`
 
@@ -93,7 +93,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Exits the command interpreter
 
-## Manipulating Directories
+### Manipulating Directories
 
 - `cd ..`
 
@@ -111,7 +111,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Remove directory `[directory]`
 
-## Listing Files
+### Listing Files
 
 - `ls`
 
@@ -139,7 +139,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Display  list  of  files  and  sub  directories  in  long  format `<permissions  owner  group  size  datetime name>` sorted by time, in reverse order, with human readable size
 
-##    Moving Files
+###    Moving Files
 
 - `mv [source] [dest]`
 
@@ -153,7 +153,7 @@ Your password will now be requested; please enter your password, only you knows 
     - Move file `[source]` to file `[dest]`
     - Overwrite `[dest]` if it exists
 
-##    Removing Files
+###    Removing Files
 
 - `rm [file]`
 
@@ -167,7 +167,7 @@ Your password will now be requested; please enter your password, only you knows 
     - Remove directory `[directory]`
     - Remove all sub directories and files
 
-##    Copying Files
+###    Copying Files
 
 - `cp [source][dest]`
 
@@ -181,7 +181,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Copy directory [source] to directory [dest]Copy all sub directories and files
 
-## Displaying Files
+### Displaying Files
 
 - `more [file]`
     - Display `[file]` on the screen
@@ -189,7 +189,7 @@ Your password will now be requested; please enter your password, only you knows 
     - Press space to scroll one screen at a time
     - Press enter to scroll one line at a time
 
-##    Comparing Files
+###    Comparing Files
 
 - `diff [file1] [file2]`
 
@@ -203,7 +203,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Sort `[file]`
 
-## Command Modifiers
+### Command Modifiers
 
 - Wildcards allow you to specify multiple items to operate on
     - `ls *.txt`
@@ -215,7 +215,7 @@ Your password will now be requested; please enter your password, only you knows 
 - Pipes let you direct the output of one command as input to another
     - `ls | find "txt"`
 
-## Other Commands
+### Other Commands
 
 - `who`
 
@@ -261,7 +261,7 @@ Your password will now be requested; please enter your password, only you knows 
 
     Display the system’s host name
 
-## Editing Files
+### Editing Files
 
 There are three main console-based text editor:
 
@@ -271,7 +271,7 @@ There are three main console-based text editor:
 
 If you are not familiar with Vi nor Emacs, then I recommend you to use Nano.  It is easier to handle.
 
-#    Compiling code
+##    Compiling code
 
 In your home directory, create a new sub-directory called “LAB1”. In “LAB1”, create “HELLOWORLD”. Go to LAB2/HELLOWORLD, create a new file, “HelloWorld.cxx”, and type the source code as follows using your favourite text editor:
 
@@ -296,7 +296,7 @@ return (0);
 To create an executable file, you need to compile your source code.
 This is what we are going to do next.
 
-## Module Environment
+### Module Environment
 
 With a UNIX system, such as SuperComputing Wales, it can get very complicated for the end user to
 maintain many different versions of available programs. To simplify matters, we use the
@@ -351,7 +351,7 @@ commands in a batch script for you - this is a short text file that contains the
 commands. Let's now start to look at compiling the example code, and using the batch script
 file to save typing. This is covered in the next section.
 
-## Compiling Code: C++
+### Compiling Code: C++
 
 To compile your source code, just type:
 
@@ -367,9 +367,9 @@ To run it, type:
 $ ./HelloWorld+
 ```
 
-# Parallelising Code using Pthreads
+## Parallelising Code using Pthreads
 
-## General concepts
+### General concepts
 
 A very common strategy to parallelise code is to identify for/while loops and replace them by parallel code.
 In the listing above, there is a for loop at Line 5.
@@ -413,7 +413,7 @@ pthread_join(thread0, NULL);
 ```
 And that's all there is to it. The function used as the thread entry point can call other functions, create variables or do anything any other function can do. It can also use the variables set by the other thread.
 
-## First example: parallel HelloWorld
+### First example: parallel HelloWorld
 
 Below is the HelloWorld program with parallelisation using Pthread.
 The for loop has been replaced by concurrent threads.
@@ -474,7 +474,7 @@ g++ HelloWorld-pthread1.cxx -lpthread -o HelloWorld-pthread1
 Now run HelloWorld-pthread1. **Can you explain what happens?**
 To make it a little bit easier to understand what is happening, complete the next section.
 
-## Second example: passing parameters
+### Second example: passing parameters
 
 In this example, we show how to pass parameters to a thread.
 We add an extra `vector` to store a unique numerical ID (as `unsigned int`) for each thread (see Lines 20 and 25).
@@ -551,7 +551,7 @@ Now modify the content of "HellowWorld-pthread2.cxx".
 Compile your new program and run it several times.
 **Can you explain what is happening?**
 
-## Third example: Mutual exclusion
+### Third example: Mutual exclusion
 
 A critical section is a piece of code that accesses a shared resource.
 In the previous example, threads shared the standard output and tried to write into it at the same time.
