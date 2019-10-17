@@ -17,9 +17,11 @@ So far you have executed your programs using `./PROGRAM_NAME`, e.g.:
 $ ./HelloWorld
 ```
 
-It is not good practice to do so on a supercomputer. The overall topology of the supercomputer is
-![SCW overall topology](../Lab-1/topology.png).
-It is because the execution will be performed on `hawklogin.cf.ac.uk` rather than a compute node. Absolutely all the users currently logged in are using `hawklogin.cf.ac.uk` and share its resources. Instead it is better to use [SLURM](https://slurm.schedmd.com/documentation.html) to make
+The overall topology of the supercomputer looks like:
+
+![SCW overall topology](../Lab-1/topology.png)
+
+It is not good practice to run your code on the login server when using a supercomputer. It is because the execution will be performed on `hawklogin.cf.ac.uk` rather than a compute node. Absolutely **ALL** the users currently logged in are using `hawklogin.cf.ac.uk` and share its resources. Instead it is better to use [SLURM](https://slurm.schedmd.com/documentation.html) to make
 sure the code is running on a dedicated compute node rather than a shared resource. This way you can maximise performance, and you won't bother other users.
 
 # sinfo
@@ -78,7 +80,7 @@ The squeue command shows the list of jobs which are currently running (they are 
 $ squeue
 ```
 
-You'll see all the current jobs. In most cases, you are only interested in yours. Type:
+You'll see all the current jobs. In most cases, you are only interested in yours. Execute `squeue -u $USER`
 
 ```bash
 $ squeue -u $USER
@@ -138,3 +140,53 @@ Submitted batch job 2825285
 ```bash
 more  slurm-2825285.out
 ```
+
+# Back to the code of Lab 1
+
+- Go into the directory where the programs corresponding to Lab 1 are. Use the `cd` to change directory, and the `ls` command to check the content of the directory.
+- Copy the content of `HelloWorld-pthread3.cxx` into `HelloWorld-pthread4.cxx`.
+- The user should be able to set the number of thread using the command line arguments.
+- Modify the main accordingly. See below for an example:
+```c++
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        cerr << "Usage: " << argv[0] << "\t" << "N   [with N the number of threads]" << endl;
+        return EXIT_FAILURE;
+    }
+
+    int N = atoi(argv[1]);
+
+    ...
+    ...
+
+    return 0;
+}
+```
+- Compile it using:
+```bash
+$ g++ HelloWorld-pthread4.cxx -lpthread -o HelloWorld-pthread4
+```
+- Create a new file named `submit.sh` containing:
+```bash
+#!/bin/bash
+#
+
+#SBATCH --job-name=my_test # Job name
+#SBATCH --nodes=1                    # Use one node
+#SBATCH --mem=600mb                  # Total memory limit
+#SBATCH --time=00:15:00              # Time limit hrs:min:sec
+
+./HelloWorld-pthread4 $SLURM_CPUS_PER_TASK
+```
+
+To launch it, use:
+```bash
+$ sbatch  --account=scw1563 -c N submit.sh
+```
+**Note: replace N above with a number between 1 and 40.**
+
+We use an environment variable, `SLURM_CPUS_PER_TASK`. It corresponds the number of threads that you want to use.
+We requested one computing node with `#SBATCH --nodes=1`, and the maximum number of CPU cores is 40.
+Now, test your code with various number of threads and check the contents in the output files.
