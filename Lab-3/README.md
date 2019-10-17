@@ -126,6 +126,6 @@ $ sbatch  --account=scw1563 -c N submit.sh
     - See if you have any speedup when you increase the number of thread.
     - Create your own spreadsheet in a `.tsv` format. See [chap4-performance.csv](../Lecture-4/chap4-performance.csv) for an example.
     - Run gnuplot to generate graphs showing the execution time depending on the number of threads, and the speedup depending on the number of threads. See [chap4-performance.plt](../Lecture-4/chap4-performance.plt) for an example. This example generates PNG files such as:
-![](](../Lecture-4/chap4-performance-1.png)
-![](](../Lecture-4/chap4-performance-2.png)
-    - Check that the output is correct.
+![Plot of the execution time](../Lecture-4/chap4-performance-1.png)
+![Plot of the execution time](../Lecture-4/chap4-performance-2.png)
+    - Check that the output image is correct.
