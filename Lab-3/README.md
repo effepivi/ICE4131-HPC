@@ -71,7 +71,7 @@ $ bunzip2 ../Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt.bz2
 ```
 6. Create a new file named `submit.sh` containing:
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 #
 
 #SBATCH --job-name=my_test # Job name
