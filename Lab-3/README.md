@@ -19,14 +19,14 @@ Some code is provided for your convenience:
 
 ## Getting the code
 
-1. Download the code from Blackboard. The file is `Lab3-20191021.tar.bz2`.
+1. Download the code from Blackboard. The file is `Lab3-20191022.tar.bz2`.
 2. Copy this file from your PC to `hawklogin.cf.ac.uk` using WinSCP.
 3. Connect to `hawklogin.cf.ac.uk` using a SSH client such as Putty.
 4. Create a `LAB3` directory using `mkdir`.
 5. Go into `LAB3` using the `cd` command.
 6. Extract the archive using:
 ```bash
-$ tar xjvfp ../Lab3-20191021.tar.bz2
+$ tar xjvfp ../Lab3-20191022.tar.bz2
 ```
 
 ## Compiling the environment
