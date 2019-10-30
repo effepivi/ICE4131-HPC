@@ -22,7 +22,7 @@
 //******************************************************************************
 //  Include
 //******************************************************************************
-#include <pthread.h> // Header file for stringstream
+#include <pthread.h> // Header file for Pthreads
 
 #include "PthreadImage.h"
 
