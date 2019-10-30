@@ -49,7 +49,7 @@ Image::Image():
 //----------------------------------
 Image::Image(const Image& anImage):
 //----------------------------------
-		m_width(anImage.m_width),
+        m_width(anImage.m_width),
         m_height(anImage.m_height),
         m_p_image(anImage.m_p_image)
 //----------------------------------
@@ -69,7 +69,7 @@ Image::Image(const float* apData,
 //-----------------------------------------------------
         m_width(aWidth),
         m_height(aHeight),
-		m_p_image(std::vector<float>(aWidth * aHeight))
+        m_p_image(std::vector<float>(aWidth * aHeight))
 //-----------------------------------------------------
 {
     // Out of memory
@@ -86,7 +86,7 @@ Image::Image(const float* apData,
 //----------------------------------------------
 Image::Image(unsigned int aWidth,
              unsigned int aHeight,
-			 float aDefaultValue):
+             float aDefaultValue):
 //----------------------------------------------
         m_width(aWidth),
         m_height(aHeight),
@@ -116,7 +116,7 @@ void Image::destroy()
 {
     // Memory has been dynamically allocated
     m_p_image.clear();
-    
+
     // There is no pixel in the image
     m_width  = 0;
     m_height = 0;
@@ -127,13 +127,13 @@ void Image::destroy()
 float& Image::operator[](unsigned int i)
 //--------------------------------------
 {
-	// The pixel index is not valid
-	if (i >= m_width * m_height)
-	{
-		throw "Invalid pixel coordinate";
-	}
+    // The pixel index is not valid
+    if (i >= m_width * m_height)
+    {
+        throw "Invalid pixel coordinate";
+    }
 
-	return (m_p_image[i]);
+    return (m_p_image[i]);
 }
 
 
@@ -141,13 +141,13 @@ float& Image::operator[](unsigned int i)
 const float& Image::operator[](unsigned int i) const
 //--------------------------------------------------
 {
-	// The pixel index is not valid
-	if (i >= m_width * m_height)
-	{
-		throw "Invalid pixel coordinate";
-	}
+    // The pixel index is not valid
+    if (i >= m_width * m_height)
+    {
+        throw "Invalid pixel coordinate";
+    }
 
-	return (m_p_image[i]);
+    return (m_p_image[i]);
 }
 
 
@@ -155,14 +155,14 @@ const float& Image::operator[](unsigned int i) const
 float& Image::operator()(unsigned int i, unsigned int j)
 //------------------------------------------------------
 {
-	// The pixel index is not valid
-	if (i >= m_width || j >= m_height)
-	{
-		throw "Invalid pixel coordinate";
-	}
+    // The pixel index is not valid
+    if (i >= m_width || j >= m_height)
+    {
+        throw "Invalid pixel coordinate";
+    }
 
-	// Change the pixel value
-	return m_p_image[j * m_width + i];
+    // Change the pixel value
+    return m_p_image[j * m_width + i];
 }
 
 
@@ -170,14 +170,14 @@ float& Image::operator()(unsigned int i, unsigned int j)
 const float& Image::operator()(unsigned int i, unsigned int j) const
 //------------------------------------------------------------------
 {
-	// The pixel index is not valid
-	if (i >= m_width || j >= m_height)
-	{
-		throw "Invalid pixel coordinate";
-	}
+    // The pixel index is not valid
+    if (i >= m_width || j >= m_height)
+    {
+        throw "Invalid pixel coordinate";
+    }
 
-	// Change the pixel value
-	return m_p_image[j * m_width + i];
+    // Change the pixel value
+    return m_p_image[j * m_width + i];
 }
 
 
@@ -190,7 +190,7 @@ void Image::setPixel(unsigned int i, unsigned int j, float aValue)
     {
         throw "Invalid pixel coordinate";
     }
-    
+
     // Change the pixel value
     m_p_image[j * m_width + i] = aValue;
 }
@@ -205,7 +205,7 @@ float Image::getPixel(unsigned int i, unsigned int j) const
     {
         throw "Invalid pixel coordinate";
     }
-    
+
     // Return the pixel value
     return (m_p_image[j * m_width + i]);
 }
@@ -263,7 +263,7 @@ float Image::getMinValue() const
     {
         throw "Empty image";
     }
-    
+
     return (*std::min_element(&m_p_image[0], &m_p_image[m_width * m_height]));
 }
 
@@ -277,7 +277,7 @@ float Image::getMaxValue() const
     {
         throw "Empty image";
     }
-    
+
     return (*std::max_element(&m_p_image[0], &m_p_image[m_width * m_height]));
 }
 
@@ -286,7 +286,7 @@ float Image::getMaxValue() const
 float Image::getSum() const
 //-------------------------
 {
-	return (std::accumulate(m_p_image.begin(), m_p_image.end(), 0.0f));
+    return (std::accumulate(m_p_image.begin(), m_p_image.end(), 0.0f));
 }
 
 
@@ -294,7 +294,7 @@ float Image::getSum() const
 float Image::getAverage() const
 //-----------------------------
 {
-	return (getSum() / (m_width * m_height));
+    return (getSum() / (m_width * m_height));
 }
 
 
@@ -302,7 +302,7 @@ float Image::getAverage() const
 float Image::getMean() const
 //--------------------------
 {
-	return (getAverage());
+    return (getAverage());
 }
 
 
@@ -310,17 +310,17 @@ float Image::getMean() const
 float Image::getVariance() const
 //------------------------------
 {
-	float mean = getAverage();
+    float mean = getAverage();
 
-	float sum = 0.0;
-	for (std::vector<float>::const_iterator ite = m_p_image.begin();
-			ite != m_p_image.end();
-			++ite)
-	{
-		sum += (*ite - mean) * (*ite - mean);
-	}
+    float sum = 0.0;
+    for (std::vector<float>::const_iterator ite = m_p_image.begin();
+            ite != m_p_image.end();
+            ++ite)
+    {
+        sum += (*ite - mean) * (*ite - mean);
+    }
 
-	return (sum / (m_width * m_height));
+    return (sum / (m_width * m_height));
 }
 
 
@@ -328,7 +328,7 @@ float Image::getVariance() const
 float Image::getStdDev() const
 //----------------------------
 {
-	return (std::sqrt(getVariance()));
+    return (std::sqrt(getVariance()));
 }
 
 
@@ -338,14 +338,14 @@ void Image::loadPGM(const char* aFileName)
 {
     // Open the file
     std::ifstream input_file(aFileName, std::ifstream::binary);
-    
+
     // The file does not exist
     if (!input_file.is_open())
     {
         // Build the error message
         std::stringstream error_message;
         error_message << "Cannot open the file \"" << aFileName << "\". It does not exist";
-    
+
         // Throw an error
         throw (error_message.str());
     }
@@ -354,45 +354,45 @@ void Image::loadPGM(const char* aFileName)
     {
         // Release the memory if necessary
         destroy();
-    
+
         // Variable to store a line
         char p_line_data[LINE_SIZE];
-    
+
         // Get the first line
         input_file.getline(p_line_data, LINE_SIZE);
 
         // Get the image type
         std::string image_type(p_line_data);
-    
+
         // Valid ASCII format
         if (image_type == "P2")
         {
             // Variable to save the max value
             int max_value(-1);
-        
+
             // There is data to read
             unsigned int pixel_count(0);
             while (input_file.good())
             {
                 // Get the new line
                 input_file.getline(p_line_data, LINE_SIZE);
-    
+
                 // It is not a comment
                 if (p_line_data[0] != '#')
                 {
                     // Store the line in a stream
                     std::stringstream stream_line;
                     stream_line << std::string(p_line_data);
-                
+
                     // The memory is not allocated
                     if (m_p_image.empty() && !m_width && !m_height)
                     {
                         // Load the image size
                         stream_line >> m_width >> m_height;
-                    
+
                         // Alocate the memory
                         m_p_image = std::vector<float>(m_width * m_height);
-                    
+
                         // Out of memory
                         if (m_width * m_height && m_p_image.empty())
                         {
@@ -434,7 +434,7 @@ void Image::loadPGM(const char* aFileName)
             unsigned int pixel_count(0);
             while (input_file.good() && !pixel_count)
             {
-            	// Process as an ASCII file
+                // Process as an ASCII file
                 if (!m_width || !m_height || max_value < 0)
                 {
                     // Get the new line
@@ -473,7 +473,7 @@ void Image::loadPGM(const char* aFileName)
                 // Read the pixel data
                 else
                 {
-                	unsigned char* p_temp(new unsigned char[m_width * m_height]);
+                    unsigned char* p_temp(new unsigned char[m_width * m_height]);
 
                     // Out of memory
                     if (!p_temp)
@@ -483,12 +483,12 @@ void Image::loadPGM(const char* aFileName)
 
                     input_file.read(reinterpret_cast<char*>(p_temp), m_width * m_height);
 
-                	for (unsigned int i(0); i < m_width * m_height; ++i)
-                	{
-                		m_p_image[i] = p_temp[i];
+                    for (unsigned int i(0); i < m_width * m_height; ++i)
+                    {
+                        m_p_image[i] = p_temp[i];
                         ++pixel_count;
-                	}
-                	delete [] p_temp;
+                    }
+                    delete [] p_temp;
                 }
             }
         }
@@ -520,14 +520,14 @@ void Image::savePGM(const char* aFileName)
 {
     // Open the file
     std::ofstream output_file(aFileName);
-    
+
     // The file does not exist
     if (!output_file.is_open())
     {
         // Build the error message
         std::stringstream error_message;
         error_message << "Cannot create the file \"" << aFileName << "\"";
-    
+
         // Throw an error
         throw (error_message.str());
     }
@@ -536,17 +536,17 @@ void Image::savePGM(const char* aFileName)
     {
         // Set the image type
         output_file << "P2" << std::endl;
-    
+
         // Print a comment
         output_file << "# ICP3038 -- Assignment 1 -- 2016/2017" << std::endl;
-    
+
         // The image size
         output_file << m_width << " " << m_height << std::endl;
 
         // The get the max value
         //output_file << std::min(255, std::max(0, int(getMaxValue()))) << std::endl;
         output_file << std::max(255, int(getMaxValue())) << std::endl;
-    
+
         // Process every line
         for (unsigned int j = 0; j < m_height; ++j)
         {
@@ -557,16 +557,16 @@ void Image::savePGM(const char* aFileName)
                 int pixel_value(m_p_image[j * m_width + i]);
                 pixel_value = std::max(0, pixel_value);
                 pixel_value = std::min(255, pixel_value);
-            
+
                 output_file << pixel_value;
-            
+
                 // It is not the last pixel of the line
                 if (i < (m_width - 1))
                 {
                     output_file << " ";
                 }
             }
-        
+
             // It is not the last line of the image
             if (j < (m_height - 1))
             {
@@ -619,7 +619,7 @@ void Image::loadASCII(const char* aFileName)
         line_parser << line;
         while (line_parser >> intensity)
         {
-        	m_p_image.push_back(intensity);
+            m_p_image.push_back(intensity);
             ++number_of_columns;
         }
         ++number_of_rows;
@@ -739,24 +739,24 @@ bool Image::operator!=(const Image& anImage) const
 Image Image::operator!() const
 //----------------------------
 {
-	// Copy the instance into a temporary variable
-	Image temp(*this);
+    // Copy the instance into a temporary variable
+    Image temp(*this);
 
-	float min_value(getMinValue());
-	float max_value(getMaxValue());
-	float range(max_value - min_value);
+    float min_value(getMinValue());
+    float max_value(getMaxValue());
+    float range(max_value - min_value);
 
-	// Process every pixel
-	for (std::vector<float>::iterator ite = temp.m_p_image.begin();
-		ite != temp.m_p_image.end();
-		++ite)
-	{
-		// Take care to preserve the dynamic of the image
-		*ite = min_value + range * (1.0 - (*ite - min_value) / range);
-	}
+    // Process every pixel
+    for (std::vector<float>::iterator ite = temp.m_p_image.begin();
+        ite != temp.m_p_image.end();
+        ++ite)
+    {
+        // Take care to preserve the dynamic of the image
+        *ite = min_value + range * (1.0 - (*ite - min_value) / range);
+    }
 
-	// Return the result
-	return (temp);
+    // Return the result
+    return (temp);
 }
 
 
@@ -764,17 +764,17 @@ Image Image::operator!() const
 Image Image::shiftScaleFilter(float aShiftValue, float aScaleValue) const
 //-----------------------------------------------------------------------
 {
-	// Create an image of the right size
-	Image temp(getWidth(), getHeight());
+    // Create an image of the right size
+    Image temp(getWidth(), getHeight());
 
-	// Process every pixel of the image
-	for (unsigned int i = 0; i < m_width * m_height; ++i)
-	{
-		// Apply the shilft/scale filter
-		temp[i] = (m_p_image[i] + aShiftValue) * aScaleValue;
-	}
+    // Process every pixel of the image
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
+    {
+        // Apply the shilft/scale filter
+        temp[i] = (m_p_image[i] + aShiftValue) * aScaleValue;
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -782,7 +782,7 @@ Image Image::shiftScaleFilter(float aShiftValue, float aScaleValue) const
 Image Image::getNormalised() const
 //--------------------------------
 {
-	return shiftScaleFilter(-getMinValue(), 1.0 / (getMaxValue() - getMinValue()));
+    return shiftScaleFilter(-getMinValue(), 1.0 / (getMaxValue() - getMinValue()));
 }
 
 
@@ -790,7 +790,7 @@ Image Image::getNormalised() const
 Image Image::getNormalized() const
 //--------------------------------
 {
-	return (getNormalised());
+    return (getNormalised());
 }
 
 
@@ -798,17 +798,17 @@ Image Image::getNormalized() const
 Image Image::logFilter() const
 //----------------------------
 {
-	// Create an image of the right size
-	Image temp(getWidth(), getHeight());
+    // Create an image of the right size
+    Image temp(getWidth(), getHeight());
 
-	// Process every pixel of the image
-	for (unsigned int i = 0; i < m_width * m_height; ++i)
-	{
-		// Apply the log filter
-		temp[i] = log(m_p_image[i]);
-	}
+    // Process every pixel of the image
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
+    {
+        // Apply the log filter
+        temp[i] = log(m_p_image[i]);
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -816,21 +816,21 @@ Image Image::logFilter() const
 Image Image::flipHorizontally() const
 //-----------------------------------
 {
-	// Create an image of the right size
-	Image temp(getWidth(), getHeight());
+    // Create an image of the right size
+    Image temp(getWidth(), getHeight());
 
-	// Process every row of the image
-	for (unsigned int j = 0; j < m_height; ++j)
-	{
-		// Process every column of the image
-		for (unsigned int i = 0; i < m_width / 2; ++i)
-		{
-			temp(              i, j) = getPixel(m_width - i - 1, j);
-			temp(m_width - i - 1, j) = getPixel(              i, j);
-		}
-	}
+    // Process every row of the image
+    for (unsigned int j = 0; j < m_height; ++j)
+    {
+        // Process every column of the image
+        for (unsigned int i = 0; i < m_width / 2; ++i)
+        {
+            temp(              i, j) = getPixel(m_width - i - 1, j);
+            temp(m_width - i - 1, j) = getPixel(              i, j);
+        }
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -838,19 +838,19 @@ Image Image::flipHorizontally() const
 Image Image::flipVertically() const
 //---------------------------------
 {
-	// Create an image of the right size
-	Image temp(getWidth(), getHeight());
+    // Create an image of the right size
+    Image temp(getWidth(), getHeight());
 
-	// Process every row of the image
-	for (unsigned int j = 0; j < m_height / 2; ++j)
-	{
-		// Process every column of the image
-		for (unsigned int i = 0; i < m_width; ++i)
-		{
-			temp(i,                j) = getPixel(i, m_height - j - 1);
-			temp(i, m_height - j - 1) = getPixel(i,                j);
-		}
-	}
+    // Process every row of the image
+    for (unsigned int j = 0; j < m_height / 2; ++j)
+    {
+        // Process every column of the image
+        for (unsigned int i = 0; i < m_width; ++i)
+        {
+            temp(i,                j) = getPixel(i, m_height - j - 1);
+            temp(i, m_height - j - 1) = getPixel(i,                j);
+        }
+    }
 
-	return temp;
+    return temp;
 }
