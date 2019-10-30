@@ -153,52 +153,52 @@ public:
     bool operator==(const Image& anImage) const;
 
 
-	//------------------------------------------------------------------------
-	/// Negation operator. Compute the negative of the current image.
-	/**
-	* @return the negative image
-	*/
-	//------------------------------------------------------------------------
-	PthreadImage operator!() const;
-
-
-	//------------------------------------------------------------------------
-	/// Add aShiftValue to every pixel, then multiply every pixel
-	/// by aScaleValue
-	/**
-	* @param aShiftValue: the shift parameter of the filter
-	* @param aScaleValue: the scale parameter of the filter
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	PthreadImage shiftScaleFilter(float aShiftValue, float aScaleValue) const;
+    //------------------------------------------------------------------------
+    /// Negation operator. Compute the negative of the current image.
+    /**
+    * @return the negative image
+    */
+    //------------------------------------------------------------------------
+    PthreadImage operator!() const;
 
 
     //------------------------------------------------------------------------
-	/// Apply a log filter on the image
+    /// Add aShiftValue to every pixel, then multiply every pixel
+    /// by aScaleValue
     /**
+    * @param aShiftValue: the shift parameter of the filter
+    * @param aScaleValue: the scale parameter of the filter
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	PthreadImage logFilter() const;
+    */
+    //------------------------------------------------------------------------
+    PthreadImage shiftScaleFilter(float aShiftValue, float aScaleValue) const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image horizonatally
+    /// Apply a log filter on the image
     /**
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	PthreadImage flipHorizontally() const;
+    */
+    //------------------------------------------------------------------------
+    PthreadImage logFilter() const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image vertically
+    /// Flip the image horizonatally
     /**
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	PthreadImage flipVertically() const;
+    */
+    //------------------------------------------------------------------------
+    PthreadImage flipHorizontally() const;
+
+
+    //------------------------------------------------------------------------
+    /// Flip the image vertically
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    PthreadImage flipVertically() const;
 
 
 //******************************************************************************
