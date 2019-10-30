@@ -10,7 +10,7 @@ find_package(Threads REQUIRED)
 
 INCLUDE_DIRECTORIES(include)
 
-add_executable(ImLib
+add_library(ImLib
     include/Image.h
     include/PthreadImage.h
     src/Image.cxx
