@@ -10,12 +10,15 @@ find_package(Threads REQUIRED)
 
 INCLUDE_DIRECTORIES(include)
 
-add_executable(flip
+add_executable(ImLib
     include/Image.h
     include/PthreadImage.h
     src/Image.cxx
     src/PthreadImage.cxx
-    src/flip.cxx)
+)
+
+add_executable(flip src/flip.cxx)
+add_executable(log  src/log.cxx)
 
 target_link_libraries(flip Threads::Threads)
-
+target_link_libraries(log  Threads::Threads)
