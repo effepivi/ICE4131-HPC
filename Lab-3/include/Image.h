@@ -102,12 +102,12 @@ public:
     void destroy();
 
 
-	float& operator[](unsigned int i);
-	const float& operator[](unsigned int i) const;
+    float& operator[](unsigned int i);
+    const float& operator[](unsigned int i) const;
 
 
-	float& operator()(unsigned int i, unsigned int j);
-	const float& operator()(unsigned int i, unsigned int j) const;
+    float& operator()(unsigned int i, unsigned int j);
+    const float& operator()(unsigned int i, unsigned int j) const;
 
     //------------------------------------------------------------------------
     /// Set a pixel.
@@ -303,73 +303,73 @@ public:
     *         false if they are similar
     */
     //------------------------------------------------------------------------
-	bool operator!=(const Image& anImage) const;
-
-
-	//------------------------------------------------------------------------
-	/// Negation operator. Compute the negative of the current image.
-	/**
-	* @return the negative image
-	*/
-	//------------------------------------------------------------------------
-	Image operator!() const;
-
-
-	//------------------------------------------------------------------------
-	/// Add aShiftValue to every pixel, then multiply every pixel
-	/// by aScaleValue
-	/**
-	* @param aShiftValue: the shift parameter of the filter
-	* @param aScaleValue: the scale parameter of the filter
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image shiftScaleFilter(float aShiftValue, float aScaleValue) const;
-
-
-	//------------------------------------------------------------------------
-	/// Normalise the image between 0 and 1
-    /**
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image getNormalised() const;
-
-
-	//------------------------------------------------------------------------
-	/// Normalize the image between 0 and 1
-    /**
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image getNormalized() const;
+    bool operator!=(const Image& anImage) const;
 
 
     //------------------------------------------------------------------------
-	/// Apply a log filter on the image
+    /// Negation operator. Compute the negative of the current image.
     /**
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image logFilter() const;
+    * @return the negative image
+    */
+    //------------------------------------------------------------------------
+    Image operator!() const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image horizonatally
+    /// Add aShiftValue to every pixel, then multiply every pixel
+    /// by aScaleValue
     /**
+    * @param aShiftValue: the shift parameter of the filter
+    * @param aScaleValue: the scale parameter of the filter
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image flipHorizontally() const;
+    */
+    //------------------------------------------------------------------------
+    Image shiftScaleFilter(float aShiftValue, float aScaleValue) const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image vertically
+    /// Normalise the image between 0 and 1
     /**
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	Image flipVertically() const;
+    */
+    //------------------------------------------------------------------------
+    Image getNormalised() const;
+
+
+    //------------------------------------------------------------------------
+    /// Normalize the image between 0 and 1
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    Image getNormalized() const;
+
+
+    //------------------------------------------------------------------------
+    /// Apply a log filter on the image
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    Image logFilter() const;
+
+
+    //------------------------------------------------------------------------
+    /// Flip the image horizonatally
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    Image flipHorizontally() const;
+
+
+    //------------------------------------------------------------------------
+    /// Flip the image vertically
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    Image flipVertically() const;
 
 
 //******************************************************************************
