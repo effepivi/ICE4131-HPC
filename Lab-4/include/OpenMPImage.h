@@ -188,52 +188,52 @@ public:
     bool operator==(const Image& anImage) const;
 
 
-	//------------------------------------------------------------------------
-	/// Negation operator. Compute the negative of the current image.
-	/**
-	* @return the negative image
-	*/
-	//------------------------------------------------------------------------
-	OpenMPImage operator!() const;
-
-
-	//------------------------------------------------------------------------
-	/// Add aShiftValue to every pixel, then multiply every pixel
-	/// by aScaleValue
-	/**
-	* @param aShiftValue: the shift parameter of the filter
-	* @param aScaleValue: the scale parameter of the filter
-    * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	OpenMPImage shiftScaleFilter(float aShiftValue, float aScaleValue) const;
+    //------------------------------------------------------------------------
+    /// Negation operator. Compute the negative of the current image.
+    /**
+    * @return the negative image
+    */
+    //------------------------------------------------------------------------
+    OpenMPImage operator!() const;
 
 
     //------------------------------------------------------------------------
-	/// Apply a log filter on the image
+    /// Add aShiftValue to every pixel, then multiply every pixel
+    /// by aScaleValue
     /**
+    * @param aShiftValue: the shift parameter of the filter
+    * @param aScaleValue: the scale parameter of the filter
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	OpenMPImage logFilter() const;
+    */
+    //------------------------------------------------------------------------
+    OpenMPImage shiftScaleFilter(float aShiftValue, float aScaleValue) const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image horizonatally
+    /// Apply a log filter on the image
     /**
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	OpenMPImage flipHorizontally() const;
+    */
+    //------------------------------------------------------------------------
+    OpenMPImage logFilter() const;
 
 
     //------------------------------------------------------------------------
-	/// Flip the image vertically
+    /// Flip the image horizonatally
     /**
     * @return the new image
-	*/
-	//------------------------------------------------------------------------
-	OpenMPImage flipVertically() const;
+    */
+    //------------------------------------------------------------------------
+    OpenMPImage flipHorizontally() const;
+
+
+    //------------------------------------------------------------------------
+    /// Flip the image vertically
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    OpenMPImage flipVertically() const;
 
 
 //******************************************************************************
