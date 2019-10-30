@@ -42,7 +42,7 @@ OpenMPImage::OpenMPImage(unsigned int aNumberOfThreads):
 OpenMPImage::OpenMPImage(const Image& anImage,
                            unsigned int aNumberOfThreads):
 //--------------------------------------------------------
-		Image(anImage),
+        Image(anImage),
         m_thread_number(aNumberOfThreads)
 //--------------------------------------------------------
 {}
@@ -51,7 +51,7 @@ OpenMPImage::OpenMPImage(const Image& anImage,
 //------------------------------------------------------
 OpenMPImage::OpenMPImage(const OpenMPImage& anImage):
 //------------------------------------------------------
-		Image(anImage),
+        Image(anImage),
         m_thread_number(anImage.m_thread_number)
 //------------------------------------------------------
 {}
@@ -220,23 +220,21 @@ OpenMPImage OpenMPImage::operator!() const
 //------------------------------------------
 {
     // Copy the instance into a temporary variable
-	OpenMPImage temp(*this);
+    OpenMPImage temp(*this);
 
-	float min_value(getMinValue());
-	float max_value(getMaxValue());
-	float range(max_value - min_value);
+    float min_value(getMinValue());
+    float max_value(getMaxValue());
+    float range(max_value - min_value);
 
-	// Process every pixel
-	for (std::vector<float>::iterator ite = temp.m_p_image.begin();
-		ite != temp.m_p_image.end();
-		++ite)
-	{
-		// Take care to preserve the dynamic of the image
-		*ite = min_value + range * (1.0 - (*ite - min_value) / range);
-	}
+    // Process every pixel
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
+    {
+        // Take care to preserve the dynamic of the image
+        temp[i] = min_value + range * (1.0 - (temp[i] - min_value) / range);
+    }
 
-	// Return the result
-	return (temp);
+    // Return the result
+    return (temp);
 }
 
 
@@ -249,13 +247,13 @@ OpenMPImage OpenMPImage::shiftScaleFilter(float aShiftValue,
     OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
     // Process every pixel of the image
-	for (unsigned int i = 0; i < m_width * m_height; ++i)
-	{
-		// Apply the shilft/scale filter
-		temp[i] = (m_p_image[i] + aShiftValue) * aScaleValue;
-	}
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
+    {
+        // Apply the shilft/scale filter
+        temp[i] = (m_p_image[i] + aShiftValue) * aScaleValue;
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -263,17 +261,17 @@ OpenMPImage OpenMPImage::shiftScaleFilter(float aShiftValue,
 OpenMPImage OpenMPImage::logFilter() const
 //----------------------------------------
 {
-	// Create an image of the right size
+    // Create an image of the right size
     OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
-	// Process every pixel of the image
-	for (unsigned int i = 0; i < m_width * m_height; ++i)
-	{
-		// Apply the log filter
-		temp[i] = log(m_p_image[i]);
-	}
+    // Process every pixel of the image
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
+    {
+        // Apply the log filter
+        temp[i] = log(m_p_image[i]);
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -282,20 +280,20 @@ OpenMPImage OpenMPImage::flipHorizontally() const
 //-----------------------------------------------
 {
     // Create an image of the right size
-	OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
+    OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
-	// Process every row of the image
-	for (unsigned int j = 0; j < m_height; ++j)
-	{
-		// Process every column of the image
-		for (unsigned int i = 0; i < m_width / 2; ++i)
-		{
-			temp(              i, j) = getPixel(m_width - i - 1, j);
-			temp(m_width - i - 1, j) = getPixel(              i, j);
-		}
-	}
+    // Process every row of the image
+    for (unsigned int j = 0; j < m_height; ++j)
+    {
+        // Process every column of the image
+        for (unsigned int i = 0; i < m_width / 2; ++i)
+        {
+            temp(              i, j) = getPixel(m_width - i - 1, j);
+            temp(m_width - i - 1, j) = getPixel(              i, j);
+        }
+    }
 
-	return temp;
+    return temp;
 }
 
 
@@ -303,19 +301,19 @@ OpenMPImage OpenMPImage::flipHorizontally() const
 OpenMPImage OpenMPImage::flipVertically() const
 //---------------------------------------------
 {
-	// Create an image of the right size
-	OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
+    // Create an image of the right size
+    OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
-	// Process every row of the image
-	for (unsigned int j = 0; j < m_height / 2; ++j)
-	{
-		// Process every column of the image
-		for (unsigned int i = 0; i < m_width; ++i)
-		{
-			temp(i,                j) = getPixel(i, m_height - j - 1);
-			temp(i, m_height - j - 1) = getPixel(i,                j);
-		}
-	}
+    // Process every row of the image
+    for (unsigned int j = 0; j < m_height / 2; ++j)
+    {
+        // Process every column of the image
+        for (unsigned int i = 0; i < m_width; ++i)
+        {
+            temp(i,                j) = getPixel(i, m_height - j - 1);
+            temp(i, m_height - j - 1) = getPixel(i,                j);
+        }
+    }
 
-	return temp;
+    return temp;
 }
