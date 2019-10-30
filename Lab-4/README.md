@@ -12,9 +12,8 @@ In this lab, you practice what we've seen in the lecture so far:
 Some code is provided for your convenience:
 - `OpenMPImage` inherits of `Image`.
 - `flip.cxx` and `log.cxx` are two programs making use of the serial code, phtread code, and OpenMP.
-    - Usage:
+    - Usage: flip -- Flip the input image horizontally or vertically
 ```bash
-    flip
         --horizontally
         -H
             Flip the image horizontally
@@ -37,9 +36,8 @@ Some code is provided for your convenience:
         -h
             Show help
 ```
-    - Usage:
+    - Usage: log -- Apply a log filter on all the pixels of the input
 ```bash
-    log
         --num <n>
         -n <n>
             Number of threads/processes
@@ -75,24 +73,29 @@ $ tar xjvfp ../Lab4-20191030.tar.bz2
 
 ## Compiling the environment
 
-1. Reuse `env.sh` from Lab 3. It is used to load modules. You need:
+1. Reuse `env.sh` from [Lab 3](../Lab-3). It is used to load modules. You need:
 ```bash
 module load cmake
 module load gnuplot
 module load compiler/gnu/9/2.0
 ```
 **You need to do this EVERY TIME you log in.**
+
 2. You can use
 ```bash
 $ module list
 ```
 to check that the modules are loaded.
+
 3. Create a `bin` directory using `mkdir`.
+
 4. Go into `bin` using the `cd` command.
+
 5. Configure your project using CMake:
 ```bash
 $ cmake ..
 ```
+
 6. Compile your code
 ```bash
 $ make
@@ -108,14 +111,8 @@ $ make
 ## Run your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
-2. See Lab 2.
-3. Download ASCII image file from Blackboard.
-4. Copy the image from your PC to `hawklogin.cf.ac.uk` using WinSCP. Make sure the file is in LAB3.
-5. Uncompress the image:
-```bash
-$ bunzip2 ../Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt.bz2
-```
-6. Create a new file named `submit.sh` containing:
+2. See [Lab 2](../Lab-2) for an explanation.
+3. Create a new file named `submit.sh` containing:
 ```bash
 #!/usr/bin/env bash
 #
@@ -169,18 +166,24 @@ $ bunzip2 ../Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt.bz2
     -n $SLURM_CPUS_PER_TASK \
     -c pthread
 ```
-7. To launch it, use:
+
+4. To launch it, use:
 ```bash
 $ sbatch  --account=scw1563 -c N submit.sh
 ```
 **Note: replace N above with a number between 1 and 40.**
-8. Wait for the job to complete. Use `squeue -u $USER`.
-9. When the job is terminated, two new files should be there:
+
+5. Wait for the job to complete. Use `squeue -u $USER`.
+
+6. When the job is terminated, two new files should be there:
     - `output_image.txt` and
     - `slurm-%j.out`, with %j the job number.
-10. Use `more slurm-%j.out` to see the content of the file.
-11. To see the new image, download output file from `hawklogin.cf.ac.uk` to your PC using WinSCP.
-12. Use ImageJ to visualise the image (Import->Text Image)
+
+7. Use `more slurm-%j.out` to see the content of the file.
+
+8. To see the new image, download output file from `hawklogin.cf.ac.uk` to your PC using WinSCP.
+
+9. Use ImageJ to visualise the image (Import->Text Image)
 
 
 ## Parallelise flipVertically() using Pthread
