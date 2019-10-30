@@ -40,7 +40,7 @@ PthreadImage::PthreadImage(unsigned int aNumberOfThreads):
 PthreadImage::PthreadImage(const Image& anImage,
                            unsigned int aNumberOfThreads):
 //--------------------------------------------------------
-		Image(anImage),
+        Image(anImage),
         m_thread_number(aNumberOfThreads)
 //--------------------------------------------------------
 {}
@@ -49,7 +49,7 @@ PthreadImage::PthreadImage(const Image& anImage,
 //------------------------------------------------------
 PthreadImage::PthreadImage(const PthreadImage& anImage):
 //------------------------------------------------------
-		Image(anImage),
+        Image(anImage),
         m_thread_number(anImage.m_thread_number)
 //------------------------------------------------------
 {}
