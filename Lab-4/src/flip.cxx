@@ -300,12 +300,29 @@ void parseCommandLine(int& argc, char** argv)
 void printHelp()
 //--------------
 {
-    cout <<
-            "--num <n>:                  Number of threads/processes\n"
-            "--implementation <string>:  serial|pthread|openmp|cuda|mpi\n"
-            "--inputFile <fname>:        File to write to\n"
-            "--outputFile <fname>:       File to write to\n"
-            "--help:                     Show help\n";
+    cout << "Usage: flip -- Flip the input image horizontally or vertically" << endl <<
+        "--horizontally" << endl <<
+        "-H" << endl <<
+            "\tFlip the image horizontally" << endl << endl <<
+        "--vertically" << endl <<
+        "-V" << endl <<
+            "\tFlip the image vertically" << endl << endl <<
+        "--num <n>" << endl <<
+        "-n <n>" << endl <<
+            "\tNumber of threads/processes" << endl << endl <<
+        "--implementation <string>" << endl <<
+        "-c <string>" << endl <<
+            "\tChoose implementation: serial|pthread|openmp|cuda|mpi" << endl << endl <<
+        "--inputFile <fname>" << endl <<
+        "-i <fname>" << endl <<
+            "\tInput file to process" << endl << endl <<
+        "--outputFile <fname>" << endl <<
+        "-o <fname>" << endl <<
+            "\tFile to write" << endl << endl <<
+        "--help" << endl <<
+        "-h" << endl <<
+            "\tShow help" << endl;
+
     exit(1);
 }
 
