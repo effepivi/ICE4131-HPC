@@ -1,9 +1,9 @@
 /**
 ********************************************************************************
 *
-*   @file       flip.cxx
+*   @file       log.cxx
 *
-*   @brief      Flip an image horizontally or vertically.
+*   @brief      Appy a log transformation to all the pixels of the input image.
 *
 *   @version    2.0
 *
@@ -56,8 +56,7 @@ string input_file;
 string output_file;
 string implementation;
 int number_of_threads = 0;
-bool flip_horizontally = false;
-bool flip_vertically = false;
+
 
 void parseCommandLine(int& argc, char** argv);
 void printHelp();
@@ -81,9 +80,7 @@ int main(int argc, char** argv)
         /*cout << "Input file: " << input_file << endl;
         cout << "Output file: " << output_file << endl;
         cout << "Implementation: " << implementation << endl;
-        cout << "Number of processes/threads: " << number_of_threads << endl;
-        cout << "Flip horizontally: " << (flip_horizontally ? "TRUE" : "FALSE") << endl;
-        cout << "Flip vertically: " << (flip_vertically ? "TRUE" : "FALSE") << endl;*/
+        cout << "Number of processes/threads: " << number_of_threads << endl;*/
 
         // Output image
         Image output;
@@ -102,10 +99,7 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
-
+            output = input.logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "PTHREAD" ||
@@ -119,10 +113,7 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
-
+            output = input.logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "OPENMP" ||
@@ -136,10 +127,7 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
-
+            output = input.logFilter();
             end = chrono::high_resolution_clock::now();
         }
         /*else if (toUpper(implementation) == "CUDA")
@@ -152,10 +140,7 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
-
+            output = input.logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "MPI")
@@ -168,14 +153,11 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
-
+            output = input.logFilter();
             end = chrono::high_resolution_clock::now();
         }*/
 
-        cout << "Flip_filter," <<
+        cout << "Log_filter," <<
             "\"" << input_file << "\"" << "," <<
             "\"" << output_file << "\"" << "," <<
             implementation << "," <<
@@ -228,8 +210,6 @@ void parseCommandLine(int& argc, char** argv)
             {"implementation",  required_argument, nullptr,            'c'},
             {"inputFile",       required_argument, nullptr,            'i'},
             {"outputFile",      required_argument, nullptr,            'o'},
-            {"horizontally",    no_argument,       nullptr,            'H'},
-            {"vertically",      no_argument,       nullptr,            'V'},
             {"help",            no_argument,       nullptr,            'h'},
             {nullptr,           no_argument,       nullptr,            0}
         };
@@ -237,7 +217,7 @@ void parseCommandLine(int& argc, char** argv)
         // getopt_long stores the option index here.
         int option_index = 0;
 
-        c = getopt_long (argc, argv, "n:c:i:o:HVh",
+        c = getopt_long (argc, argv, "n:c:i:o:h",
                          long_options, &option_index);
 
         // Detect the end of the options.
@@ -271,14 +251,6 @@ void parseCommandLine(int& argc, char** argv)
 
         case 'o':
             output_file = optarg;
-            break;
-
-        case 'H':
-            flip_horizontally = true;
-            break;
-
-        case 'V':
-            flip_vertically = true;
             break;
 
         case 'h':
@@ -317,12 +289,6 @@ void checkInputParameters()
     if (!input_file.size())
     {
         throw "No input file to process.";
-    }
-
-    if (!flip_horizontally && !flip_vertically ||
-        flip_horizontally && flip_vertically)
-    {
-        throw "You have to decide if you want to flip the image horizontally or vertically.";
     }
 
     if (!output_file.size())
