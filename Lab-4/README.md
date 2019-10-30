@@ -102,6 +102,52 @@ $ make
 ```
 
 
+## Parallelise flipVertically() using Pthreads
+
+See [Lab 3](../Lab-3) for a tutorial.
+
+**Make sure you compile your code regularly!**
+
+## Parallelise logFilter() using Pthreads
+
+See [Lab 3](../Lab-3) for a tutorial.
+
+
+## Parallelise logFilter() using OpenMP
+
+```cxx
+#pragma omp parallel for
+    for (int i = 0; i < N; i++)
+    {
+        ...
+    }
+```
+
+
+```cxx
+#pragma omp parallel for num_threads(N)
+    for (int i = 0; i < N; i++)
+    {
+        ...
+    }
+```
+
+## Parallelise flipHorizontally() using OpenMP
+
+
+## Parallelise flipVertically() using OpenMP
+
+Do the same as for `flipHorizontally()`.
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,23 +230,3 @@ $ sbatch  --account=scw1563 -c N submit.sh
 8. To see the new image, download output file from `hawklogin.cf.ac.uk` to your PC using WinSCP.
 
 9. Use ImageJ to visualise the image (Import->Text Image)
-
-
-## Parallelise flipVertically() using Pthread
-
-See Lab 3.
-
-
-## Parallelise logFilter() using Pthread
-
-See Lab 3.
-
-
-
-## Parallelise flipHorizontally() using OpenMP
-
-
-## Parallelise flipVertically() using OpenMP
-
-
-## Parallelise logFilter() using OpenMP
