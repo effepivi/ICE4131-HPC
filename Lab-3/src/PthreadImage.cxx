@@ -124,11 +124,11 @@ PthreadImage& PthreadImage::operator=(const PthreadImage& anImage)
 bool PthreadImage::operator==(const Image& anImage) const
 //-------------------------------------------------------
 {
-    if (m_thread_number == 0 || m_thread_number == 1)
+    //if (m_thread_number == 0 || m_thread_number == 1)
     {
         return Image::operator==(anImage);
     }
-    else
+    /*else
     {
         if (m_width != anImage.getWidth())
         {
@@ -146,7 +146,7 @@ bool PthreadImage::operator==(const Image& anImage) const
 
 
         return true;
-    }
+    }*/
 }
 
 
@@ -161,7 +161,7 @@ PthreadImage PthreadImage::operator!() const
     else
     {
         // Create an image of the right size
-        PthreadImage temp(getWidth(), getHeight(), m_thread_number);
+        PthreadImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
         // Add your code here
 
@@ -185,7 +185,7 @@ PthreadImage PthreadImage::shiftScaleFilter(float aShiftValue,
     else
     {
         // Create an image of the right size
-        PthreadImage temp(getWidth(), getHeight(), m_thread_number);
+        PthreadImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
         // Add your code here
 
@@ -208,7 +208,7 @@ PthreadImage PthreadImage::logFilter() const
     else
     {
         // Create an image of the right size
-        PthreadImage temp(getWidth(), getHeight(), m_thread_number);
+        PthreadImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
         // Add your code here
 
@@ -231,7 +231,7 @@ PthreadImage PthreadImage::flipHorizontally() const
     else
     {
         // Create an image of the right size
-        PthreadImage temp(getWidth(), getHeight(), m_thread_number);
+        PthreadImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
         // Add your code here
 
@@ -254,7 +254,7 @@ PthreadImage PthreadImage::flipVertically() const
     else
     {
         // Create an image of the right size
-        PthreadImage temp(getWidth(), getHeight(), m_thread_number);
+        PthreadImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
 
         // Add your code here
 
