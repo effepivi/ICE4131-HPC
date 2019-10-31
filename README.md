@@ -10,6 +10,7 @@ The aim of this tutorial is to introduce you to the GNU/Linux environment used b
 - compile code, and
 - run your first parallel tasks using POSIX threads (also known as Pthreads).
 
+[Click here to go to Lab-1](LAB1)
 
 ## Lab 2
 
@@ -27,3 +28,5 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
     ```bash
     $ squeue -u $USER
     ```
+
+[Click here to go to Lab-2](LAB2)
