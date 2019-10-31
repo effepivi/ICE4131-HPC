@@ -165,20 +165,6 @@ with `N` the number of threads. This is what you have to use in this lab as you 
 Same as for `flipHorizontally()`.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Run your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
@@ -242,16 +228,21 @@ Same as for `flipHorizontally()`.
 ```bash
 $ sbatch  --account=scw1563 -c N submit.sh
 ```
-**Note: replace N above with a number between 1 and 40.**
+**Note: replace `N` above with a number between 1 and 40.**
+If `N` is high, your job may be waiting for resources. For testing purposes, try with `N < 10`.
+
 
 5. Wait for the job to complete. Use `squeue -u $USER`.
 
-6. When the job is terminated, two new files should be there:
-    - `output_image.txt` and
+6. When the job is terminated, five new files should be there:
+    - `log_image-openmp.txt`,
+    - `log_image-pthread.txt`,
+    - `flip_image-openmp.txt`,
+    - `flip_image-pthread.txt` and
     - `slurm-%j.out`, with %j the job number.
 
 7. Use `more slurm-%j.out` to see the content of the file.
 
-8. To see the new image, download output file from `hawklogin.cf.ac.uk` to your PC using WinSCP.
+8. To see the new images, download them from `hawklogin.cf.ac.uk` to your PC using WinSCP.
 
 9. Use ImageJ to visualise the image (Import->Text Image)
