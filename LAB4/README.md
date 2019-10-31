@@ -196,7 +196,7 @@ Same as for `flipHorizontally()`.
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
 2. See [Lab 2](../LAB2) for an explanation.
-3. Create a new file named `submit.sh` containing:
+3. Create a new file named `submit1.sh` containing:
 ```bash
 #!/usr/bin/env bash
 #
@@ -253,7 +253,7 @@ Same as for `flipHorizontally()`.
 
 4. To launch it, use:
 ```bash
-$ sbatch  --account=scw1563 -c N submit.sh
+$ sbatch  --account=scw1563 -c N submit1.sh
 ```
 **Note: replace `N` above with a number between 1 and 40.**
 If `N` is high, your job may be waiting for resources. For testing purposes, try with `N < 10`.
@@ -306,7 +306,7 @@ The figures below show the execution time and speedup for `./flip` and `./log` w
 
 **REMEMBER: DON'T RUN `run.sh` DIRECTLY ON HAWKLOGIN.CF.AC.UK!**
 
-To execute the script, use SLURM. A script - [submit.sh](submit.sh) is provided:
+To execute the script, use SLURM. A script - [submit2.sh](submit2.sh) is provided:
 ```bash
 #!/usr/bin/env bash
 #
@@ -353,7 +353,7 @@ As we need 40 tasks (threads in our case), we want to have exclusive access to a
 
 To submit your job, type:
 ```bash
-$ sbatch submit.sh
+$ sbatch submit2.sh
 ```
 It is going to take a lot of time. When I tried it took about 15 minutes.
 To check if your job is over, use
