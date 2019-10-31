@@ -10,7 +10,7 @@ The aim of this tutorial is to introduce you to the GNU/Linux environment used b
 - compile code, and
 - run your first parallel tasks using POSIX threads (also known as Pthreads).
 
-[Click here to go to Lab-1](LAB1)
+[Click here to go to Lab 1](LAB1).
 
 ## Lab 2
 
@@ -29,7 +29,19 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
     $ squeue -u $USER
     ```
 
-[Click here to go to Lab-2](LAB2)
+[Click here to go to Lab 2](LAB2).
+
+## Lecture 4
+
+The code in this lecture shows how to parallelise serial code using Pthreads. It covers:
+
+- Workload balancing of `N` tasks across `T` threads,
+- Pthread creation,
+- Callback execution,
+- Joining threads,
+- Evaluating execution time and speedup.
+
+[Click here to go to Lecture 4](Lecture-4).
 
 ## Lab 3
 
@@ -40,7 +52,7 @@ In this lab, you practice what we've seen in the lecture so far:
 3. Run the code on the compute nodes,
 4. Plot graphs of runtimes and of speedups.
 
-[Click here to go to Lab-3](LAB3)
+[Click here to go to Lab 3](LAB3).
 
 ## Lab 4
 
@@ -50,4 +62,4 @@ In this lab, you practice what we've seen in the lecture so far:
 2. Add OpenMP pragmas to parallelise some serial code using OpenMP in [LAB3/src/OpenMPImage.cxx](LAB3/src/OpenMPImage.cxx) (`OpenMPImage::flipHorizontally()`, `OpenMPImage::flipVertically()` and `OpenMPImage::logFilter()`),
 3. Compare the runtimes between Pthreads and OpenMP by plotting graphs of runtimes and of speedups.
 
-[Click here to go to Lab-4](LAB4)
+[Click here to go to Lab 4](LAB4).
