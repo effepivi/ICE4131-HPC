@@ -63,3 +63,16 @@ In this lab, you practice what we've seen in the lecture so far:
 3. Compare the runtimes between Pthreads and OpenMP by plotting graphs of runtimes and of speedups.
 
 [Click here to go to Lab 4](LAB4).
+
+## Lecture 6
+
+It is a step-by-step introduction to MPI. It covers:
+
+- MPI initialisation,
+- Getting the world size,
+- Getting the process' rank,
+- Getting the processor's name,
+- MPI finalisation,
+- How to execute MPI programs on the supercomputer using SLURM.
+
+[Click here to go to Lecture 6](Lecture-6).
