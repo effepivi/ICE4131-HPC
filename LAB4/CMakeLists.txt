@@ -10,14 +10,14 @@ find_package(Threads REQUIRED)
 
 find_package(OpenMP REQUIRED)
 
-INCLUDE_DIRECTORIES(../Lab-3/include)
+INCLUDE_DIRECTORIES(../LAB3/include)
 INCLUDE_DIRECTORIES(include)
 
 add_library(ImLib
-    ../Lab-3/include/Image.h
-    ../Lab-3/include/PthreadImage.h
-    ../Lab-3/src/Image.cxx
-    ../Lab-3/src/PthreadImage.cxx
+    ../LAB3/include/Image.h
+    ../LAB3/include/PthreadImage.h
+    ../LAB3/src/Image.cxx
+    ../LAB3/src/PthreadImage.cxx
 
     include/OpenMPImage.h
     src/OpenMPImage.cxx
