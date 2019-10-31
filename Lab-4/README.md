@@ -73,7 +73,7 @@ $ tar xjvfp ../Lab4-20191030.tar.bz2
 
 ## Loading the modules
 
-1. Reuse `env.sh` from [Lab 3](../Lab-3). It is used to load modules. You need the following modules:
+1. Reuse `env.sh` from [Lab 3](../LAB3). It is used to load modules. You need the following modules:
 - cmake
 - gnuplot
 - compiler/gnu/9/2.0
@@ -115,13 +115,13 @@ $ make
 
 ## Parallelise flipVertically() using Pthreads
 
-See [Lab 3](../Lab-3) for a tutorial.
+See [Lab 3](../LAB3) for a tutorial.
 
 **Make sure you compile your code regularly!**
 
 ## Parallelise logFilter() using Pthreads
 
-See [Lab 3](../Lab-3) for a tutorial.
+See [Lab 3](../LAB3) for a tutorial.
 
 
 ## Parallelise logFilter() using OpenMP
@@ -168,7 +168,7 @@ Do the same as for `flipHorizontally()`.
 ## Run your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
-2. See [Lab 2](../Lab-2) for an explanation.
+2. See [Lab 2](../LAB2) for an explanation.
 3. Create a new file named `submit.sh` containing:
 ```bash
 #!/usr/bin/env bash
