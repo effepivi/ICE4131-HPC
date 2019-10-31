@@ -91,11 +91,6 @@ $ source PATH_TO_ENV/env.sh
 ```
 (replace `PATH_TO_ENV` with the actual path, as provided by `find ~ -name env.sh`)
 
-Run
-```bash
-$ module list
-```
-to check that the modules are actually loaded.
 
 2. You can use
 ```bash
