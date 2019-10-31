@@ -71,15 +71,31 @@ Some code is provided for your convenience:
 $ tar xjvfp ../Lab4-20191030.tar.bz2
 ```
 
-## Compiling the environment
+## Loading the modules
 
-1. Reuse `env.sh` from [Lab 3](../Lab-3). It is used to load modules. You need:
-```bash
-module load cmake
-module load gnuplot
-module load compiler/gnu/9/2.0
-```
+1. Reuse `env.sh` from [Lab 3](../Lab-3). It is used to load modules. You need the following modules:
+- cmake
+- gnuplot
+- compiler/gnu/9/2.0
+
 **You need to do this EVERY TIME you log in.**
+
+If you can't remember where `env.sh` is, run the following command to locate where it is.
+```bash
+$ find ~ -name env.sh
+```
+
+To load the modules using the script, run
+```bash
+$ source PATH_TO_ENV/env.sh
+```
+(replace `PATH_TO_ENV` with the actual path, as provided by `find ~ -name env.sh`)
+
+Run
+```bash
+$ module list
+```
+to check that the modules are actually loaded.
 
 2. You can use
 ```bash
