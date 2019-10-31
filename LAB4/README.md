@@ -159,6 +159,33 @@ with `N` the number of threads. This is what you have to use in this lab as you 
 
 ## Parallelise flipHorizontally() using OpenMP
 
+The `flipHorizontally` method uses two nested loops:
+```cxx
+for (j = 0; j < m_height; j++)
+{
+    for (i = 0; i < m_width; i++)
+    {
+        DO SOMETHING
+    }
+}
+```
+
+The OpenMP collapse clause can be used to parallelise nested loops:
+```cxx
+#pragma omp parallel for collapse(2)
+for (j = 0; j < m_height; j++)
+{
+    for (i = 0; i < m_width; i++)
+    {
+        DO SOMETHING
+    }
+}
+```
+In `collapse(2)`, `2` is used because we have two nested loops.
+
+The OpenMP collapse clause will increase the number of iterations per thread. It will reduce the granularity of work to be done by each thread, which may improve performance.
+
+
 
 ## Parallelise flipVertically() using OpenMP
 
