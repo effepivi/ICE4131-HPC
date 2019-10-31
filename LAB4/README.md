@@ -273,3 +273,24 @@ If `N` is high, your job may be waiting for resources. For testing purposes, try
 8. To see the new images, download them from `hawklogin.cf.ac.uk` to your PC using WinSCP.
 
 9. Use ImageJ to visualise the image (Import->Text Image)
+
+10. Only go to the next section when everything works as expected. If not, debug your code.
+
+## Performance evaluation
+
+A shell script - [run.sh](run.sh) - is provided for your own convenience. It will launch the programs iteratively using:
+- serial implementation,
+- Pthread implementation with the number of threads from 1 to 40,
+- OpenMP implementation with the number of threads from 1 to 40.
+
+It will also:
+- Create CSV files to gather the execution time,
+- Detect the CPU name,
+- Create gnuplot scripts,
+- Plot graphs with speedup factors, execution times for the log filter and the flip image programs:
+    - log_execution_time.png
+    - log_speedup.png
+    - flip_execution_time.png
+    - flip_speedup.png
+
+Edit Line 4 of [run.sh](run.sh) if needed. It has to be the path to the input image.
