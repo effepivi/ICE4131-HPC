@@ -39,6 +39,7 @@ The code in this lecture shows how to parallelise serial code using Pthreads. It
 - Pthread creation,
 - Callback execution,
 - Joining threads,
+- Mutual exclusion,
 - Evaluating execution time and speedup.
 
 [Click here to go to Lecture 4](Lecture-4).
@@ -53,6 +54,20 @@ In this lab, you practice what we've seen in the lecture so far:
 4. Plot graphs of runtimes and of speedups.
 
 [Click here to go to Lab 3](LAB3).
+
+## Lecture 5
+
+The code in this lecture shows how to parallelise serial code using OpenMP. It covers:
+
+- `#pragma omp parallel` to parallelise for blocks
+- `#pragma omp parallel for` to parallelise for loops
+- `num_threads(<int>)` clause to control the number of threads per task,
+- `omp_get_thread_num()` to return the current thread ID,
+- `omp_get_num_threads()` to get the size of the active team (i.e. total number of threads),
+- mutual exclusion/critical section with `#pragma omp critical`,
+- the reduction clause.
+
+[Click here to go to Lecture 5](Lecture-5).
 
 ## Lab 4
 
