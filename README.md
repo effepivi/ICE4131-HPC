@@ -47,5 +47,7 @@ In this lab, you practice what we've seen in the lecture so far:
 In this lab, you practice what we've seen in the lecture so far:
 
 1. Finish parallelising some serial code using Pthreads in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx) (`PthreadImage::flipVertically()` and `PthreadImage::logFilter()`),
-2. Add OpenMP pragmas to parallelise some serial code using OpenMP in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx) (`OpenMPImage::flipHorizontally()`, `OpenMPImage::flipVertically()` and `OpenMPImage::logFilter()`),
+2. Add OpenMP pragmas to parallelise some serial code using OpenMP in [LAB3/src/OpenMPImage.cxx](LAB3/src/OpenMPImage.cxx) (`OpenMPImage::flipHorizontally()`, `OpenMPImage::flipVertically()` and `OpenMPImage::logFilter()`),
 3. Compare the runtimes between Pthreads and OpenMP by plotting graphs of runtimes and of speedups.
+
+[Click here to go to Lab-4](LAB4)
