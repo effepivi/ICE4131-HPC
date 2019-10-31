@@ -115,17 +115,28 @@ $ make
 
 ## Parallelise flipVertically() using Pthreads
 
-See [Lab 3](../LAB3) for a tutorial.
+You are expected to parallelise flipVertically() in `LAB3/src/PthreadImage.cxx`. See [Lab 3](../LAB3) for a tutorial.
 
 **Make sure you compile your code regularly!**
 
+
 ## Parallelise logFilter() using Pthreads
 
-See [Lab 3](../LAB3) for a tutorial.
+You are expected to parallelise logFilter() in `LAB3/src/PthreadImage.cxx`. See [Lab 3](../LAB3) for a tutorial.
 
 
 ## Parallelise logFilter() using OpenMP
 
+You have to parallelise logFilter() in `LAB4/src/OpenMPImage.cxx`.
+A typical for loop looks like:
+```cxx
+    for (int i = 0; i < N; i++)
+    {
+        ...
+    }
+```
+
+To parallelise it using OpenMP, a compiler instruction has to be specified using `#pragma`:
 ```cxx
 #pragma omp parallel for
     for (int i = 0; i < N; i++)
@@ -133,8 +144,9 @@ See [Lab 3](../LAB3) for a tutorial.
         ...
     }
 ```
+In this case, the number of threads is automatically detected at runtime. It will corresponds to the number of CPU cores available on the system.
 
-
+If you want to control the number of threads, add the `num_threads` clause:
 ```cxx
 #pragma omp parallel for num_threads(N)
     for (int i = 0; i < N; i++)
@@ -142,13 +154,15 @@ See [Lab 3](../LAB3) for a tutorial.
         ...
     }
 ```
+with `N` the number of threads. This is what you have to use in this lab as you want to assess the behaviour of the program depending on the number of threads.
+
 
 ## Parallelise flipHorizontally() using OpenMP
 
 
 ## Parallelise flipVertically() using OpenMP
 
-Do the same as for `flipHorizontally()`.
+Same as for `flipHorizontally()`.
 
 
 
