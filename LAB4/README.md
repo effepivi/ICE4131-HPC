@@ -294,3 +294,76 @@ It will also:
     - flip_speedup.png
 
 Edit Line 4 of [run.sh](run.sh) if needed. It has to be the path to the input image.
+
+The figures below show the execution time and speedup for `./flip` and `./log` when I run the `run.sh` script on my office PC (I only used 12 threads here).
+
+![office-flip_execution_time.png](office-flip_execution_time.png)
+![office-log_execution_time.png](office-log_execution_time.png)
+
+![office-flip_speedup.png](office-flip_speedup.png)
+![office-log_speedup.png](office-log_speedup.png)
+
+
+**REMEMBER: DON'T RUN `run.sh` DIRECTLY ON HAWKLOGIN.CF.AC.UK!**
+
+To execute the script, use SLURM. A script - [submit.sh](submit.sh) is provided:
+```bash
+#!/usr/bin/env bash
+#
+# Project/Account
+#SBATCH -A scw1563
+#
+# We ask for 1 task with 40 cores.
+# We need one node, just for us.
+#
+# Number of tasks per node
+#SBATCH --ntasks-per-node=1
+#
+# Number of cores per task
+#SBATCH --cpus-per-task=40
+#
+# Use one node
+#SBATCH --nodes=1
+#
+# Runtime of this jobs is less then 12 hours.
+#SBATCH --time=12:00:00
+
+# Clear the environment from any previously loaded modules
+module purge > /dev/null 2>&1
+
+# Load the module environment suitable for the job
+module load compiler/gnu/9/2.0 gnuplot
+
+# And finally run the job​
+./run.sh
+
+# End of submit file
+```
+As we need 40 tasks (threads in our case), we want to have exclusive access to a compute node. This is what the following does:
+```bash
+# Number of tasks per node
+#SBATCH --ntasks-per-node=1
+#
+# Number of cores per task
+#SBATCH --cpus-per-task=40
+#
+# Use one node
+#SBATCH --nodes=1
+```
+
+To submit your job, type:
+```bash
+$ sbatch submit.sh
+```
+It is going to take a lot of time. When I tried it took about 15 minutes.
+To check if your job is over, use
+```bash
+$ squeue -u $USER
+```
+
+Below is an example of output I obtained on SCW.
+![swc-flip_execution_time.png](scw-flip_execution_time.png)
+![swc-log_execution_time.png](scw-log_execution_time.png)
+
+![swc-flip_speedup.png](scw-flip_speedup.png)
+![swc-log_speedup.png](scw-log_speedup.png)
