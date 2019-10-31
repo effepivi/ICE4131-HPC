@@ -30,3 +30,22 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
     ```
 
 [Click here to go to Lab-2](LAB2)
+
+## Lab 3
+
+In this lab, you practice what we've seen in the lecture so far:
+
+1. Parallelise some serial code using Pthreads in `PthreadImage::flipHorizontally()` in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx),
+2. Add timestamps to assess the execution time in [LAB3/src/flip.cxx](LAB3/src/flip.cxx),
+3. Run the code on the compute nodes,
+4. Plot graphs of runtimes and of speedups.
+
+[Click here to go to Lab-3](LAB3)
+
+## Lab 4
+
+In this lab, you practice what we've seen in the lecture so far:
+
+1. Finish parallelising some serial code using Pthreads in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx) (`PthreadImage::flipVertically()` and `PthreadImage::logFilter()`),
+2. Add OpenMP pragmas to parallelise some serial code using OpenMP in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx) (`OpenMPImage::flipHorizontally()`, `OpenMPImage::flipVertically()` and `OpenMPImage::logFilter()`),
+3. Compare the runtimes between Pthreads and OpenMP by plotting graphs of runtimes and of speedups.
