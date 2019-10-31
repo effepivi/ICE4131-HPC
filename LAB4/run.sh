@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Change the input image path if needed
-INPUT_IMAGE="./Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt"
+INPUT_IMAGE="../../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt"
 
 # Header for the CSV files
 header="\"input_file\",implementation,number_of_processes_or_threads,duration_in_sec"
