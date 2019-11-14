@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     int name_len;
     MPI_Get_processor_name(processor_name, &name_len);
 
-    cout << "I am Process #" << 1 + process_rank << " of " << world_size << endl;
+    cout << "I am Process #" << process_rank << " of " << world_size << endl;
     cout << "I run on " << processor_name << endl << endl;
 
     MPI_Finalize();
