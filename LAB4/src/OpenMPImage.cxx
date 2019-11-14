@@ -275,44 +275,52 @@ OpenMPImage OpenMPImage::logFilter() const
 }
 
 
-//-----------------------------------------------
-OpenMPImage OpenMPImage::flipHorizontally() const
-//-----------------------------------------------
+//-----------------------------------
+Image Image::flipHorizontally() const
+//-----------------------------------
 {
     // Create an image of the right size
-    OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
+    Image temp(getWidth(), getHeight());
 
-    // Process every row of the image
-    for (unsigned int j = 0; j < m_height; ++j)
+    // Process every pixel of the image
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
     {
-        // Process every column of the image
-        for (unsigned int i = 0; i < m_width / 2; ++i)
-        {
-            temp(              i, j) = getPixel(m_width - i - 1, j);
-            temp(m_width - i - 1, j) = getPixel(              i, j);
-        }
+        // Retrieve the 2D index (x, y) from i
+
+        // % is the "modulo operator", the remainder of i / m_width
+        int x = i % m_width;
+
+        // where "/" is an integer division
+        int y = i / m_width;
+
+        // Get the pixel
+        temp(x, y) = getPixel(m_width - x - 1, y);
     }
 
     return temp;
 }
 
 
-//---------------------------------------------
-OpenMPImage OpenMPImage::flipVertically() const
-//---------------------------------------------
+//---------------------------------
+Image Image::flipVertically() const
+//---------------------------------
 {
     // Create an image of the right size
-    OpenMPImage temp(getWidth(), getHeight(), 0.0, m_thread_number);
+    Image temp(getWidth(), getHeight());
 
-    // Process every row of the image
-    for (unsigned int j = 0; j < m_height / 2; ++j)
+    // Process every pixel of the image
+    for (unsigned int i = 0; i < m_width * m_height; ++i)
     {
-        // Process every column of the image
-        for (unsigned int i = 0; i < m_width; ++i)
-        {
-            temp(i,                j) = getPixel(i, m_height - j - 1);
-            temp(i, m_height - j - 1) = getPixel(i,                j);
-        }
+        // Retrieve the 2D index (x, y) from i
+
+        // % is the "modulo operator", the remainder of i / m_width
+        int x = i % m_width;
+
+        // where "/" is an integer division
+        int y = i / m_width;
+
+        // Get the pixel
+        temp(x, y) = getPixel(x, m_height - y - 1);
     }
 
     return temp;
