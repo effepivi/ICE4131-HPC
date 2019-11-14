@@ -91,3 +91,30 @@ It is a step-by-step introduction to MPI. It covers:
 - How to execute MPI programs on the supercomputer using SLURM.
 
 [Click here to go to Lecture 6](Lecture-6).
+
+
+## Lecture 7
+
+This lecture recaps:
+
+- MPI initialisation,
+- Getting the world size,
+- Getting the process' rank,
+- Getting the processor's name,
+- MPI finalisation,
+- How to execute MPI programs on the supercomputer using SLURM.
+
+It also illustrates process communication one-to-one and many-to-many.
+
+[Click here to go to Lecture 7](Lecture-7).
+
+
+## Lab 5
+
+In this lab, you will
+
+1. Look at the MPI code in [LAB5/src/MPIImage.cxx](LAB5/src/MPIImage.cxx),
+2. Experiment with various number of tasks and node,
+3. Compare the MPI implementation against your Pthread and OpenMP implementations by plotting graphs of runtimes and of speedups.
+
+[Click here to go to Lab 5](LAB5).
