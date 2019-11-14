@@ -13,66 +13,80 @@ void checkMPIError(int errorCode);
 
 int main(int argc, char** argv)
 {
+    // Initialsation
     MPI_Init(&argc, &argv);
 
-    // Get the world size
-    int world_size = 0;
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-    // Get the process' rank
-    int process_rank = 0;
-    MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-
-    // Create an image
-    int image_width  = 512;
-    int image_height = world_size;
-    float* p_image = new float [image_width * image_height];
-
-    // Get the start of the line corresponding to the process rank
-    float* p_line_start = p_image + image_width * process_rank;
-
-    // Set the pixel values
-    for (int i = 0; i < image_width; ++i)
+    try
     {
-        *p_line_start++ = process_rank;
-    }
+        // Get the world size
+        int world_size = 0;
+        MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    // Leader gather results from all the processes
-    int flag = 0; // Could be anything
-    if (process_rank == LEADER)
-    {
-        // i = 1 as the LEADER already got its own data
-        for (int i = 1; i < world_size; ++i)
+        // Get the process' rank
+        int process_rank = 0;
+        MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
+
+        // Create an image
+        int image_width  = 512;
+        int image_height = world_size;
+        float* p_image = new float [image_width * image_height];
+
+        // Get the start of the line corresponding to the process rank
+        float* p_line_start = p_image + image_width * process_rank;
+
+        // Set the pixel values
+        for (int i = 0; i < image_width; ++i)
         {
-            MPI_Status status;
-            float* temp = p_image + image_width * i;
-            int error_code = MPI_Recv(temp, image_width, MPI_FLOAT, i, flag, MPI_COMM_WORLD, &status);
+            *p_line_start++ = process_rank;
+        }
+
+        // Leader gather results from all the processes
+        int flag = 0; // Could be anything
+        if (process_rank == LEADER)
+        {
+            // i = 1 as the LEADER already got its own data
+            for (int i = 1; i < world_size; ++i)
+            {
+                MPI_Status status;
+                float* temp = p_image + image_width * i;
+                int error_code = MPI_Recv(temp, image_width, MPI_FLOAT, i, flag, MPI_COMM_WORLD, &status);
+
+                checkMPIError(error_code);
+            }
+        }
+        // Other processes send the data to the leader
+        else
+        {
+            float* temp = p_image + image_width * process_rank;
+            int error_code = MPI_Send(temp, image_width, MPI_FLOAT, LEADER, flag, MPI_COMM_WORLD);
 
             checkMPIError(error_code);
         }
-    }
-    // Other processes send the data to the leader
-    else
-    {
-        float* temp = p_image + image_width * process_rank;
-        int error_code = MPI_Send(temp, image_width, MPI_FLOAT, LEADER, flag, MPI_COMM_WORLD);
 
-        checkMPIError(error_code);
-    }
-
-    // Only the leader print the image
-    if (process_rank == LEADER)
-    {
-        for (int j = 0; j < image_height; ++j)
+        // Only the leader print the image
+        if (process_rank == LEADER)
         {
-            for (int i = 0; i < image_width; ++i)
+            for (int j = 0; j < image_height; ++j)
             {
-                cout << p_image[j * image_width + i] << " ";
+                for (int i = 0; i < image_width; ++i)
+                {
+                    cout << p_image[j * image_width + i] << " ";
+                }
+                cout << endl;
             }
-            cout << endl;
         }
+
+    }
+    catch (const char* error_message)
+    {
+        cerr << "Exception: " << error_message << endl;
+    }
+    catch (...)
+    {
+        cerr << "Unknown exception" << endl;
     }
 
+    // Finalisation
     MPI_Finalize();
 
     return 0;

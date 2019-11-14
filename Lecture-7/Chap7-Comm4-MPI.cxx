@@ -13,49 +13,62 @@ void checkMPIError(int errorCode);
 
 int main(int argc, char** argv)
 {
+    // Initialsation
     MPI_Init(&argc, &argv);
 
-    // Get the world size
-    int world_size = 0;
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-    // Get the process' rank
-    int process_rank = 0;
-    MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-
-    // Create an image
-    int image_width  = 512;
-    int image_height = world_size;
-    float* p_image = new float [image_width * image_height];
-
-    // Get the start of the line corresponding to the process rank
-    float* p_line_start = p_image + image_width * process_rank;
-
-    // Set the pixel values
-    for (int i = 0; i < image_width; ++i)
+    try
     {
-        *p_line_start++ = process_rank;
-    }
+        // Get the world size
+        int world_size = 0;
+        MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    // Leader gather results from all the processes
-    float* temp = p_image + image_width * process_rank;
-    int error_code = MPI_Allgather( temp, image_width, MPI_FLOAT, p_image, image_width, MPI_FLOAT, MPI_COMM_WORLD);
+        // Get the process' rank
+        int process_rank = 0;
+        MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
 
-    checkMPIError(error_code);
+        // Create an image
+        int image_width  = 512;
+        int image_height = world_size;
+        float* p_image = new float [image_width * image_height];
 
-    // Only the rank 1 print the image
-    if (process_rank == 1)
-    {
-        for (int j = 0; j < image_height; ++j)
+        // Get the start of the line corresponding to the process rank
+        float* p_line_start = p_image + image_width * process_rank;
+
+        // Set the pixel values
+        for (int i = 0; i < image_width; ++i)
         {
-            for (int i = 0; i < image_width; ++i)
+            *p_line_start++ = process_rank;
+        }
+
+        // Leader gather results from all the processes
+        float* temp = p_image + image_width * process_rank;
+        int error_code = MPI_Allgather( temp, image_width, MPI_FLOAT, p_image, image_width, MPI_FLOAT, MPI_COMM_WORLD);
+
+        checkMPIError(error_code);
+
+        // Only the rank 1 print the image
+        if (process_rank == 1)
+        {
+            for (int j = 0; j < image_height; ++j)
             {
-                cout << p_image[j * image_width + i] << " ";
+                for (int i = 0; i < image_width; ++i)
+                {
+                    cout << p_image[j * image_width + i] << " ";
+                }
+                cout << endl;
             }
-            cout << endl;
         }
     }
+    catch (const char* error_message)
+    {
+        cerr << "Exception: " << error_message << endl;
+    }
+    catch (...)
+    {
+        cerr << "Unknown exception" << endl;
+    }
 
+    // Finalisation
     MPI_Finalize();
 
     return 0;
