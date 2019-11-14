@@ -1,7 +1,7 @@
 # ICE4131-HPC
 Lab material for my ICE4131 module about High Performance Computing
 
-## Lab 1
+## Lab 1 -- Using Nano via HelloWorld + Pthread
 
 The aim of this tutorial is to introduce you to the GNU/Linux environment used by SuperComputing Wales. You will learn how to
 
@@ -12,7 +12,7 @@ The aim of this tutorial is to introduce you to the GNU/Linux environment used b
 
 [Click here to go to Lab 1](LAB1).
 
-## Lab 2
+## Lab 2 -- Submitting jobs using SLURM
 
 The aim of this lab is to execute programs on the supercomputer using SLURM (Simple Linux Utility for Resource Management). You will:
 
@@ -31,7 +31,7 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
 
 [Click here to go to Lab 2](LAB2).
 
-## Lecture 4
+## Lecture 4 -- Parallel programming using POSIX threads (Pthreads)
 
 The code in this lecture shows how to parallelise serial code using Pthreads. It covers:
 
@@ -44,7 +44,7 @@ The code in this lecture shows how to parallelise serial code using Pthreads. It
 
 [Click here to go to Lecture 4](Lecture-4).
 
-## Lab 3
+## Lab 3 -- Image class using Pthreads
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -55,7 +55,7 @@ In this lab, you practice what we've seen in the lecture so far:
 
 [Click here to go to Lab 3](LAB3).
 
-## Lecture 5
+## Lecture 5 -- Parallel programming using OpenMP
 
 The code in this lecture shows how to parallelise serial code using OpenMP. It covers:
 
@@ -69,7 +69,7 @@ The code in this lecture shows how to parallelise serial code using OpenMP. It c
 
 [Click here to go to Lecture 5](Lecture-5).
 
-## Lab 4
+## Lab 4 -- Image class using OpenMP
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -79,7 +79,7 @@ In this lab, you practice what we've seen in the lecture so far:
 
 [Click here to go to Lab 4](LAB4).
 
-## Lecture 6
+## Lecture 6 -- Introduction to MPI
 
 It is a step-by-step introduction to MPI. It covers:
 
@@ -93,7 +93,7 @@ It is a step-by-step introduction to MPI. It covers:
 [Click here to go to Lecture 6](Lecture-6).
 
 
-## Lecture 7
+## Lecture 7 -- Process communication with MPI
 
 This lecture recaps:
 
@@ -109,7 +109,7 @@ It also illustrates process communication one-to-one and many-to-many.
 [Click here to go to Lecture 7](Lecture-7).
 
 
-## Lab 5
+## Lab 5 -- Image class using MPI
 
 In this lab, you will
 
@@ -118,3 +118,13 @@ In this lab, you will
 3. Compare the MPI implementation against your Pthread and OpenMP implementations by plotting graphs of runtimes and of speedups.
 
 [Click here to go to Lab 5](LAB5).
+
+
+## Lecture 8 -- Introduction to CUDA
+
+To appear
+
+
+## Lab 6 -- Image class using CUDA
+
+To appear
