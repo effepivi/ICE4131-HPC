@@ -270,19 +270,23 @@ MPIImage MPIImage::flipHorizontally() const
     MPIImage temp(getWidth(), getHeight(), 0.0);
 
     // Get the work load
-    unsigned int row_start_id = 0;
-    unsigned int row_end_id = 0;
-    workload(m_height, row_start_id, row_end_id);
+    unsigned int pixel_start_id = 0;
+    unsigned int pixel_end_id = 0;
+    workload(m_width * m_height, pixel_start_id, pixel_end_id);
 
-    // Process every row of the sub-image
-    for (unsigned int j = row_start_id; j <= row_end_id; ++j)
+    // Process every pixel of the sub-image
+    for (unsigned int i = pixel_start_id; i <= pixel_end_id; ++i)
     {
-        // Process every column of the image
-        for (unsigned int i = 0; i < m_width / 2; ++i)
-        {
-            temp(              i, j) = getPixel(m_width - i - 1, j);
-            temp(m_width - i - 1, j) = getPixel(              i, j);
-        }
+        // Retrieve the 2D index (x, y) from i
+
+        // % is the "modulo operator", the remainder of i / m_width
+        int x = i % m_width;
+
+        // where "/" is an integer division
+        int y = i / m_width;
+
+        // Get the pixel
+        temp(x, y) = getPixel(m_width - x - 1, y);
     }
 
     // Get the process' rank
@@ -304,18 +308,15 @@ MPIImage MPIImage::flipHorizontally() const
 
             checkMPIError(MPI_Recv(&pixel_start_id, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &status));
             checkMPIError(MPI_Recv(&pixel_end_id, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, i, 2, MPI_COMM_WORLD, &status));
+            checkMPIError(MPI_Recv(&temp[pixel_start_id], pixel_end_id - pixel_start_id + 1, MPI_FLOAT, i, 2, MPI_COMM_WORLD, &status));
         }
     }
     // Other processes send the data to the master
     else
     {
-        int pixel_start_id = row_start_id * getWidth();
-        int pixel_end_id   = row_end_id   * getWidth();
-
         checkMPIError(MPI_Send(&pixel_start_id, 1, MPI_INT, ROOT, 0, MPI_COMM_WORLD));
         checkMPIError(MPI_Send(&pixel_end_id,   1, MPI_INT, ROOT, 1, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, ROOT, 2, MPI_COMM_WORLD));
+        checkMPIError(MPI_Send(&temp[pixel_start_id], pixel_end_id - pixel_start_id + 1, MPI_FLOAT, ROOT, 2, MPI_COMM_WORLD));
     }
 
     return temp;
@@ -330,19 +331,23 @@ MPIImage MPIImage::flipVertically() const
     MPIImage temp(getWidth(), getHeight(), 0.0);
 
     // Get the work load
-    unsigned int row_start_id = 0;
-    unsigned int row_end_id = 0;
-    workload(m_height / 2, row_start_id, row_end_id);
+    unsigned int pixel_start_id = 0;
+    unsigned int pixel_end_id = 0;
+    workload(m_width * m_height, pixel_start_id, pixel_end_id);
 
-    // Process every row of the sub-image
-    for (unsigned int j = row_start_id; j <= row_end_id; ++j)
+    // Process every pixel of the sub-image
+    for (unsigned int i = pixel_start_id; i <= pixel_end_id; ++i)
     {
-        // Process every column of the image
-        for (unsigned int i = 0; i < m_width; ++i)
-        {
-            temp(i,                j) = getPixel(i, m_height - j - 1);
-            temp(i, m_height - j - 1) = getPixel(i,                j);
-        }
+        // Retrieve the 2D index (x, y) from i
+
+        // % is the "modulo operator", the remainder of i / m_width
+        int x = i % m_width;
+
+        // where "/" is an integer division
+        int y = i / m_width;
+
+        // Get the pixel
+        temp(x, y) = getPixel(x, m_height - y - 1);
     }
 
     // Get the process' rank
@@ -364,39 +369,15 @@ MPIImage MPIImage::flipVertically() const
 
             checkMPIError(MPI_Recv(&pixel_start_id, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &status));
             checkMPIError(MPI_Recv(&pixel_end_id, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, i, 2, MPI_COMM_WORLD, &status));
-
-            checkMPIError(MPI_Recv(&pixel_start_id, 1, MPI_INT, i, 3, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(&pixel_end_id, 1, MPI_INT, i, 4, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, i, 5, MPI_COMM_WORLD, &status));
-        }
-
-        // Don't forget the middle row
-	if (m_height % 2)
-        {
-            // Process every column of the image
-            for (unsigned int i = 0; i < m_width; ++i)
-            {
-                temp(i, m_height / 2) = getPixel(i, m_height / 2);
-            }
+            checkMPIError(MPI_Recv(&temp[pixel_start_id], pixel_end_id - pixel_start_id + 1, MPI_FLOAT, i, 2, MPI_COMM_WORLD, &status));
         }
     }
     // Other processes send the data to the master
     else
     {
-        int pixel_start_id = row_start_id * getWidth();
-        int pixel_end_id   = row_end_id   * getWidth();
-
         checkMPIError(MPI_Send(&pixel_start_id, 1, MPI_INT, ROOT, 0, MPI_COMM_WORLD));
         checkMPIError(MPI_Send(&pixel_end_id,   1, MPI_INT, ROOT, 1, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, ROOT, 2, MPI_COMM_WORLD));
-
-        pixel_start_id = (m_height - row_end_id   - 1) * getWidth();
-        pixel_end_id   = (m_height - row_start_id - 1) * getWidth();
-
-        checkMPIError(MPI_Send(&pixel_start_id, 1, MPI_INT, ROOT, 3, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(&pixel_end_id,   1, MPI_INT, ROOT, 4, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(&temp[pixel_start_id], pixel_end_id - pixel_start_id + getWidth(), MPI_FLOAT, ROOT, 5, MPI_COMM_WORLD));
+        checkMPIError(MPI_Send(&temp[pixel_start_id], pixel_end_id - pixel_start_id + 1, MPI_FLOAT, ROOT, 2, MPI_COMM_WORLD));
     }
 
     return temp;
