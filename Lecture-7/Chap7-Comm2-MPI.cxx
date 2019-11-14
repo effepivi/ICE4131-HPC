@@ -9,6 +9,7 @@ const int LEADER = 0;
 
 int main(int argc, char** argv)
 {
+    // Initialsation
     MPI_Init(&argc, &argv);
 
     // Get the world size
@@ -46,6 +47,7 @@ int main(int argc, char** argv)
         }
     }
 
+    // Finalisation
     MPI_Finalize();
 
     return 0;

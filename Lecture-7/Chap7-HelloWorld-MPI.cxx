@@ -6,6 +6,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+    // Initialsation
     MPI_Init(&argc, &argv);
 
     // Get the world size
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     cout << "I am Process #" << process_rank << " of " << world_size << endl;
     cout << "I run on " << processor_name << endl << endl;
 
+    // Finalisation
     MPI_Finalize();
 
     return 0;
