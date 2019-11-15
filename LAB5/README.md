@@ -13,48 +13,48 @@ Some code is provided for your convenience:
 - `MPIImage` inherits of `Image`.
 - `flip.cxx` and `log.cxx` are two programs making use of the serial code, phtread code, OpenMP, and MPI.
     - Usage: flip -- Flip the input image horizontally or vertically
-```bash
-        --horizontally
-        -H
-            Flip the image horizontally
-        --vertically
-        -V
-            Flip the image vertically
-        --num <n>
-        -n <n>
-            Number of threads/processes
-        --implementation <string>
-        -c <string>
-            Choose implementation: serial|pthread|openmp|cuda|mpi
-        --inputFile <fname>
-        -i <fname>
-            Input file to process
-        --outputFile <fname>
-        -o <fname>
-            File to write
-        --help
-        -h
-            Show help
-```
+    ```bash
+            --horizontally
+            -H
+                Flip the image horizontally
+            --vertically
+            -V
+                Flip the image vertically
+            --num <n>
+            -n <n>
+                Number of threads/processes
+            --implementation <string>
+            -c <string>
+                Choose implementation: serial|pthread|openmp|cuda|mpi
+            --inputFile <fname>
+            -i <fname>
+                Input file to process
+            --outputFile <fname>
+            -o <fname>
+                File to write
+            --help
+            -h
+                Show help
+    ```
 
     - Usage: log -- Apply a log filter on all the pixels of the input
-```bash
-        --num <n>
-        -n <n>
-            Number of threads/processes
-        --implementation <string>
-        -c <string>
-            Choose implementation: serial|pthread|openmp|cuda|mpi
-        --inputFile <fname>
-        -i <fname>
-            Input file to process
-        --outputFile <fname>
-        -o <fname>
-            File to write
-        --help
-        -h
-            Show help
-```
+    ```bash
+            --num <n>
+            -n <n>
+                Number of threads/processes
+            --implementation <string>
+            -c <string>
+                Choose implementation: serial|pthread|openmp|cuda|mpi
+            --inputFile <fname>
+            -i <fname>
+                Input file to process
+            --outputFile <fname>
+            -o <fname>
+                File to write
+            --help
+            -h
+                Show help
+    ```
 
 
 <!-- Link to create images of code: https://carbon.now.sh -->
