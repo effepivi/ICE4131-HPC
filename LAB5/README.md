@@ -1,5 +1,5 @@
 # ICE4131 - High Performance Computing (HPC)
-## Lab 4: Pthreads versus OpenMP
+## Lab 5: MPI versus Pthreads versus OpenMP versus serial
 ### Tutor: Franck Vidal
 
 ## Objectives
