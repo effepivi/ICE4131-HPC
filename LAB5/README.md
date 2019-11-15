@@ -74,7 +74,7 @@ $ tar xjvfp ../Lab5-20191115.tar.bz2
 
 ## Loading the modules
 
-1. Create a new `env.sh` script. It is used to load modules. You need the following modules:
+1. Create a new `env.sh` script (you can use `nano env.sh` for this purpose). It is used to load modules. You need the following modules:
 - cmake
 - gnuplot
 - compiler/gnu/8/1.0
@@ -85,7 +85,7 @@ Make sure no other module is loaded:
 $ module purge
 ```
 
-Once the script is create, to load the modules using the script, run
+Once the script is created, run the following command to load the modules using the script
 ```bash
 $ source env.sh
 ```
@@ -97,9 +97,15 @@ $ module list
 ```
 to check that the modules are loaded.
 
-3. Create a `bin` directory using `mkdir`.
+3. Create a `bin` directory using `mkdir`:
+```bash
+$ mkdir bin
+```
 
-4. Go into `bin` using the `cd` command.
+4. Go into `bin` using the `cd` command:
+```bash
+$ cd bin
+```
 
 5. Configure your project using CMake:
 ```bash
@@ -116,12 +122,15 @@ $ make
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
 2. See [Lab 2](../LAB2) for an explanation.
-3. Create a new file named `submit1.sh` containing:
+3. Go back to the parent directory (`LAB5`):
+```bash
+$ cd ..
+```
+4. Create a new file named `submit1.sh` containing:
 ```bash
 #!/usr/bin/env bash
 #
-# Project/Account (use your own)
-#SBATCH -A scw1563
+#SBATCH -A scw1563                   # Project/Account (use your own)
 #SBATCH --job-name=my_test           # Job name
 #SBATCH --nodes=1                    # Use one node
 #SBATCH --cpus-per-task=10           # Number of cores per task
@@ -198,10 +207,9 @@ source env.sh
 $ sbatch  submit1.sh
 ```
 
+5. Wait for the job to complete. Use `squeue -u $USER` repetitively to identify when the job is over.
 
-5. Wait for the job to complete. Use `squeue -u $USER`.
-
-6. When the job is terminated, five new files should be there:
+6. When the job is terminated, seven new files should be there:
     - `log_image-openmp.txt`,
     - `log_image-pthread.txt`,
     - `log_image-MPI.txt`,
@@ -216,7 +224,6 @@ $ sbatch  submit1.sh
 
 9. Use ImageJ to visualise the image (Import->Text Image)
 
-10. Only go to the next section when everything works as expected. If not, debug your code.
 
 ## Performance evaluation
 
@@ -230,22 +237,13 @@ It will also:
 - Create CSV files to gather the execution time,
 - Detect the CPU name,
 - Create gnuplot scripts,
-- Plot graphs with speedup factors, execution times for the log filter and the flip image programs:
+- It uses the CSV files from LAB4 and the new ones from LAB5 to plot graphs with speedup factors, execution times for the log filter and the flip image programs:
     - log_execution_time.png
     - log_speedup.png
     - flip_execution_time.png
     - flip_speedup.png
 
 Edit Line 2 of [run.sh](run.sh) if needed. It has to be the path to the input image.
-
-The figures below show the execution time and speedup for `./flip` and `./log` when I run the `run.sh` script on my office PC (I only used 12 threads here).
-
-![office-flip_execution_time.png](scw-flip_execution_time.png)
-![office-log_execution_time.png](scw-log_execution_time.png)
-
-![office-flip_speedup.png](scw-flip_speedup.png)
-![office-log_speedup.png](scw-log_speedup.png)
-
 
 **REMEMBER: DON'T RUN `run.sh` DIRECTLY ON HAWKLOGIN.CF.AC.UK!**
 
