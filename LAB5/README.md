@@ -36,6 +36,7 @@ Some code is provided for your convenience:
         -h
             Show help
 ```
+
     - Usage: log -- Apply a log filter on all the pixels of the input
 ```bash
         --num <n>
