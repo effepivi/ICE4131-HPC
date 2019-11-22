@@ -238,6 +238,8 @@ $ sbatch  submit1.sh
     - `flip_image-cuda.txt` and
     - `slurm-%j.out`, with %j the job number.
 
+    **Tip for the assignment: With Image/Fiji or Matlab/GNU Octave, visualise the images created with `submit1.sh` to check the validity of your implementation**
+
 7. Use `more slurm-%j.out` to see the content of the file.
 
 8. To see the new images, download them from `hawklogin.cf.ac.uk` to your PC using WinSCP.
@@ -300,7 +302,6 @@ source env.sh
 
 # And finally run the job​
 ./run.sh
-#./bin/flip   -H  -c CUDA -i "../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt" -o test.txt
 
 # End of submit file
 ```
