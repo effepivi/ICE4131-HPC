@@ -35,8 +35,8 @@ SET (requiredLibs Threads::Threads OpenMP::OpenMP_CXX MPI::MPI_CXX ${MPI_CXX_LIN
 target_compile_options(ImLib PRIVATE ${OpenMP_CXX_FLAGS} ${MPI_CXX_COMPILE_OPTIONS})
 target_link_libraries(ImLib ${requiredLibs})
 
-cuda_add_executable(flip src/flip.cxx)
-cuda_add_executable(log  src/log.cxx)
+add_executable(flip src/flip.cxx)
+add_executable(log  src/log.cxx)
 
 target_link_libraries(flip ImLib ${requiredLibs})
 target_link_libraries(log  ImLib ${requiredLibs})

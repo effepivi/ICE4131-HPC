@@ -99,13 +99,14 @@ int main(int argc, char** argv)
         {
             // Declaration
             Image input;
-
             // Load the image
             input.loadASCII(input_file);
+            float min_value = input.getMinValue();
+            float max_value = input.getMaxValue();
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-            output = input.getNormalised().logFilter();
+            output = input.shiftScaleFilter(-min_value, 1.0 / (max_value - min_value)).logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "PTHREAD" ||
@@ -116,10 +117,12 @@ int main(int argc, char** argv)
 
             // Load the image
             input.loadASCII(input_file);
+            float min_value = input.getMinValue();
+            float max_value = input.getMaxValue();
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-            output = input.getNormalised().logFilter();
+            output = input.shiftScaleFilter(-min_value, 1.0 / (max_value - min_value)).logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "OPENMP" ||
@@ -130,23 +133,32 @@ int main(int argc, char** argv)
 
             // Load the image
             input.loadASCII(input_file);
+            float min_value = input.getMinValue();
+            float max_value = input.getMaxValue();
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-            output = input.getNormalised().logFilter();
+            output = input.shiftScaleFilter(-min_value, 1.0 / (max_value - min_value)).logFilter();
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "CUDA")
         {
             // Declaration
             CudaImage input;
+            CudaImage normalised_image;
+            CudaImage log_image;
 
             // Load the image
             input.loadASCII(input_file);
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-            output = input.getNormalised().logFilter();
+
+            normalised_image = input.getNormalised();
+            log_image = normalised_image.logFilter();
+            log_image.loadDevice2Host(); // Copy from the device to host
+            output = log_image;
+
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "MPI")
@@ -160,10 +172,12 @@ int main(int argc, char** argv)
 
             // Load the image
             input.loadASCII(input_file);
+            float min_value = input.getMinValue();
+            float max_value = input.getMaxValue();
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-            output = input.logFilter();
+            output = input.shiftScaleFilter(-min_value, 1.0 / (max_value - min_value)).logFilter();
             end = chrono::high_resolution_clock::now();
         }
 

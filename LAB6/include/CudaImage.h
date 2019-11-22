@@ -56,6 +56,15 @@ public:
 
 
     //------------------------------------------------------------------------
+    /// Copy constructor.
+    /**
+    * @param anImage: the image to copy
+    */
+    //------------------------------------------------------------------------
+    CudaImage(const CudaImage& anImage);
+
+
+    //------------------------------------------------------------------------
     /// Constructor from an array.
     /**
     * @param apData: the array to copy
@@ -80,13 +89,89 @@ public:
                 float aDefaultValue = 0.0);
 
 
+    //--------------------------------------------------------------------------
+    /// Destructor.
+    //--------------------------------------------------------------------------
+    ~CudaImage();
+
+
+
+    float getElasedTime() const;
+
+    //------------------------------------------------------------------------
+    /// Assignment operator (also called copy operator).
+    /**
+    * @param anImage: the image to copy
+    * @return the updated version of the current image
+    */
+    //------------------------------------------------------------------------
+    CudaImage& operator=(const CudaImage& anImage);
+
+
+    //------------------------------------------------------------------------
+    /// Release the memory.
+    //------------------------------------------------------------------------
+    virtual void destroy();
+
+
+    //------------------------------------------------------------------------
+    /// Release the memory on the device.
+    //------------------------------------------------------------------------
+	void releaseDeviceMemory();
+
+
+    //------------------------------------------------------------------------
+    /// Load an image from a PGM file
+    /**
+    * @param aFileName: the name of the file to load
+    */
+    //------------------------------------------------------------------------
+    virtual void loadPGM(const char* aFileName);
+
+
+    //------------------------------------------------------------------------
+    /// Load an image from a PGM file
+    /**
+    * @param aFileName: the name of the file to load
+    */
+    //------------------------------------------------------------------------
+    virtual void loadPGM(const std::string& aFileName);
+
+
     //------------------------------------------------------------------------
     /// Save the image in a PGM file
     /**
     * @param aFileName: the name of the file to write
     */
     //------------------------------------------------------------------------
-    void savePGM(const char* aFileName);
+    virtual void savePGM(const char* aFileName);
+
+
+    //------------------------------------------------------------------------
+    /// Save the image in a PGM file
+    /**
+    * @param aFileName: the name of the file to write
+    */
+    //------------------------------------------------------------------------
+    virtual void savePGM(const std::string& aFileName);
+
+
+    //------------------------------------------------------------------------
+    /// Load an image from an ASCII file
+    /**
+    * @param aFileName: the name of the file to load
+    */
+    //------------------------------------------------------------------------
+    virtual void loadASCII(const char* aFileName);
+
+
+    //------------------------------------------------------------------------
+    /// Load an image from an ASCII file
+    /**
+    * @param aFileName: the name of the file to load
+    */
+    //------------------------------------------------------------------------
+    virtual void loadASCII(const std::string& aFileName);
 
 
     //------------------------------------------------------------------------
@@ -95,7 +180,16 @@ public:
     * @param aFileName: the name of the file to write
     */
     //------------------------------------------------------------------------
-    void saveASCII(const char* aFileName);
+    virtual void saveASCII(const char* aFileName);
+
+
+    //------------------------------------------------------------------------
+    /// Save the image in an ASCII file
+    /**
+    * @param aFileName: the name of the file to write
+    */
+    //------------------------------------------------------------------------
+    virtual void saveASCII(const std::string& aFileName);
 
 
     //------------------------------------------------------------------------
@@ -104,7 +198,7 @@ public:
     * @return the negative image
     */
     //------------------------------------------------------------------------
-    CudaImage operator!() const;
+    CudaImage operator!();
 
 
     //------------------------------------------------------------------------
@@ -116,7 +210,25 @@ public:
     * @return the new image
     */
     //------------------------------------------------------------------------
-    CudaImage shiftScaleFilter(float aShiftValue, float aScaleValue) const;
+    CudaImage shiftScaleFilter(float aShiftValue, float aScaleValue);
+
+
+    //------------------------------------------------------------------------
+    /// Normalise the image between 0 and 1
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    CudaImage getNormalised();
+
+
+    //------------------------------------------------------------------------
+    /// Normalize the image between 0 and 1
+    /**
+    * @return the new image
+    */
+    //------------------------------------------------------------------------
+    CudaImage getNormalized();
 
 
     //------------------------------------------------------------------------
@@ -125,7 +237,7 @@ public:
     * @return the new image
     */
     //------------------------------------------------------------------------
-    CudaImage logFilter() const;
+    CudaImage logFilter();
 
 
     //------------------------------------------------------------------------
@@ -134,7 +246,7 @@ public:
     * @return the new image
     */
     //------------------------------------------------------------------------
-    CudaImage flipHorizontally() const;
+    CudaImage flipHorizontally();
 
 
     //------------------------------------------------------------------------
@@ -143,7 +255,7 @@ public:
     * @return the new image
     */
     //------------------------------------------------------------------------
-    CudaImage flipVertically() const;
+    CudaImage flipVertically();
 
 
     //------------------------------------------------------------------------
@@ -155,17 +267,26 @@ public:
     static int getNumberOfDevices();
 
 
+    void loadDevice2Host();
+
 //******************************************************************************
 protected:
     static void checkCudaError(const char* aFileName,
             const char* aFunctionName,
             unsigned int aLineNumber);
 
-    void loadHost2Device() const;
-    void loadDevice2Host() const;
+    void loadHost2Device();
+    void loadDevice2Device(const float* apImageOnDevice);
 
     // Make sure there is at least one CUDA device
     static int m_device_count;
+
+    float* m_p_device_memory;
+
+    float m_computing_time;
+    float m_host_to_device_transfer;
+    float m_device_to_host_transfer;
+    float m_device_to_device_transfer;
 };
 
 

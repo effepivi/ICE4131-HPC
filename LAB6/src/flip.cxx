@@ -103,16 +103,13 @@ int main(int argc, char** argv)
         {
             // Declaration
             Image input;
-
             // Load the image
             input.loadASCII(input_file);
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
             if (flip_horizontally) output = input.flipHorizontally();
             if (flip_vertically) output = input.flipVertically();
-
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "PTHREAD" ||
@@ -126,10 +123,8 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
             if (flip_horizontally) output = input.flipHorizontally();
             if (flip_vertically) output = input.flipVertically();
-
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "OPENMP" ||
@@ -143,16 +138,15 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
             if (flip_horizontally) output = input.flipHorizontally();
             if (flip_vertically) output = input.flipVertically();
-
             end = chrono::high_resolution_clock::now();
         }
         else if (toUpper(implementation) == "CUDA")
         {
             // Declaration
             CudaImage input;
+            CudaImage filtered_image;
 
             // Load the image
             input.loadASCII(input_file);
@@ -160,8 +154,11 @@ int main(int argc, char** argv)
             // Filter the image
             start = chrono::high_resolution_clock::now();
 
-            if (flip_horizontally) output = input.flipHorizontally();
-            if (flip_vertically) output = input.flipVertically();
+            if (flip_horizontally) filtered_image = input.flipHorizontally();
+            if (flip_vertically) filtered_image = input.flipVertically();
+
+            filtered_image.loadDevice2Host(); // Copy from the device to host
+            output = filtered_image;
 
             end = chrono::high_resolution_clock::now();
         }
@@ -179,10 +176,8 @@ int main(int argc, char** argv)
 
             // Filter the image
             start = chrono::high_resolution_clock::now();
-
             if (flip_horizontally) output = input.flipHorizontally();
             if (flip_vertically) output = input.flipVertically();
-
             end = chrono::high_resolution_clock::now();
         }
 
@@ -196,7 +191,7 @@ int main(int argc, char** argv)
             // Only the master is allowed to save
             if (rank == MPIImage::ROOT)
             {
-                cout << "Flip_filter," <<
+                cout << "Log_filter," <<
                     "\"" << input_file << "\"" << "," <<
                     "\"" << output_file << "\"" << "," <<
                     implementation << "," <<
