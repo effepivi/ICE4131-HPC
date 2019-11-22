@@ -1,17 +1,17 @@
 # ICE4131 - High Performance Computing (HPC)
-## Lab 5: MPI versus Pthreads versus OpenMP versus serial
+## Lab 6: CUDA versus MPI versus Pthreads versus OpenMP versus serial
 ### Tutor: Franck Vidal
 
 ## Objectives
 
 In this lab, you practice what we've seen in the lecture so far:
-1. Compile code implemented using MPI,
-2. Run the code using distributed memory,
-3. Compare the runtimes between Pthreads, OpenMP and MPI by plotting graphs of runtimes and of speedups.
+1. Compile code implemented using CUDA,
+2. Run the code using a GPU node,
+3. Compare the runtimes between CUDA, Pthreads, OpenMP and MPI by plotting graphs of runtimes and of speedups.
 
 Some code is provided for your convenience:
-- `MPIImage` inherits of `Image`.
-- `flip.cxx` and `log.cxx` are two programs making use of the serial code, phtread code, OpenMP, and MPI.
+- `CudaImage` inherits of `Image`.
+- `flip.cxx` and `log.cxx` are two programs making use of the serial code, phtread code, OpenMP, MPI, and CUDA.
     - Usage: flip -- Flip the input image horizontally or vertically
     ```bash
             --horizontally
@@ -62,14 +62,14 @@ Some code is provided for your convenience:
 
 ## Getting the code
 
-1. Download the code from Blackboard. The file is `Lab5-20191115.tar.bz2`.
+1. Download the code from Blackboard. The file is `Lab6-20191122.tar.bz2`.
 2. Copy this file from your PC to `hawklogin.cf.ac.uk` using WinSCP.
 3. Connect to `hawklogin.cf.ac.uk` using a SSH client such as Putty.
-4. Create a `LAB5` directory using `mkdir`.
-5. Go into `LAB5` using the `cd` command.
+4. Create a `LAB6` directory using `mkdir`.
+5. Go into `LAB6` using the `cd` command.
 6. Extract the archive using:
 ```bash
-$ tar xjvfp ../Lab5-20191115.tar.bz2
+$ tar xjvfp ../Lab6-20191122.tar.bz2
 ```
 
 ## Loading the modules
@@ -79,6 +79,7 @@ $ tar xjvfp ../Lab5-20191115.tar.bz2
 - gnuplot
 - compiler/gnu/8/1.0
 - mpi/openmpi/3.1.1
+- **CUDA/10.1**
 
 Make sure no other module is loaded:
 ```bash
@@ -136,6 +137,8 @@ $ cd ..
 #SBATCH --cpus-per-task=10           # Number of cores per task
 #SBATCH --mem=600mb                  # Total memory limit
 #SBATCH --time=00:15:00              # Time limit hrs:min:sec
+#SBATCH --gres=gpu:2                 # We ask for a GPU
+#SBATCH -p gpu
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
@@ -164,11 +167,18 @@ source env.sh
     -c pthread
 
 # Apply the log filter using MPI implementation
-./bin/log \
+mpirun -np $SLURM_CPUS_PER_TASK \
+    ./bin/log \
     -i ../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt \
     -o log_image-MPI.txt \
-    -n $SLURM_CPUS_PER_TASK \
     -c MPI
+
+# Apply the log filter using CUDA implementation
+./bin/log \
+    -i ../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt \
+    -o log_image-cuda.txt \
+    -c cuda
+
 
 # Flip the image using serial implementation
 ./bin/flip \
@@ -194,12 +204,20 @@ source env.sh
     -c pthread
 
 # Flip the image using MPI implementation
-./bin/flip \
+mpirun -np $SLURM_CPUS_PER_TASK \
+    ./bin/flip \
     -H  \
     -i ../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt \
     -o flip_image-MPI.txt \
-    -n $SLURM_CPUS_PER_TASK \
     -c MPI
+
+# Flip the image using CUDA implementation
+./bin/flip \
+    -H  \
+    -i ../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt \
+    -o flip_image-cuda.txt \
+    -c CUDA
+
 ```
 
 4. To launch it, use:
@@ -209,13 +227,15 @@ $ sbatch  submit1.sh
 
 5. Wait for the job to complete. Use `squeue -u $USER` repetitively to identify when the job is over.
 
-6. When the job is terminated, seven new files should be there:
+6. When the job is terminated, nine new files should be there:
     - `log_image-openmp.txt`,
     - `log_image-pthread.txt`,
     - `log_image-MPI.txt`,
+    - `log_image-cuda.txt`,
     - `flip_image-openmp.txt`,
+    - `flip_image-pthread.txt`,
     - `flip_image-MPI.txt`,
-    - `flip_image-pthread.txt` and
+    - `flip_image-cuda.txt` and
     - `slurm-%j.out`, with %j the job number.
 
 7. Use `more slurm-%j.out` to see the content of the file.
@@ -232,12 +252,13 @@ A shell script - [run.sh](run.sh) - is provided for your own convenience. It wil
 - Pthread implementation with the number of threads from 1 to 40,
 - OpenMP implementation with the number of threads from 1 to 40.
 - MPI implementation with the number of processes from 1 to 40.
+- CUDA implementation with one GPU.
 
 It will also:
 - Create CSV files to gather the execution time,
 - Detect the CPU name,
 - Create gnuplot scripts,
-- It uses the CSV files from LAB4 and the new ones from LAB5 to plot graphs with speedup factors, execution times for the log filter and the flip image programs:
+- It uses the CSV files from LAB4 and LAB5 to plot graphs with speedup factors, execution times for the log filter and the flip image programs:
     - log_execution_time.png
     - log_speedup.png
     - flip_execution_time.png
@@ -251,52 +272,51 @@ To execute the script, use SLURM. A script - [submit2.sh](submit2.sh) is provide
 ```bash
 #!/usr/bin/env bash
 #
-# Project/Account
+# Project/Account (use your own)
 #SBATCH -A scw1563
 #
-# We ask for 1 task with 40 cores.
-# We need one node, just for us.
+# We ask for 1 tasks with 1 core only.
+# We ask for a GPU
+#SBATCH --gres=gpu:2
+#SBATCH -p gpu
 #
 # Number of tasks per node
 #SBATCH --ntasks-per-node=1
 #
 # Number of cores per task
-#SBATCH --cpus-per-task=40
+#SBATCH --cpus-per-task=1
 #
 # Use one node
 #SBATCH --nodes=1
 #
-# Runtime of this jobs is less then 12 hours.
-#SBATCH --time=12:00:00
+# Runtime of this jobs is less then 15 minutes.
+#SBATCH --time=00:15:00
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
 
 # Load the module environment suitable for the job
-module load compiler/gnu/9/2.0 gnuplot
+source env.sh
 
 # And finally run the job​
 ./run.sh
+#./bin/flip   -H  -c CUDA -i "../LAB3/Airbus_Pleiades_50cm_8bit_grey_Yogyakarta.txt" -o test.txt
 
 # End of submit file
 ```
-As we need 40 tasks (threads in our case), we want to have exclusive access to a compute node. This is what the following does:
+
+We need to ask for a GPU. This is what the following does:
 ```bash
-# Number of tasks per node
-#SBATCH --ntasks-per-node=1
-#
-# Number of cores per task
-#SBATCH --cpus-per-task=40
-#
-# Use one node
-#SBATCH --nodes=1
+# We ask for a GPU
+#SBATCH --gres=gpu:2
+#SBATCH -p gpu
 ```
 
 To submit your job, type:
 ```bash
 $ sbatch submit2.sh
 ```
-It is going to take a lot of time. When I tried it took about 15 minutes.
+It is going to take just a bit of time. When I tried it took about 15 seconds.
 To check if your job is over, use
 ```bash
 $ squeue -u $USER
