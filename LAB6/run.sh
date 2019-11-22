@@ -30,8 +30,7 @@ TEMP=`./bin/flip -H -c serial -i $INPUT_IMAGE`
 IFS=',' read -ra FLIP_SERIAL <<< $TEMP
 
 # Store the results in the corresponding CSV files
-echo $TEMP >> flip-openmp.csv
-echo $TEMP >> flip-pthread.csv
+echo $TEMP >> flip-CUDA.csv
 
 # Create the corresponding gnuplot script
 # Set the title using the CPU name
@@ -42,8 +41,8 @@ cat performanceFlip.plt >> temp_flip.plt
 
 
 # Run the program using CUDA
-./bin/log     -c CUDA -i $INPUT_IMAGE -n $i >> log-CUDA.csv
-./bin/flip -H -c CUDA -i $INPUT_IMAGE -n $i >> flip-CUDA.csv
+./bin/log     -c CUDA -i $INPUT_IMAGE >> log-CUDA.csv
+./bin/flip -H -c CUDA -i $INPUT_IMAGE >> flip-CUDA.csv
 
 # Remove old graphs
 rm -f  log_execution_time.png  log_speedup.png
