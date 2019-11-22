@@ -127,4 +127,11 @@ To appear
 
 ## Lab 6 -- Image class using CUDA
 
-To appear
+In this lab, you will
+
+1. Look at the CUDA code in [LAB6/src/CudaImage.cxx](LAB6/src/CudaImage.cxx),
+2. Compile code implemented using CUDA,
+3. Run the code using a GPU node:
+  - Adapt SLURM scripts for `sbatch` to make sure that a GPU is available on the compute node.
+4. Compare the runtimes between CUDA, Pthreads, OpenMP and MPI by plotting graphs of runtimes and of speedups.
+
