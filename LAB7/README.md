@@ -60,19 +60,17 @@ $ cmake ..
 7. Copy memories from device to host, i.e. retrieve the result of the computations on the GPU
 8. Release the memory
 
+![](example1-flowchart.png)
+
 
 ## Example 1
 
 - Create two arrays of 4096 float elements
     - Initialize elements of the arrays using random numbers
 - Element-wise sum of the arrays
-
 - Motivation for this example
     - Create our first CUDA program from scratch
-
-- Flowchart:
-![](example1-flowchart.png)
-We will edit `example1.cu` to implement the flowchart above.
+- We will edit `example1.cu` to implement the flowchart above.
 
 
 ## Header Inclusion
@@ -80,7 +78,7 @@ We will edit `example1.cu` to implement the flowchart above.
 Below are the CUDA headers:
 
 ```cpp
-//	Include
+//    Include
 #include <algorithm>
 
 #include <stdio.h>
@@ -122,7 +120,7 @@ A given function can be executed on the *host* (CPU), on the *device* (GPU), our
 
 In  `example1.cu` declare the following functions:
 ```cpp
-//	Function declarations
+//    Function declarations
 __global__ void Kernel1(float* apOutputData,
                         float* apInputData0,
                         float* apInputData1);
@@ -140,7 +138,7 @@ We will also use the following global variables:
 // Constant variables
 const unsigned int WIDTH    = 4096;
 
-//	Global variables
+//    Global variables
 float* g_p_host_float_set0   = NULL;
 float* g_p_host_float_set1   = NULL;
 float* g_p_host_float_set2   = NULL;
@@ -160,20 +158,20 @@ void checkCudaError(const char* aFileName,
                     unsigned int aLineNumber)
 //--------------------------------------------
 {
-	// Get the latest CUDA error.
-	cudaError_t error_code = cudaGetLastError();
+    // Get the latest CUDA error.
+    cudaError_t error_code = cudaGetLastError();
 
-	// A CUDA error has occured.
-	if (error_code != cudaSuccess)
-	{
-		// Display an error message in the console.
-		fprintf(stderr, "CUDA error: %s\n\tin file: %s\n\tin function%s\n\tat line: %i.",
-			cudaGetErrorString(error_code),
-			aFileName, aFunctionName, aLineNumber);
+    // A CUDA error has occured.
+    if (error_code != cudaSuccess)
+    {
+        // Display an error message in the console.
+        fprintf(stderr, "CUDA error: %s\n\tin file: %s\n\tin function%s\n\tat line: %i.",
+            cudaGetErrorString(error_code),
+            aFileName, aFunctionName, aLineNumber);
 
-		// Quit the program.
-		exit(EXIT_FAILURE);
-	}
+        // Quit the program.
+        exit(EXIT_FAILURE);
+    }
 }
 ```
 
@@ -190,25 +188,25 @@ Add the corresponding definition of the `cleanup` function:
 void cleanup()
 //------------
 {
-	// Release memory
-	printf( "Release memory if needed.\n");
+    // Release memory
+    printf( "Release memory if needed.\n");
 
-	// Free host memory
-	if (g_p_host_float_set0)
-	{
-		delete [] g_p_host_float_set0;
-		g_p_host_float_set0 = NULL;
-	}
-	if (g_p_host_float_set1)
-	{
-		delete [] g_p_host_float_set1;
-		g_p_host_float_set1 = NULL;
-	}
-	if (g_p_host_float_set2)
-	{
-		delete [] g_p_host_float_set2;
-		g_p_host_float_set2 = NULL;
-	}
+    // Free host memory
+    if (g_p_host_float_set0)
+    {
+        delete [] g_p_host_float_set0;
+        g_p_host_float_set0 = NULL;
+    }
+    if (g_p_host_float_set1)
+    {
+        delete [] g_p_host_float_set1;
+        g_p_host_float_set1 = NULL;
+    }
+    if (g_p_host_float_set2)
+    {
+        delete [] g_p_host_float_set2;
+        g_p_host_float_set2 = NULL;
+    }
 
     // Free device memory
     if (g_p_device_float_set0)
@@ -265,19 +263,19 @@ Add an empty main function to `example1.cu`. Make sure that the main returns 0.
 Add the corresponding memory allocation in your main function:
 
 ```cpp
-// Compute the size of the array in number of bytes
-unsigned int array_size = WIDTH * sizeof(float);
+    // Compute the size of the array in number of bytes
+    unsigned int array_size = WIDTH * sizeof(float);
 
-// Allocate the memory on host
-g_p_host_float_set0 = (float*) malloc(array_size);
-g_p_host_float_set1 = (float*) malloc(array_size);
-g_p_host_float_set2 = (float*) malloc(array_size);
+    // Allocate the memory on host
+    g_p_host_float_set0 = new float[WIDTH];
+    g_p_host_float_set1 = new float[WIDTH];
+    g_p_host_float_set2 = new float[WIDTH];
 
-// Allocate the memory on device
-cudaMalloc((void**) &g_p_device_float_set0, array_size);
-cudaMalloc((void**) &g_p_device_float_set1, array_size);
-cudaMalloc((void**) &g_p_device_float_set2, array_size);
-checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+    // Allocate the memory on device
+    cudaMalloc((void**) &g_p_device_float_set0, array_size);
+    cudaMalloc((void**) &g_p_device_float_set1, array_size);
+    cudaMalloc((void**) &g_p_device_float_set2, array_size);
+    checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
 
 ## Data initialisation on the host
@@ -289,24 +287,100 @@ checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 void initializeArray(float* apArray)
 //----------------------------------
 {
-	for (unsigned int i = 0; i < WIDTH; ++i)
-	{
-		apArray[i] = floor(255.0f * (float)rand() / (float)RAND_MAX);
-	}
+    for (unsigned int i = 0; i < WIDTH; ++i)
+    {
+        apArray[i] = floor(255.0f * (float)rand() / (float)RAND_MAX);
+    }
 }
 ```
 
 and call this function in the main:
 ```cpp
-// Initialize random number generator
-srand(time(NULL));
+    // Initialize random number generator
+    srand(time(NULL));
 
-// Initialize host memory using random numbers
-initializeArray(g_p_host_float_set0);
-initializeArray(g_p_host_float_set1);
+    // Initialize host memory using random numbers
+    initializeArray(g_p_host_float_set0);
+    initializeArray(g_p_host_float_set1);
+```
+
+**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+
+## CUDA data transfer
+
+The data is now ready to be loaded on the device from the host.
+It is done with `cudaMemcpy(...)`. It requires four parameters
+
+- Pointer to destination
+- Pointer to source
+- Number of bytes copied
+- Type of transfer
+    - Host to Host
+    - Host to Device
+    - Device to Host
+    - Device to Device
+`cudaMemcpy` transfers the data synchronously.
+
+In your main, transfer the data from `g_p_host_float_set0` and `g_p_host_float_set1` to `g_p_device_float_set0` and `g_p_device_float_set1` respectively:
+
+```cpp
+    // Copy host memory to device memory
+	cudaMemcpy(g_p_device_float_set0, g_p_host_float_set0, array_size, cudaMemcpyHostToDevice);
+	cudaMemcpy(g_p_device_float_set1, g_p_host_float_set1, array_size, cudaMemcpyHostToDevice);
+	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+```
+
+**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+
+
+## Kernel Configuration
+
+It some ways, it corresponds to the workload allocation for the threads on CPUs. In CUDA, we need to define how many blocks we want, and how threads per block we need.
+There are 4096 elements in the arrays.
+I want 256 threads per blocks.
+
+```cpp
+// Configure the kernel
+int   DimBlock = 256; // 256 threads per block
+int   DimGrid  =  WIDTH / DimBlock;
+
+// Make sure there are enough blocks
+if (!(WIDTH % DimBlock)) ++DimGrid;
+```
+
+**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+
+
+## Run the kernel
+
+```cpp
+    // Run the kernel
+	Kernel1<<< DimGrid, DimBlock >>>(g_p_device_float_set2,
+		g_p_device_float_set0, g_p_device_float_set1);
+	cudaThreadSynchronize();
+	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
 
 
+## Retrieve the Result from the GPU
+
+```cpp
+    // Retrieve the result
+    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size, 
+        cudaMemcpyDeviceToHost);
+    CheckCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    // Display the results
+    for (unsigned int i = 0; i < WIDTH; ++i)
+    {
+        printf("%i:\t%f + %f = %f\n",
+            i,
+            g_p_host_float_set0[i],
+            g_p_host_float_set1[i],
+            g_p_host_float_set2[i]);
+
+    }
+```
 ## Execute your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
@@ -349,7 +423,7 @@ module purge > /dev/null 2>&1
 source env.sh
 
 # And finally run the job​
-./run.sh
+./bin/example1
 
 # End of submit file
 ```

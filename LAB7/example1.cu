@@ -29,6 +29,21 @@ float* g_p_device_float_set1 = NULL;
 float* g_p_device_float_set2 = NULL;
 
 
+//------------------------------------------------
+__global__ void Kernel1(float* apOutputData,
+                        float* apInputData0,
+                        float* apInputData1)
+//------------------------------------------------
+{
+	// Get element index
+	int i = blockDim.x * blockIdx.x + threadIdx.x;
+
+    // i is a valid index
+    if (i < WIDTH)
+    	// Element-wise sum
+    	apOutputData[i] = apInputData0[i] + apInputData1[i];
+}
+
 int main()
 {
 	// Register an exit callback to make sure that the memory is released in cas
@@ -51,9 +66,9 @@ int main()
 	unsigned int array_size = WIDTH * sizeof(float);
 
 	// Allocate the memory on host
-	g_p_host_float_set0 = (float*) malloc(array_size);
-	g_p_host_float_set1 = (float*) malloc(array_size);
-	g_p_host_float_set2 = (float*) malloc(array_size);
+    g_p_host_float_set0 = new float[WIDTH];
+    g_p_host_float_set1 = new float[WIDTH];
+    g_p_host_float_set2 = new float[WIDTH];
 
 	// Allocate the memory on device
 	cudaMalloc((void**) &g_p_device_float_set0, array_size);
@@ -67,6 +82,40 @@ int main()
 	// Initialize host memory using random numbers
 	initializeArray(g_p_host_float_set0);
 	initializeArray(g_p_host_float_set1);
+
+    // Copy host memory to device memory
+	cudaMemcpy(g_p_device_float_set0, g_p_host_float_set0, array_size, cudaMemcpyHostToDevice);
+	cudaMemcpy(g_p_device_float_set1, g_p_host_float_set1, array_size, cudaMemcpyHostToDevice);
+	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    // Configure the kernel
+    int   DimBlock = 256; // 256 threads per block
+    int   DimGrid  =  WIDTH / DimBlock;
+
+    // Make sure there are enough blocks
+    if (!(WIDTH % DimBlock)) ++DimGrid;
+
+    // Run the kernel
+	Kernel1<<< DimGrid, DimBlock >>>(g_p_device_float_set2,
+		g_p_device_float_set0, g_p_device_float_set1);
+	cudaThreadSynchronize();
+	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    // Retrieve the result
+    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size,
+        cudaMemcpyDeviceToHost);
+    checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    // Display the results
+    for (unsigned int i = 0; i < WIDTH; ++i)
+    {
+        printf("%i:\t%f + %f = %f\n",
+            i,
+            g_p_host_float_set0[i],
+            g_p_host_float_set1[i],
+            g_p_host_float_set2[i]);
+
+    }
 
     return 0;
 }
