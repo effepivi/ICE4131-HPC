@@ -135,3 +135,7 @@ In this lab, you will
   - Adapt SLURM scripts for `sbatch` to make sure that a GPU is available on the compute node.
 4. Compare the runtimes between CUDA, Pthreads, OpenMP and MPI by plotting graphs of runtimes and of speedups.
 
+
+## Lab 7 -- Write your own C/C++ and CUDA code
+
+In this lab, you will create your first CUDA programs from scratch.
