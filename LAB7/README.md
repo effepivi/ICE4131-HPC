@@ -538,3 +538,5 @@ We need to create two CUDA events. In the main function, after making sure that 
         100.0 * kernel_execution_in_ms / total_time << "% of total time" <<
         std::endl;
 ```
+
+**MAKE SURE YOU COMPILE AND TEST YOUR CODE OFTEN**

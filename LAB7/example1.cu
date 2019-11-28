@@ -1,5 +1,7 @@
-#include <iostream>
-#include <algorithm>
+#include <iostream> // For cout and cerr
+#include <cstdlib> // For rand(), srand(...) and RAND_MAX
+#include <cmath> // For floor(...)
+#include <ctime> // For time(NULL)
 
 #include <cuda_runtime_api.h> // Main cuda header for high-level runtime
                               //   programming in C
@@ -32,14 +34,15 @@ float* g_p_device_float_set2 = NULL;
 //------------------------------------------------
 __global__ void Kernel1(float* apOutputData,
                         float* apInputData0,
-                        float* apInputData1)
+                        float* apInputData1,
+                        int aWidth)
 //------------------------------------------------
 {
 	// Get element index
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     // i is a valid index
-    if (i < WIDTH)
+    if (i < aWidth)
     	// Element-wise sum
     	apOutputData[i] = apInputData0[i] + apInputData1[i];
 }
@@ -61,6 +64,16 @@ int main()
         std::cerr << "There is no CUDA device on this system. The program will terminate." << std::endl;
 		return 1;
 	}
+
+    // Add the CUDA events
+	cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    float host2device_memcpy_in_ms  = 0;
+    float device2host_memcpy_in_ms  = 0;
+    float kernel_execution_in_ms    = 0;
 
     // Compute the size of the array in number of bytes
 	unsigned int array_size = WIDTH * sizeof(float);
@@ -84,8 +97,11 @@ int main()
 	initializeArray(g_p_host_float_set1);
 
     // Copy host memory to device memory
+    cudaEventRecord(start);
 	cudaMemcpy(g_p_device_float_set0, g_p_host_float_set0, array_size, cudaMemcpyHostToDevice);
 	cudaMemcpy(g_p_device_float_set1, g_p_host_float_set1, array_size, cudaMemcpyHostToDevice);
+    cudaEventRecord(stop);
+    cudaEventElapsedTime(&host2device_memcpy_in_ms, start, stop);
 	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 
     // Configure the kernel
@@ -96,15 +112,24 @@ int main()
     if (!(WIDTH % DimBlock)) ++DimGrid;
 
     // Run the kernel
+    cudaEventRecord(start);
 	Kernel1<<< DimGrid, DimBlock >>>(g_p_device_float_set2,
-		g_p_device_float_set0, g_p_device_float_set1);
-	cudaThreadSynchronize();
+		g_p_device_float_set0, g_p_device_float_set1, WIDTH);
+	cudaDeviceSynchronize();
+    cudaEventRecord(stop);
+    cudaEventElapsedTime(&kernel_execution_in_ms, start, stop);
 	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 
     // Retrieve the result
-    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size,
-        cudaMemcpyDeviceToHost);
+    cudaEventRecord(start);
+    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size, cudaMemcpyDeviceToHost);
+    cudaEventRecord(stop);
+    cudaEventElapsedTime(&device2host_memcpy_in_ms, start, stop);
     checkCudaError(__FILE__, __FUNCTION__, __LINE__);
+
+    // Destroy the CUDA events
+    cudaEventDestroy(start);
+    cudaEventDestroy(stop);
 
     // Display the results
     for (unsigned int i = 0; i < WIDTH; ++i)
@@ -116,6 +141,24 @@ int main()
             g_p_host_float_set2[i]);
 
     }
+
+    // Display where time was spent
+    float total_time = host2device_memcpy_in_ms + device2host_memcpy_in_ms + kernel_execution_in_ms;
+
+    std::cout << "memcpy from host to device: " <<
+        host2device_memcpy_in_ms << "ms. " <<
+        100.0 * host2device_memcpy_in_ms / total_time << "% of total time" <<
+        std::endl;
+
+    std::cout << "memcpy from device to host: " <<
+        device2host_memcpy_in_ms << "ms. " <<
+        100.0 * device2host_memcpy_in_ms / total_time << "% of total time" <<
+        std::endl;
+
+    std::cout << "Kernel exectution: " <<
+        kernel_execution_in_ms << "ms. " <<
+        100.0 * kernel_execution_in_ms / total_time << "% of total time" <<
+        std::endl;
 
     return 0;
 }
