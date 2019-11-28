@@ -66,10 +66,10 @@ $ cmake ..
 ## Example 1
 
 - Create two arrays of 4096 float elements
-    - Initialize elements of the arrays using random numbers
-- Element-wise sum of the arrays
-- Motivation for this example
-    - Create our first CUDA program from scratch
+    - Initialize elements of the arrays using random numbers between 0 and 255;
+- Element-wise sum of the arrays;
+- Motivation for this example:
+    - Create our first CUDA program from scratch;
 - We will edit `example1.cu` to implement the flowchart above.
 
 
@@ -95,7 +95,7 @@ Below are the CUDA headers:
                               //   modelled on the Cg standard library.
 ```
 
-In `example1.cu`, add the main CUDA header for high-level runtime programming in C. Also add `algorithm` and `iostream`.
+In `example1.cu`, add the main CUDA header for high-level runtime programming in C. Also add `iostream`.
 
 
 ## Declarations
@@ -121,9 +121,10 @@ A given function can be executed on the *host* (CPU), on the *device* (GPU), our
 In  `example1.cu` declare the following functions:
 ```cpp
 //    Function declarations
-__global__ void Kernel1(float* apOutputData,
-                        float* apInputData0,
-                        float* apInputData1);
+__global__ void Kernel1(float* apOutputData, // The output
+                        float* apInputData0, // The 1st input
+                        float* apInputData1, // The 2nd input
+                        int aWidth); // The number of elements
 
 void initializeArray(float* apArray);
 void cleanup();
@@ -287,11 +288,11 @@ Add the corresponding memory allocation in your main function:
 floor(255.0f * (float)rand() / (float)RAND_MAX);
 ```
 
-- `rand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++.
+- `rand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++. Make sure you include one of these two header files.
 - `floor` is declare in the `math.h` header file in C, and `cmath` in C++.
 Make sure you include one of these two header files
 
-Make sure you include one of these two header files and add the following definition:
+Add the following definition:
 
 ```cpp
 //----------------------------------
@@ -315,10 +316,10 @@ and call this function in the main:
     initializeArray(g_p_host_float_set1);
 ```
 
-- `srand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++.
-- `time(NULL)` is declare in the `time.h` header file in C, and `ctime` in C++.
+- `srand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++. Make sure you include one of these two header files.
+- `time(NULL)` is declare in the `time.h` header file in C, and `ctime` in C++. Make sure you include one of these two header files.
 
-**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+**MAKE SURE YOU COMPILE AND TEST YOUR CODE OFTEN**
 
 ## CUDA data transfer
 
@@ -344,7 +345,7 @@ In your main, transfer the data from `g_p_host_float_set0` and `g_p_host_float_s
 	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
 
-**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+**MAKE SURE YOU COMPILE AND TEST YOUR CODE OFTEN**
 
 
 ## Kernel Configuration
@@ -362,7 +363,7 @@ int   DimGrid  =  WIDTH / DimBlock;
 if (!(WIDTH % DimBlock)) ++DimGrid;
 ```
 
-**MAKE SURE YOU COMPILE YOUR CODE OFTEN**
+**MAKE SURE YOU COMPILE AND TEST YOUR CODE OFTEN**
 
 
 ## Run the kernel
@@ -370,10 +371,34 @@ if (!(WIDTH % DimBlock)) ++DimGrid;
 ```cpp
     // Run the kernel
 	Kernel1<<< DimGrid, DimBlock >>>(g_p_device_float_set2,
-		g_p_device_float_set0, g_p_device_float_set1);
+		g_p_device_float_set0, g_p_device_float_set1, WIDTH);
 	cudaDeviceSynchronize();
 	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
+
+The definition of the kernel is as follows:
+
+```cpp
+//------------------------------------------
+__global__ void Kernel1(float* apOutputData,
+                        float* apInputData0,
+                        float* apInputData1,
+                        int aWidth)
+//------------------------------------------
+{
+	// Get element index
+	int i = blockDim.x * blockIdx.x + threadIdx.x;
+
+    // i is a valid index
+    if (i < aWidth)
+    	// Element-wise sum
+    	apOutputData[i] = apInputData0[i] + apInputData1[i];
+}
+```
+
+`__global__` means that the function is the kernel called from the host and executed on the device.
+
+**MAKE SURE YOU COMPILE AND TEST YOUR CODE OFTEN**
 
 
 ## Retrieve the Result from the GPU
@@ -395,6 +420,8 @@ if (!(WIDTH % DimBlock)) ++DimGrid;
 
     }
 ```
+
+
 ## Execute your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
@@ -450,4 +477,66 @@ $ sbatch submit.sh
 To check if your job is over, use
 ```bash
 $ squeue -u $USER
+```
+
+
+## Adding CUDA events
+
+We want to know how much time is spent
+
+1. allocating the memory,
+2. transferring data from the host to device, and
+3. vice-versa,
+4. how much time is spent processing the arrays, and
+5. freeing the memory.
+
+Add the following local variables in the main function:
+
+```cpp
+    float host2device_memcpy_in_ms  = 0;
+    float device2host_memcpy_in_ms  = 0;
+    float kernel_execution_in_ms    = 0;
+```
+
+We need to create two CUDA events. In the main function, after making sure that there is at least one CUDA device, add:
+
+```cpp
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+```
+
+1. Just before copying the data from the host to the device:
+    - record an event using `cudaEventRecord(start);` and
+2. Just after copying the data from the host to the device,
+    - record an event using `cudaEventRecord(st);`
+3. Compute the corresponding elapsed time using `    cudaEventElapsedTime(&g_host2device_memcpy_in_ms, start, stop);`
+4. Perform the same steps for
+    - `g_kernel_execution_in_ms` (make sure you call `cudaEventRecord(stop)` after `cudaDeviceSynchronize()`), and
+    - `g_device2host_memcpy_in_ms`,
+5. Don't forget to destroy the events in the main:
+
+```cpp
+    cudaEventDestroy(start);
+    cudaEventDestroy(stop);
+```
+
+6. Display the elapsed times at the end of the main function:
+```cpp
+    float total_time = g_host2device_memcpy_in_ms + g_device2host_memcpy_in_ms + g_kernel_execution_in_ms;
+
+    std::cout << "memcpy from host to device: " <<
+        g_host2device_memcpy_in_ms << "ms. " <<
+        100.0 * g_host2device_memcpy_in_ms / total_time << "% of total time" <<
+        std::endl;
+
+    std::cout << "memcpy from device to host: " <<
+        g_device2host_memcpy_in_ms << "ms. " <<
+        100.0 * g_device2host_memcpy_in_ms / total_time << "% of total time" <<
+        std::endl;
+
+    std::cout << "Kernel exectution: " <<
+        g_kernel_execution_in_ms << "ms. " <<
+        100.0 * g_kernel_execution_in_ms / total_time << "% of total time" <<
+        std::endl;
 ```
