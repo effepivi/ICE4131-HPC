@@ -1,7 +1,7 @@
 # ICE4131-HPC
 Lab material for my ICE4131 module about High Performance Computing
 
-## Lab 1 -- Using Nano via HelloWorld + Pthread
+## [Lab 1](LAB1) -- Using Nano via HelloWorld + Pthread
 
 The aim of this tutorial is to introduce you to the GNU/Linux environment used by SuperComputing Wales. You will learn how to
 
@@ -12,7 +12,7 @@ The aim of this tutorial is to introduce you to the GNU/Linux environment used b
 
 [Click here to go to Lab 1](LAB1).
 
-## Lab 2 -- Submitting jobs using SLURM
+## [Lab 2](LAB2) -- Submitting jobs using SLURM
 
 The aim of this lab is to execute programs on the supercomputer using SLURM (Simple Linux Utility for Resource Management). You will:
 
@@ -44,7 +44,7 @@ The code in this lecture shows how to parallelise serial code using Pthreads. It
 
 [Click here to go to Lecture 4](Lecture-4).
 
-## Lab 3 -- Image class using Pthreads
+## [Lab 3](LAB3) -- Image class using Pthreads
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -69,7 +69,7 @@ The code in this lecture shows how to parallelise serial code using OpenMP. It c
 
 [Click here to go to Lecture 5](Lecture-5).
 
-## Lab 4 -- Image class using OpenMP
+## [Lab 4](LAB4) -- Image class using OpenMP
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -109,7 +109,7 @@ It also illustrates process communication one-to-one and many-to-many.
 [Click here to go to Lecture 7](Lecture-7).
 
 
-## Lab 5 -- Image class using MPI
+## [Lab 5](LAB5) -- Image class using MPI
 
 In this lab, you will
 
@@ -125,7 +125,7 @@ In this lab, you will
 To appear
 
 
-## Lab 6 -- Image class using CUDA
+## [Lab 6](LAB6) -- Image class using CUDA
 
 In this lab, you will
 
@@ -136,6 +136,6 @@ In this lab, you will
 4. Compare the runtimes between CUDA, Pthreads, OpenMP and MPI by plotting graphs of runtimes and of speedups.
 
 
-## Lab 7 -- Write your own C/C++ and CUDA code
+## [Lab 7](LAB7) -- Write your own C/C++ and CUDA code
 
 In this lab, you will create your first CUDA programs from scratch.
