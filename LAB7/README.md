@@ -484,11 +484,9 @@ $ squeue -u $USER
 
 We want to know how much time is spent
 
-1. allocating the memory,
-2. transferring data from the host to device, and
-3. vice-versa,
-4. how much time is spent processing the arrays, and
-5. freeing the memory.
+1. transferring data from the host to device, and
+2. vice-versa, and
+3. how much time is spent processing the arrays.
 
 Add the following local variables in the main function:
 
@@ -510,10 +508,10 @@ We need to create two CUDA events. In the main function, after making sure that 
     - record an event using `cudaEventRecord(start);` and
 2. Just after copying the data from the host to the device,
     - record an event using `cudaEventRecord(st);`
-3. Compute the corresponding elapsed time using `    cudaEventElapsedTime(&g_host2device_memcpy_in_ms, start, stop);`
+3. Compute the corresponding elapsed time using `    cudaEventElapsedTime(&host2device_memcpy_in_ms, start, stop);`
 4. Perform the same steps for
     - `g_kernel_execution_in_ms` (make sure you call `cudaEventRecord(stop)` after `cudaDeviceSynchronize()`), and
-    - `g_device2host_memcpy_in_ms`,
+    - `device2host_memcpy_in_ms`,
 5. Don't forget to destroy the events in the main:
 
 ```cpp
@@ -523,20 +521,20 @@ We need to create two CUDA events. In the main function, after making sure that 
 
 6. Display the elapsed times at the end of the main function:
 ```cpp
-    float total_time = g_host2device_memcpy_in_ms + g_device2host_memcpy_in_ms + g_kernel_execution_in_ms;
+    float total_time = host2device_memcpy_in_ms + device2host_memcpy_in_ms + kernel_execution_in_ms;
 
     std::cout << "memcpy from host to device: " <<
-        g_host2device_memcpy_in_ms << "ms. " <<
-        100.0 * g_host2device_memcpy_in_ms / total_time << "% of total time" <<
+        host2device_memcpy_in_ms << "ms. " <<
+        100.0 * host2device_memcpy_in_ms / total_time << "% of total time" <<
         std::endl;
 
     std::cout << "memcpy from device to host: " <<
-        g_device2host_memcpy_in_ms << "ms. " <<
-        100.0 * g_device2host_memcpy_in_ms / total_time << "% of total time" <<
+        device2host_memcpy_in_ms << "ms. " <<
+        100.0 * device2host_memcpy_in_ms / total_time << "% of total time" <<
         std::endl;
 
     std::cout << "Kernel exectution: " <<
-        g_kernel_execution_in_ms << "ms. " <<
-        100.0 * g_kernel_execution_in_ms / total_time << "% of total time" <<
+        kernel_execution_in_ms << "ms. " <<
+        100.0 * kernel_execution_in_ms / total_time << "% of total time" <<
         std::endl;
 ```
