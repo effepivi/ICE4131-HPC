@@ -278,9 +278,20 @@ Add the corresponding memory allocation in your main function:
     checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
 
+
 ## Data initialisation on the host
 
-`g_p_host_float_set0` and `g_p_host_float_set1` should contain random numbers. Add the following definition:
+`g_p_host_float_set0` and `g_p_host_float_set1` should contain random numbers between 0 and 255. To get a pseudo-rando numder between 0 and 255 in C, we use:
+
+```cpp
+floor(255.0f * (float)rand() / (float)RAND_MAX);
+```
+
+- `rand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++.
+- `floor` is declare in the `math.h` header file in C, and `cmath` in C++.
+Make sure you include one of these two header files
+
+Make sure you include one of these two header files and add the following definition:
 
 ```cpp
 //----------------------------------
@@ -303,6 +314,9 @@ and call this function in the main:
     initializeArray(g_p_host_float_set0);
     initializeArray(g_p_host_float_set1);
 ```
+
+- `srand` is declare in the `stdlib.h` header file in C, and `cstdlib` in C++.
+- `time(NULL)` is declare in the `time.h` header file in C, and `ctime` in C++.
 
 **MAKE SURE YOU COMPILE YOUR CODE OFTEN**
 
@@ -357,7 +371,7 @@ if (!(WIDTH % DimBlock)) ++DimGrid;
     // Run the kernel
 	Kernel1<<< DimGrid, DimBlock >>>(g_p_device_float_set2,
 		g_p_device_float_set0, g_p_device_float_set1);
-	cudaThreadSynchronize();
+	cudaDeviceSynchronize();
 	checkCudaError(__FILE__, __FUNCTION__, __LINE__);
 ```
 
@@ -366,7 +380,7 @@ if (!(WIDTH % DimBlock)) ++DimGrid;
 
 ```cpp
     // Retrieve the result
-    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size, 
+    cudaMemcpy(g_p_host_float_set2, g_p_device_float_set2, array_size,
         cudaMemcpyDeviceToHost);
     CheckCudaError(__FILE__, __FUNCTION__, __LINE__);
 
