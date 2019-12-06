@@ -69,7 +69,7 @@ Some code is provided for your convenience:
 5. Go into `LAB6` using the `cd` command.
 6. Extract the archive using:
 ```bash
-$ tar xjvfp ../Lab6-20191122.tar.bz2
+$ tar xjvfp ../Lab6-20191206.tar.bz2
 ```
 
 ## Loading the modules
