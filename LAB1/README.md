@@ -278,7 +278,7 @@ In your home directory, create a new sub-directory called “LAB1”. In “LAB1
 ![HelloWorld.png](HelloWorld.png)
 
 <!--
-```c++
+```cpp
 #include <iostream>
 
 int main(int argc, char** argv)
@@ -364,7 +364,7 @@ A new file, "HelloWorld", was created.
 To run it, type:
 
 ```bash
-$ ./HelloWorld+
+$ ./HelloWorld
 ```
 
 ## Parallelising Code using Pthreads
