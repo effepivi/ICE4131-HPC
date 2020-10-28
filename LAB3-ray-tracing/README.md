@@ -91,7 +91,7 @@ Options:
 
 **Question:** Why?
 
-**Answer:** When you edit your program and submit a job, you can now run small tasks.
+**Answer:** When you edit your program and submit a job, you can run small tasks (nicer for debugging).
 
 
 ## Run your program
@@ -100,8 +100,8 @@ Options:
 2. See Lab 2.
 3. Download the polygon mesh from Blackboard: `dragon.ply`
 4. Download the texture file from Blackboard: `Bangor_Logo_A1.jpg`
-5. Copy the files from your PC to `hawklogin.cf.ac.uk` using your favourite SCP client, e.g. [WinSCP](https://winscp.net/) or [FileZilla](https://filezilla-project.org/). Make sure you put the files is in the same directory as `CMakeLists.txt`.
-6. Create a new file named `submit.sh` containing:
+5. Copy the files from your PC to `hawklogin.cf.ac.uk` using your favourite SCP client, e.g. [WinSCP](https://winscp.net/) or [FileZilla](https://filezilla-project.org/). Make sure you put the files in the same directory as `CMakeLists.txt`.
+6. Create a new file named `submit-serial.sh` containing:
 ```bash
 #!/usr/bin/env bash
 #
@@ -115,7 +115,7 @@ Options:
 ```
 7. To launch it, use:
 ```bash
-$ sbatch  --account=scw1563 submit.sh
+$ sbatch  --account=scw1563 submit-serial.sh
 ```
 8. Wait for the job to complete. Use `squeue -u $USER`.
 9. When the job is terminated, three new files should be there:
@@ -132,9 +132,9 @@ $ sbatch  --account=scw1563 submit.sh
 1. Edit the file `../src/main.cxx` to add timestamps. You can use `nano`, `vi` or `emacs`.
 2. See examples in [chapter4-2.cxx](../Lecture-4/chapter4-2.cxx).
 3. You want to display how long it takes to perform the main steps in the main function, with and without threads.
-  - Identify all the main steps.
-  - Add timestamps.
-  - Print the durations in the terminal.
+    - Identify all the main steps.
+    - Add timestamps.
+    - Print the durations in the terminal.
 4. Compile
 5. Submit your job.
 
