@@ -4,7 +4,7 @@
 
 ## Objectives
 
-In this lab, you practice what we've seen in the lecture so far:
+In this lab, you'll practice what we've seen in the lecture so far:
 1. Parallelise some serial code using Pthreads,
 2. Add timestamps to assess the execution time,
 3. Run the code on the compute nodes
@@ -47,6 +47,7 @@ $ source env.sh
 $
 ```
 **You'll need to run this command EVERY TIME you log in.**
+
 3. You can use
 ```bash
 $ module list
