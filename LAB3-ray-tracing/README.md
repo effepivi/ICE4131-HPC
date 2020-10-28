@@ -83,10 +83,10 @@ I made some changes to the program on the 28th of Nov:
 ```
 Usage: ./main <option(s)>
 Options:
-	-h,--help		                  	Show this help message
-	-s,--size IMG_WIDTH IMG_HEIGHT	Specify the image size in number of pixels (default values: 2048 2048)
-	-b,--background R G B	         	Specify the background colour in RGB, acceptable values are between 0 and 255 (inclusive) (default values: 128 128 128)
-	-j,--jpeg FILENAME		          Name of the JPEG file (default value: test.jpg)
+	-h,--help                       Show this help message
+	-s,--size IMG_WIDTH IMG_HEIGHT  Specify the image size in number of pixels (default values: 2048 2048)
+	-b,--background R G B           Specify the background colour in RGB, acceptable values are between 0 and 255 (inclusive) (default values: 128 128 128)
+	-j,--jpeg FILENAME              Name of the JPEG file (default value: test.jpg)
 ```
 
 **Question:** Why?
