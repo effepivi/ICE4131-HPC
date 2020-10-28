@@ -49,18 +49,25 @@ $
 **You'll need to run this command EVERY TIME you log in.**
 
 3. You can use
+
 ```bash
 $ module list
 ```
 to check that the modules are loaded.
+
 4. Create a `bin` directory using `mkdir`.
+
 5. Go into `bin` using the `cd` command.
+
 6. Configure your project using CMake:
+
 ```bash
 $ cmake ..
 $
 ```
+
 7. Compile your code
+
 ```bash
 $ make
 $
