@@ -137,14 +137,14 @@ $ sbatch  --account=scw1563 submit-serial.sh
     - Print the durations in the terminal.
 4. Compile
 5. Submit your job.
-
-Which step took the longest?
+6. Use `more` to visualise the content of the `slurm-%j.out` file corresponding to the job.
+7. Identify which step took the longest.
 
 ## Profiling
 
-1. Run `ccmake .` and change the `CMAKE_BUILD_TYPE` to `Debug`.
+1. Run `ccmake .` and change the `CMAKE_BUILD_TYPE` variable to `Debug`.
 2. Press `t` to "toggle".
-3. In the `CMAKE_CXX_FLAGS_DEBUG`, add the `-pg` option.
+3. In the `CMAKE_CXX_FLAGS_DEBUG` variable, add the `-pg` option. It will enable the profiling.
 4. Configure.
 5. Generate.
 6. Compile.
@@ -197,7 +197,6 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
 ```
 **Note: replace N above with a number between 1 and 40.**
 
-6. Run your code.
     - See if you have any speedup when you increase the number of thread.
     - Create your own spreadsheet in a `.csv` format. See [chap4-performance.csv](../Lecture-4/chap4-performance.csv) for an example.
     - Run gnuplot to generate graphs showing the execution time depending on the number of threads, and the speedup depending on the number of threads. See [chap4-performance.plt](../Lecture-4/chap4-performance.plt) for an example. This example generates PNG files such as:
