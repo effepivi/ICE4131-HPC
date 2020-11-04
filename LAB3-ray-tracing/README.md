@@ -5,10 +5,11 @@
 ## Objectives
 
 In this lab, you'll practice what we've seen in the lecture so far:
-1. Parallelise some serial code using Pthreads,
-2. Add timestamps to assess the execution time,
-3. Run the code on the compute nodes
-4. Plot graphs of runtimes and of speedups.
+
+1.  Parallelise some serial code using Pthreads,
+2.  Add timestamps to assess the execution time,
+3.  Run the code on the compute nodes
+4.  Plot graphs of runtimes and of speedups.
 
 Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
@@ -200,6 +201,8 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
     - See if you have any speedup when you increase the number of thread.
     - Create your own spreadsheet in a `.csv` format. See [chap4-performance.csv](../Lecture-4/chap4-performance.csv) for an example.
     - Run gnuplot to generate graphs showing the execution time depending on the number of threads, and the speedup depending on the number of threads. See [chap4-performance.plt](../Lecture-4/chap4-performance.plt) for an example. This example generates PNG files such as:
+
 ![Plot of the execution time](../Lecture-4/chap4-performance-1.png)
 ![Plot of the execution time](../Lecture-4/chap4-performance-2.png)
+
     - Check that the output image is correct. Is it the same as the image generated with the serial code?
