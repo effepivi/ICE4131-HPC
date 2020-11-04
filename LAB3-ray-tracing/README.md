@@ -161,6 +161,24 @@ $ less serial-profiling.txt
 10. Identify which step took the longest.
 
 
+## Enable Pthread in CMake
+
+1. Edit `CMakeLists.txt` and at the end of the file add:
+
+```cmake
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+find_package(Threads REQUIRED)
+```
+
+It looks for the `pthread` library.
+
+2. Add the program:
+
+```cmake
+add_executable(main-pthreads src/main-pthreads.cxx)
+TARGET_LINK_LIBRARIES (main-pthreads PUBLIC RayTracing ${ASSIMP_LIBRARY} Threads::Threads)
+```
+
 ## Parallelise this step
 
 1. You need to edit `main-pthreads.cxx`. I would copy the content of `main.cxx` into `main-pthreads.cxx`.
@@ -198,11 +216,17 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
 ```
 **Note: replace N above with a number between 1 and 40.**
 
+- Check that the output image is correct. Is it the same as the image generated with the serial code?
 - See if you have any speedup when you increase the number of thread.
+
+## Generate a spreadsheet
+
 - Create your own spreadsheet in a `.csv` format. See [chap4-performance.csv](../Lecture-4/chap4-performance.csv) for an example.
 - Run gnuplot to generate graphs showing the execution time depending on the number of threads, and the speedup depending on the number of threads. See [chap4-performance.plt](../Lecture-4/chap4-performance.plt) for an example. This example generates PNG files such as:
 
 ![Plot of the execution time](../Lecture-4/chap4-performance-1.png)
 ![Plot of the execution time](../Lecture-4/chap4-performance-2.png)
 
-- Check that the output image is correct. Is it the same as the image generated with the serial code?
+- For the ray tracing problem, I provide two scripts, one for the [serial code](https://github.com/effepivi/SimpleRayTracing/blob/master/submit-serial.sh), one for the [pthread code](https://github.com/effepivi/SimpleRayTracing/blob/master/submit-pthread.sh).
+- Edit this line `##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail` to use your own email address. Also remove one of the `#` characters.
+- I also provided a new python script to plot the data [`plotTiming.py`](https://github.com/effepivi/SimpleRayTracing/blob/master/plotTiming.py)
