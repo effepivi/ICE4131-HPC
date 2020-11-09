@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     }
 
     int N = atoi(argv[1]);
-    int M = atoi(argv[1]);
+    int M = atoi(argv[2]);
 
     std::random_device random_device;
     std::mt19937 generator(random_device());
