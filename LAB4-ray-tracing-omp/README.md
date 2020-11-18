@@ -238,3 +238,7 @@ For me, it looks like:
 ![Speed up](speedup.png)
 
 What do you conclude from the graphs? Compare the relative speed up provided by both APIs!
+
+# Next week
+
+We'll use more than one node at a time using MPI. For me, with 8 nodes, it took only 12 seconds to compute the whole 2048x2048 image. Yes 12 seconds. The serial code takes 45 minutes. That's a speed up of 225x.
