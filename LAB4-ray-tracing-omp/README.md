@@ -215,3 +215,24 @@ Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 40 | 1 | icc (ICC) 18.0.2 2
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 4 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 693.33 |
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 80 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 65.35 |
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 8 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 321.3 |
+
+2. Plot the results using Python3 and matplotlib using the script I provided.
+
+```bash
+$  module load python/3.7.0
+$ python3 -m pip install numpy pandas matplotplib
+$ python3 plotTiming.py
+```
+
+It create for files:
+
+- `runtimes.pdf`
+- `runtimes.png`
+- `speedup.pdf`
+- `speedup.png`
+
+For me, it looks like:
+
+![Runtimes](runtimes.png)
+
+![Speed up](speedup.png)
