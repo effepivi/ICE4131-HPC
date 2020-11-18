@@ -219,12 +219,12 @@ Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 8 | 1 | icc (ICC) 18.0.2 20
 2. Plot the results using Python3 and matplotlib using the script I provided.
 
 ```bash
-$  module load python/3.7.0
+$ module load python/3.7.0
 $ python3 -m pip install numpy pandas matplotplib
 $ python3 plotTiming.py
 ```
 
-It create for files:
+It creates four files:
 
 - `runtimes.pdf`
 - `runtimes.png`
@@ -236,3 +236,5 @@ For me, it looks like:
 ![Runtimes](runtimes.png)
 
 ![Speed up](speedup.png)
+
+What do you conclude from the graphs? Compare the relative speed up provided by both APIs!
