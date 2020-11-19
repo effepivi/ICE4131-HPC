@@ -90,7 +90,7 @@ If you want to control the number of threads, add the `num_threads` clause:
         ...
     }
 ```
-with `N` the number of threads. This is what you have to use in this lab as you want to assess the behaviour of the program depending on the number of threads.
+with `M` the number of threads. This is what you have to use in this lab as you want to assess the behaviour of the program depending on the number of threads.
 
 Or use an environment variable: `OMP_NUM_THREADS`. For example, if you type `export OMP_NUM_THREADS=16;` before executing your OpenMP code, only 16 threads will be used.
 
