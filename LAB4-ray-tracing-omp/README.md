@@ -84,7 +84,7 @@ In this case, the number of threads is automatically detected at runtime. It wil
 
 If you want to control the number of threads, add the `num_threads` clause:
 ```cxx
-#pragma omp parallel for num_threads(N)
+#pragma omp parallel for num_threads(M)
     for (int i = 0; i < N; i++)
     {
         ...
