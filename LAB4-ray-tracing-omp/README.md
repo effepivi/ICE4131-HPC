@@ -101,9 +101,9 @@ Or use an environment variable: `OMP_NUM_THREADS`. For example, if you type `exp
 Sometimes, we have two nested loops:
 
 ```cxx
-for (j = 0; j < height; j++)
+for (int j = 0; j < height; j++)
 {
-    for (i = 0; i < width; i++)
+    for (int i = 0; i < width; i++)
     {
         DO SOMETHING
     }
