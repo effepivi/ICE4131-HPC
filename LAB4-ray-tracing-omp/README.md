@@ -134,6 +134,9 @@ The OpenMP collapse clause will increase the number of iterations per thread. It
 2. You must enable the `-fopenmp` option of the compiler. If you don't the pragmas will be ignored by the compiler. In `CMakeLists.txt`:
 
 ```cmake
+# OpenMP ####################################################################
+find_package(OpenMP REQUIRED)
+
 # Program ###############################################################
 add_executable(main-omp src/main-omp.cxx)
 TARGET_INCLUDE_DIRECTORIES(main-omp PUBLIC ${ASSIMP_INCLUDE_DIRS})
