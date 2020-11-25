@@ -171,10 +171,10 @@ Each process must know the index of the first and last pixels it must compute:
 
         if (remainder > 0)
         {
-            aEndID++;
+            end_id++;
             --remainder;
         }
-        last_element = aEndID;
+        last_element = end_id;
 
         // Exit the method
         if (rank == i) return;
