@@ -206,7 +206,7 @@ Compile often!
 
 ## Gathering the data from all the processes
 
-If you used 4 processes, the `ROOT` only "knows" the top first quarter of the image. At the end of the `renderLoop` function, it must collect the other 3 quarters from the other threads:
+If you used 4 processes, the `ROOT` only "knows" the top first quarter of the image. At the end of the `renderLoop` function, it must collect the other 3 quarters from the other processes (that may actually be executed on another computer):
 
 ```cpp
     // Master gather results from all the processes
@@ -214,22 +214,22 @@ If you used 4 processes, the `ROOT` only "knows" the top first quarter of the im
     {
         for (int i = 1; i < world_size; ++i)
         {
-            int pixel_start_id;
-            int pixel_end_id;
+            int start_id;
+            int end_id;
 
             MPI_Status status;
 
-            checkMPIError(MPI_Recv(&pixel_start_id, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(&pixel_end_id, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &status));
-            checkMPIError(MPI_Recv(anOutputImage.getData() + pixel_start_id * 3, (pixel_end_id - pixel_start_id + 1) * 3, MPI_UNSIGNED_CHAR, i, 2, MPI_COMM_WORLD, &status));
+            checkMPIError(MPI_Recv(&start_id, 1, MPI_INT, i, 0, MPI_COMM_WORLD, &status));
+            checkMPIError(MPI_Recv(&end_id, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &status));
+            checkMPIError(MPI_Recv(anOutputImage.getData() + start_id * 3, (end_id - start_id + 1) * 3, MPI_UNSIGNED_CHAR, i, 2, MPI_COMM_WORLD, &status));
         }
     }
     // Other processes send the data to the master
     else
     {
-        checkMPIError(MPI_Send(&pixel_start_id, 1, MPI_INT, ROOT, 0, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(&pixel_end_id,   1, MPI_INT, ROOT, 1, MPI_COMM_WORLD));
-        checkMPIError(MPI_Send(anOutputImage.getData() + pixel_start_id * 3, (pixel_end_id - pixel_start_id + 1) * 3, MPI_UNSIGNED_CHAR, ROOT, 2, MPI_COMM_WORLD));
+        checkMPIError(MPI_Send(&start_id, 1, MPI_INT, ROOT, 0, MPI_COMM_WORLD));
+        checkMPIError(MPI_Send(&end_id,   1, MPI_INT, ROOT, 1, MPI_COMM_WORLD));
+        checkMPIError(MPI_Send(anOutputImage.getData() + start_id * 3, (end_id - start_id + 1) * 3, MPI_UNSIGNED_CHAR, ROOT, 2, MPI_COMM_WORLD));
     }
 ```
 
@@ -239,7 +239,7 @@ If you used 4 processes, the `ROOT` only "knows" the top first quarter of the im
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
 2. See [Lab 2](../LAB2) for an explanation.
 3. I provided a script, [`submit-mpi.sh`](../../SimpleRayTracing/submit-mpi.sh). Edit this file to use your email address in `echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk`.
-`submit-mpi.sh` creates another 8 scripts `submit-mpi-*-*.sh` and submit the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 processes on each node.
+`submit-mpi.sh` creates another 4*8=32 scripts `submit-mpi-*-*.sh` and submit the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 processes on each node.
 
 For example, the script below `submit-mpi-4-40.sh` is the script used to submit a job with 40 processes on 4 a total of 160 processes.
 
@@ -272,7 +272,7 @@ RUNTIME=`cat temp-mpi-4-40`
 echo ${CPU_MODEL[1]},MPI,$process_number,4,$COMPILER,${width}x$height,$RUNTIME >> timing-mpi-4-40.csv
 #rm temp-mpi-4-40
 ```
-4. To launch it, use:
+4. To launch `submit-mpi.sh`, use:
 ```bash
 $ ./submit-mpi.sh
 ```
@@ -306,38 +306,38 @@ Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 40 | 1 | icc (ICC) 18.0.2 2
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 4 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 693.33 |
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 80 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 65.35 |
 Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| omp	    | 8 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 | 321.3 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 1  | icc (ICC) 18.0.2 20180210 | 2202.38 | 37 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 1 | icc (ICC) 18.0.2 20180210 | 720.06 | 12 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 1 | icc (ICC) 18.0.2 20180210 | 325.67 | 5 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 1 | icc (ICC) 18.0.2 20180210 | 186.73 | 3 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 1 | icc (ICC) 18.0.2 20180210 | 132.65 | 2 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 1 | icc (ICC) 18.0.2 20180210 | 82.22 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 1 | icc (ICC) 18.0.2 20180210 | 82.47 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 1 | icc (ICC) 18.0.2 20180210 | 76.11 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 2 | icc (ICC) 18.0.2 20180210 | 1036.4 | 17 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 2 | icc (ICC) 18.0.2 20180210 | 324.78 | 5 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 2 | icc (ICC) 18.0.2 20180210 | 165.93 | 3 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 2 | icc (ICC) 18.0.2 20180210 | 92.71 | 2 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 2 | icc (ICC) 18.0.2 20180210 | 67.1 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 2 | icc (ICC) 18.0.2 20180210 | 43.51 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 2 | icc (ICC) 18.0.2 20180210 | 40.65 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 2 | icc (ICC) 18.0.2 20180210 | 43.91 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 3 | icc (ICC) 18.0.2 20180210 | 834.56 | 14 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 3 | icc (ICC) 18.0.2 20180210 | 220.49 | 4 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 3 | icc (ICC) 18.0.2 20180210 | 111.41 | 2 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 3 | icc (ICC) 18.0.2 20180210 | 67.3 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 3 | icc (ICC) 18.0.2 20180210 | 46.46 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 3 | icc (ICC) 18.0.2 20180210 | 28.39 | 0 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 3 | icc (ICC) 18.0.2 20180210 | 29.84 | 0 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 3 | icc (ICC) 18.0.2 20180210 | 26.91 | 0 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 4 | icc (ICC) 18.0.2 20180210 | 644.83 | 11 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 4 | icc (ICC) 18.0.2 20180210 | 166.67 | 3 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 4 | icc (ICC) 18.0.2 20180210 | 83.67 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 4 | icc (ICC) 18.0.2 20180210 | 52.54 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 4 | icc (ICC) 18.0.2 20180210 | 36.93 | 1 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 4 | icc (ICC) 18.0.2 20180210 | 23.23 | 0 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 4 | icc (ICC) 18.0.2 20180210 | 22.89 | 0 |
-Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 4 | icc (ICC) 18.0.2 20180210 | 21.81 | 0 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 1  | icc (ICC) 18.0.2 20180210 | 2048x2048 |2202.38 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |720.06 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |325.67 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |186.73 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |132.65 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |82.22 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |82.47 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 1 | icc (ICC) 18.0.2 20180210 | 2048x2048 |76.11 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |1036.4 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |324.78 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |165.93 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |92.71 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |67.1 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |43.51 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |40.65 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 2 | icc (ICC) 18.0.2 20180210 | 2048x2048 |43.91 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |834.56 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |220.49 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |111.41 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |67.3 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |46.46 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |28.39 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |29.84 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 3 | icc (ICC) 18.0.2 20180210 | 2048x2048 |26.91 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 1 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |644.83 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 4 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |166.67 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 8 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |83.67 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 16 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |52.54 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 24 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |36.93 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 40 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |23.23 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 80 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |22.89 |
+Intel(R)	Xeon(R)	Gold	6148	CPU	@	2.40GHz	| MPI	    | 160 | 4 | icc (ICC) 18.0.2 20180210 | 2048x2048 |21.81 |
 
 
 2. Plot the results using Python3 and matplotlib using the script I provided.
