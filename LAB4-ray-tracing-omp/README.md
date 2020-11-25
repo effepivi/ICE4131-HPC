@@ -84,13 +84,13 @@ In this case, the number of threads is automatically detected at runtime. It wil
 
 If you want to control the number of threads, add the `num_threads` clause:
 ```cxx
-#pragma omp parallel for num_threads(N)
+#pragma omp parallel for num_threads(M)
     for (int i = 0; i < N; i++)
     {
         ...
     }
 ```
-with `N` the number of threads. This is what you have to use in this lab as you want to assess the behaviour of the program depending on the number of threads.
+with `M` the number of threads. This is what you have to use in this lab as you want to assess the behaviour of the program depending on the number of threads.
 
 Or use an environment variable: `OMP_NUM_THREADS`. For example, if you type `export OMP_NUM_THREADS=16;` before executing your OpenMP code, only 16 threads will be used.
 
@@ -101,9 +101,9 @@ Or use an environment variable: `OMP_NUM_THREADS`. For example, if you type `exp
 Sometimes, we have two nested loops:
 
 ```cxx
-for (j = 0; j < height; j++)
+for (int j = 0; j < height; j++)
 {
-    for (i = 0; i < width; i++)
+    for (int i = 0; i < width; i++)
     {
         DO SOMETHING
     }
@@ -134,6 +134,9 @@ The OpenMP collapse clause will increase the number of iterations per thread. It
 2. You must enable the `-fopenmp` option of the compiler. If you don't the pragmas will be ignored by the compiler. In `CMakeLists.txt`:
 
 ```cmake
+# OpenMP ####################################################################
+find_package(OpenMP REQUIRED)
+
 # Program ###############################################################
 add_executable(main-omp src/main-omp.cxx)
 TARGET_INCLUDE_DIRECTORIES(main-omp PUBLIC ${ASSIMP_INCLUDE_DIRS})
