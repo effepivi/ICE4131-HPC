@@ -187,7 +187,7 @@ Compile often!
 
 ## Rendering loop
 
-The 2 nested rendering loops we be replaced with a single loop to process the pixels from `start_id` to `end_id`. 
+The 2 nested rendering loops must be replaced with a single loop to process the pixels from `start_id` to `end_id`. 
 The 2D pixel coordinates are computed from the 1D pixel coordinates:
 
 ```cpp
