@@ -153,7 +153,7 @@ Each process deals with `elements_per_task` (number of pixels):
 
 ```cpp
     unsigned int number_of_pixels = anOutputImage.getWidth() * anOutputImage.getHeight();
-    unsigned int elements_per_task = number_of_pixels) / world_size;
+    unsigned int elements_per_task = number_of_pixels / world_size;
     unsigned int remainder = number_of_pixels % world_size;
 ```
 
@@ -177,7 +177,7 @@ Each process must know the index of the first and last pixels it must compute:
         last_element = end_id;
 
         // Exit the method
-        if (rank == i) return;
+        if (rank == i) break;
     }
 ```
 
