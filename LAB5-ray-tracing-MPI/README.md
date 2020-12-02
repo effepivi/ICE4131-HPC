@@ -153,7 +153,7 @@ Each process deals with `elements_per_task` (number of pixels):
 
 ```cpp
     unsigned int number_of_pixels = anOutputImage.getWidth() * anOutputImage.getHeight();
-    unsigned int elements_per_task = number_of_pixels) / world_size;
+    unsigned int elements_per_task = number_of_pixels / world_size;
     unsigned int remainder = number_of_pixels % world_size;
 ```
 
@@ -177,7 +177,7 @@ Each process must know the index of the first and last pixels it must compute:
         last_element = end_id;
 
         // Exit the method
-        if (rank == i) return;
+        if (rank == i) break;
     }
 ```
 
@@ -232,6 +232,39 @@ If you used 4 processes, the `ROOT` only "knows" the top first quarter of the im
         checkMPIError(MPI_Send(anOutputImage.getData() + start_id * 3, (end_id - start_id + 1) * 3, MPI_UNSIGNED_CHAR, ROOT, 2, MPI_COMM_WORLD));
     }
 ```
+
+Now, you need the code for `checkMPIError`, which makes sure `MPI_Recv` and `MPI_Send` executed without errors:
+
+```cpp
+
+//-------------------------------------
+void checkMPIError(int errorCode) const
+//-------------------------------------
+{
+    if (errorCode == MPI_ERR_COMM)
+    {
+        throw "Invalid communicator. A common error is to use a null communicator in a call (not even allowed in MPI_Comm_rank).";
+    }
+    else if (errorCode == MPI_ERR_TYPE)
+    {
+        throw "Invalid datatype argument. Additionally, this error can occur if an uncommitted MPI_Datatype (see MPI_Type_commit) is used in a communication call.";
+    }
+    else if (errorCode == MPI_ERR_COUNT)
+    {
+        throw "Invalid count argument. Count arguments must be non-negative; a count of zero is often valid.";
+    }
+    else if (errorCode == MPI_ERR_TAG)
+    {
+        throw "Invalid tag argument. Tags must be non-negative; tags in a receive (MPI_Recv, MPI_Irecv, MPI_Sendrecv, etc.) may also be MPI_ANY_TAG. The largest tag value is available through the the attribute MPI_TAG_UB.";
+    }
+    else if (errorCode == MPI_ERR_RANK)
+    {
+        throw "Invalid source or destination rank. Ranks must be between zero and the size of the communicator minus one; ranks in a receive (MPI_Recv, MPI_Irecv, MPI_Sendrecv, etc.) may also be MPI_ANY_SOURCE. ";
+    }
+}
+```
+
+
 
 
 # Run your program
