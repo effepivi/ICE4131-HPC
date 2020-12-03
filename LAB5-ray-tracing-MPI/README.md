@@ -191,7 +191,7 @@ The 2 nested rendering loops must be replaced with a single loop to process the 
 The 2D pixel coordinates are computed from the 1D pixel coordinates:
 
 ```cpp
-    for (unsigned int id = start_id; id < end_id; ++id)
+    for (unsigned int id = start_id; id <= end_id; ++id)
     {
         int row = id / anOutputImage.getWidth();
         int col = id % anOutputImage.getWidth();
