@@ -144,6 +144,10 @@ more  slurm-2825285.out
 - The user should be able to set the number of thread using the command line arguments.
 - Modify the main accordingly. See below for an example:
 ```c++
+#include <cstdlib> // For "atoi"
+
+using namespace std;
+
 int main(int argc, char** argv)
 {
     if (argc != 2)
