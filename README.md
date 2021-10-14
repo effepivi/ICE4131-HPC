@@ -31,7 +31,7 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
 
 [Click here to go to Lab 2](LAB2).
 
-## [Week 3](LAB3) -- Performance assessment of a program
+## [Week 3](LAB3) -- Performance assessment of a program using gprof
 
 In this lab, you practice what we've seen in the lecture so far:
 
