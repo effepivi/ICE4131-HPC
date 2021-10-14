@@ -43,19 +43,19 @@ $
 
 1. Create two scripts to set your environment. One for the GNU C++ compiler (`g++`); one for Intel's (`icc`). In the current directory (which should be `SimpleRayTracing`), create
     - `env-gnu.sh` that contains
-```bash
-module purge > /dev/null 2>&1
-module load cmake
-module load gnuplot
-module load compiler/gnu/9/2.0
-```
+    ```bash
+    module purge > /dev/null 2>&1
+    module load cmake
+    module load gnuplot
+    module load compiler/gnu/9/2.0
+    ```
     - `env-intel.sh` that contains
-```bash
-module purge > /dev/null 2>&1
-module load cmake
-module load gnuplot
-module load compiler/intel/2020/4
-```
+    ```bash
+    module purge > /dev/null 2>&1
+    module load cmake
+    module load gnuplot
+    module load compiler/intel/2020/4
+    ```
 
 2. Create a directory for binaries compiled with each compiler using `mkdir`, e.g.
 
