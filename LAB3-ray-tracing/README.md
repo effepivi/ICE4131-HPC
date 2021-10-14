@@ -107,9 +107,7 @@ $
 
 It's going to take ages to start with as it's building 3rd party libraries to load 3D models.
 
-6. Enable profiling
-
-By default CMake will enable the `Release` mode for producing code that is fast. You don't want that, at least for now, as we need to assess the program to know what is slow.
+6. Enable profiling: By default CMake will enable the `Release` mode for producing code that is fast. You don't want that, at least for now, as we need to assess the program to know what is slow.
 
     - Run  `ccmake .` (yes, two `c`). (One or two dots, it does not matter as CMake already knows where `CMakeLists.txt` is).
     ```bash
