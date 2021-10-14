@@ -13,7 +13,7 @@ In this lab, you'll practice what we've seen in the lecture so far:
 Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
 - You're not expected to write any C/C++ code this week.
-- You write some script
+- You'll submit jobs using SLURM and create a spreadsheet.
 
 <!-- Link to create images of code: https://carbon.now.sh -->
 
@@ -267,14 +267,17 @@ Do the same but with other image sizes.
 
 ### Create the spreadsheet
 
-Once the jobs start to complete, you can observe the results
+- Once the jobs start to complete, you can observe the results
 
 ```bash
 $ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv > runtime.csv
 $
 ```
 
-
+- Download `runtime.csv` using your preferred SFTP client, e.g. WinSCP on the lab machines.
+- Open the file using MS Excel or equivalent.
+- For each image resolution, which compiler provided the fastest computations?
+- What is your conclusion?
 
 <!--
 
@@ -412,7 +415,7 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
 **Note: replace N above with a number between 1 and 40.**
 
 - Check that the output image is correct. Is it the same as the image generated with the serial code?
-- See if you have any speedup when you increase the number of thread. 
+- See if you have any speedup when you increase the number of thread.
 
 ## Generate a spreadsheet
 
