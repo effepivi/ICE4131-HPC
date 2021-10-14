@@ -1,32 +1,37 @@
 # ICE4131 - High Performance Computing (HPC)
-## Lab 3: Parallelisation using Pthread
+## Week 3: Performance assessment of a program using gprof
 ### Tutor: Franck Vidal
 
 ## Objectives
 
 In this lab, you'll practice what we've seen in the lecture so far:
 
-1.  Parallelise some serial code using Pthreads,
-2.  Add timestamps to assess the execution time,
-3.  Run the code on the compute nodes
-4.  Plot graphs of runtimes and of speedups.
+1. Identify the portion of the code that is slow using `gprof`.
+2. Run the code on the compute nodes with output images of increasing sizes.
+3. Plot graphs of runtimes for the program compiled with `g++` and `icc`
 
 Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
-- You'll add your code in `main-pthreads.cxx`.
+- You're not expected to write any C/C++ code this week.
+- You write some script
 
 <!-- Link to create images of code: https://carbon.now.sh -->
 
 
 ## Getting the code
 
-1. Log on `hawklogin.cf.ac.uk` using your favourite SSH client, e.g. [putty](https://www.chiark.greenend.org.uk/~sgtatham/putty) on MS Windows.
+1. Log on `hawklogin.cf.ac.uk` using your favourite SSH client, e.g. [putty](https://www.chiark.greenend.org.uk/~sgtatham/putty) or `powershell` on MS Windows.
 2. If you haven't done it yet, download the code from GitHub using
 ```bash
 $ git clone https://github.com/effepivi/SimpleRayTracing.git
 $
 ```
-3. If you already downloaded the code from GitHub
+3. Go into the directory that contains the code:
+```bash
+$ cd SimpleRayTracing
+$
+```
+4. If you already downloaded the code from GitHub
   - Go into the directory containing the files of this repository.
   - In case I changed the code, update the files using:
   ```bash
@@ -34,54 +39,107 @@ $
   $
   ```
 
-## Compiling environment
+## Compiling environments
 
-1. Create a script to set your environment, e.g. `env.sh`. It should contain:
+1. Create two scripts to set your environment. One for the GNU C++ compiler (`g++`); one for Intel's (`icc`). In the current directory (which should be `SimpleRayTracing`), create
+    - `env-gnu.sh` that contains
+
 ```bash
+module purge > /dev/null 2>&1
 module load cmake
 module load gnuplot
-module load compiler/intel/2020/2
+module load compiler/gnu/9/2.0
 ```
-2. Set your environment using:
+    - `env-intel.sh` that contains
+
 ```bash
-$ source env.sh
+module purge > /dev/null 2>&1
+module load cmake
+module load gnuplot
+module load compiler/intel/2020/4
+```
+
+2. Create a directory for binaries compiled with each compiler using `mkdir`, e.g.
+
+```bash
+$ mkdir bin-gnu
+$ mkdir bin-intel
 $
 ```
-**You'll need to run this command EVERY TIME you log in.**
 
-3. You can use
+## Profiling with the GNU compiler
+
+1. Set your environment to binaries with the GNU compiler
+
+```bash
+$ source env-gnu.sh
+$
+```
+**You'll need to run this command EVERY TIME you log in, or every time you want to change compiler.** We often forget.
+
+2. To check that the modules are loaded, you can use
 
 ```bash
 $ module list
+$
 ```
-to check that the modules are loaded.
 
-4. Create a `bin` directory using `mkdir`.
+3. Go into the appropriate `bin` directory, i.e. `bin-gnu`, using the `cd` command
 
-5. Go into `bin` using the `cd` command.
+```bash
+$ cd bin-gnu
+$
+```
 
-6. Configure your project using CMake:
+4. Configure your project using CMake
 
 ```bash
 $ cmake ..
 $
 ```
 
-7. Compile your code
+`..` is the parent directory of the current directory. CMake is looking for the `CMakeLists.txt` file.
+
+5. Build the project
 
 ```bash
 $ make
 $
 ```
 
-## Notes
+It's going to take ages to start with as it's building 3rd party libraries to load 3D models.
 
-I made some changes to the program on the 28th of Nov:
+6. Enable profiling
 
-- The rendering loop is now in a function (that'll be better for profiling).
+By default CMake will enable the `Release` mode for producing code that is fast. You don't want that, at least for now as we need to assess the program to know what is slow.
+
+    - Run  `ccmake .` (yes, two `c`). (One or two dots, it does not matter as CMake already knows where `CMakeLists.txt` is).
+
+```bash
+$ ccmake .
+$
+```
+    - Change the `CMAKE_BUILD_TYPE` variable to `Debug`
+        - Use the arrows to go to the right line.
+        - Press `ENTER` to edit.
+        - Type `Debug`
+        - Press `ENTER` to save the change.
+
+    - Press `t` to "toggle".
+    - In the `CMAKE_CXX_FLAGS_DEBUG` variable, add the `-pg` option. It will enable the profiling.
+    - Press `c` to "configure".
+    - Press `g` to "generate" the project.
+
+7. Compile again. Only the ray-tracer will compile, not the 3rd party libraries. You'll see, it'll be fast this time.
+
+```bash
+$ make
+$
+```
+
 - The program can use command line arguments:
 
-```
+```bash
 Usage: ./main <option(s)>
 Options:
 	-h,--help                       Show this help message
@@ -90,11 +148,148 @@ Options:
 	-j,--jpeg FILENAME              Name of the JPEG file (default value: test.jpg)
 ```
 
+8. Submit a job using `sbatch`. I created a set of scripts for you. Have a look at `submit-serial-gnu.sh` in a text editor. You need to edit it. For example you can change the email address to use yours (also remove one of  the `#` characters).
+
+```
+$ cd ..
+$ nano submit-serial-gnu.sh
+$ sbatch submit-serial-gnu.sh
+$ squeue -u $USER
+$
+```
+
+It will create a file called `gmon.out` in your current directory (`SimpleRayTracing`).
+
+9. Wait your the job to complete. In the meantime, have a look at [https://sourceware.org/binutils/docs/gprof/](https://sourceware.org/binutils/docs/gprof/) for information about how to use the profiler.
+
+10. Analyse the results using:
+
+```bash
+$ gprof bin-gnu/main > serial-profiling.txt
+$ nano serial-profiling.txt
+$
+```
+
+11. Identify which steps took the longest. **Make sure you document what your results are as you'll need them in your assignment.**
+
+## Turn off debugging and profiling
+
+1. Set your environment to binaries with the GNU compiler
+
+```bash
+$ source env-gnu.sh
+$
+```
+
+3. Go into the appropriate `bin-gnu`, using the `cd` command
+
+```bash
+$ cd bin-gnu
+$
+```
+
+4. Configure your project using CMake
+
+```bash
+$ ccmake ..
+$
+```
+
+5. Change the `CMAKE_BUILD_TYPE` variable to `Release`, configure and generate.
+
+6. Build the project
+
+```bash
+$ make
+$
+```
+
+7. Configure and build the project with the Intel compiler
+
+```bash
+$ cd ..
+$ source env-intel.sh
+$ cmake ..
+$ make
+$ cd ..
+$
+```
+
+## Run your program with various image sizes
+
+We aim to assess the performance of the Intel compiler against the GNU compiler. We will generate images with two programs we created, with different image sizes.
+
+### 128x128
+
+- Submit the jobs
+
+```bash
+$ sbatch submit-serial-gnu.sh
+$ sbatch submit-serial-intel.sh
+$
+```
+
+### 256x256
+
+- Edit `submit-serial-gnu.sh`
+
+```bash
+$ nano submit-serial-gnu.sh
+```
+
+- Find the width and the height of the image in the script and change the values accordingly.
+
+- Submit the job
+
+```bash
+$ sbatch submit-serial-gnu.sh
+$
+```
+
+- Edit `submit-serial-intel.sh`
+
+```bash
+$ nano submit-serial-intel.sh
+```
+
+- Find the width and the height of the image in the script and change the values accordingly.
+
+- Submit the job
+
+```bash
+$ sbatch submit-serial-intel.sh
+$
+```
+
+### 512x512, 1024x1024, 2048x2048, 4096x4096
+
+Do the same but with other image sizes.
+
+### Create the spreadsheet
+
+Once the jobs start to complete, you can observe the results
+
+```bash
+$ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv > runtime.csv
+$
+```
+
+
+
+<!--
+
+
+
+## Notes
+
+I made some changes to the program on the 28th of Nov:
+
+- The rendering loop is now in a function (that'll be better for profiling).
 **Question:** Why?
 
-**Answer:** When you edit your program and submit a job, you can run small tasks (nicer for debugging).
+**Answer:** When you edit your program and submit a job, you can run small tasks (nicer for debugging). -->
 
-
+<!--
 ## Run your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
@@ -127,7 +322,7 @@ $ sbatch  --account=scw1563 submit-serial.sh
 11. To see the new image, download `test.jpg` from `hawklogin.cf.ac.uk` to your PC using your favourite SCP client.
 12. Use an image viewer to visualise the image.
 
-
+<!--
 ## Add timestamps
 
 1. Edit the file `../src/main.cxx` to add timestamps. You can use `nano`, `vi` or `emacs`.
@@ -217,7 +412,7 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
 **Note: replace N above with a number between 1 and 40.**
 
 - Check that the output image is correct. Is it the same as the image generated with the serial code?
-- See if you have any speedup when you increase the number of thread.
+- See if you have any speedup when you increase the number of thread. 
 
 ## Generate a spreadsheet
 
@@ -229,4 +424,4 @@ $ sbatch  --account=scw1563 -c N submit-pthread.sh
 
 - For the ray tracing problem, I provide two scripts, one for the [serial code](https://github.com/effepivi/SimpleRayTracing/blob/master/submit-serial.sh), one for the [pthread code](https://github.com/effepivi/SimpleRayTracing/blob/master/submit-pthread.sh).
 - Edit this line `##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail` to use your own email address. Also remove one of the `#` characters.
-- I also provided a new python script to plot the data [`plotTiming.py`](https://github.com/effepivi/SimpleRayTracing/blob/master/plotTiming.py)
+- I also provided a new python script to plot the data [`plotTiming.py`](https://github.com/effepivi/SimpleRayTracing/blob/master/plotTiming.py) -->
