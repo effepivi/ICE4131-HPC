@@ -31,6 +31,25 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
 
 [Click here to go to Lab 2](LAB2).
 
+## [Lab 3](LAB3) -- Performance assessment of a program
+
+In this lab, you practice what we've seen in the lecture so far:
+
+<!-- 1. Parallelise some serial code using Pthreads in `PthreadImage::flipHorizontally()` in [LAB3/src/PthreadImage.cxx](LAB3/src/PthreadImage.cxx),
+2. Add timestamps to assess the execution time in [LAB3/src/flip.cxx](LAB3/src/flip.cxx),
+3. Run the code on the compute nodes,
+4. Plot graphs of runtimes and of speedups. -->
+
+1. Identify the portion of the code that is slow using `gprof`.
+2. Run the code on the compute nodes with output images of increasing sizes.
+3. Plot graphs of runtimes for the program compiled with `g++` and `icc`
+
+[Click here to go to Lab 3](LAB3-ray-tracing).
+
+
+
+
+
 ## Lecture 4 -- Parallel programming using POSIX threads (Pthreads)
 
 The code in this lecture shows how to parallelise serial code using Pthreads. It covers:
@@ -44,7 +63,7 @@ The code in this lecture shows how to parallelise serial code using Pthreads. It
 
 [Click here to go to Lecture 4](Lecture-4).
 
-## [Lab 3](LAB3) -- Image class using Pthreads
+<!-- ## [Lab 3](LAB3) -- Image class using Pthreads
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -138,4 +157,4 @@ In this lab, you will
 
 ## [Lab 7](LAB7) -- Write your own C/C++ and CUDA code
 
-In this lab, you will create your first CUDA programs from scratch.
+In this lab, you will create your first CUDA programs from scratch. -->
