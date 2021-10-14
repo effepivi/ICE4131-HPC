@@ -10,7 +10,9 @@ In this lab, you'll practice what we've seen in the lecture so far:
 2. Run the code on the compute nodes with output images of increasing sizes.
 3. Plot graphs of runtimes for the program compiled with `g++` and `icc`
 
-Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
+Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing). It's a small ray-tracer to produce images such as
+
+![Example of rendered images](test.jpg)
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
 - You're not expected to write any C/C++ code this week.
 - You'll submit jobs using SLURM and create a spreadsheet.
@@ -204,6 +206,7 @@ $
 ```bash
 $ cd ..
 $ source env-intel.sh
+$ cd bin-intel
 $ cmake ..
 $ make
 $ cd ..
