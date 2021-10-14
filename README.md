@@ -1,7 +1,7 @@
 # ICE4131-HPC
 Lab material for my ICE4131 module about High Performance Computing
 
-## [Lab 1](LAB1) -- Using Nano via HelloWorld + Pthread
+## [Week 1](LAB1) -- Using Nano via HelloWorld + Pthread
 
 The aim of this tutorial is to introduce you to the GNU/Linux environment used by SuperComputing Wales. You will learn how to
 
@@ -12,7 +12,7 @@ The aim of this tutorial is to introduce you to the GNU/Linux environment used b
 
 [Click here to go to Lab 1](LAB1).
 
-## [Lab 2](LAB2) -- Submitting jobs using SLURM
+## [Week 2](LAB2) -- Submitting jobs using SLURM
 
 The aim of this lab is to execute programs on the supercomputer using SLURM (Simple Linux Utility for Resource Management). You will:
 
@@ -31,7 +31,7 @@ The aim of this lab is to execute programs on the supercomputer using SLURM (Sim
 
 [Click here to go to Lab 2](LAB2).
 
-## [Lab 3](LAB3) -- Performance assessment of a program
+## [Week 3](LAB3) -- Performance assessment of a program
 
 In this lab, you practice what we've seen in the lecture so far:
 
@@ -50,7 +50,7 @@ In this lab, you practice what we've seen in the lecture so far:
 
 
 
-## Lecture 4 -- Parallel programming using POSIX threads (Pthreads)
+## Week 4 -- Parallel programming using POSIX threads (Pthreads)
 
 The code in this lecture shows how to parallelise serial code using Pthreads. It covers:
 
@@ -62,6 +62,7 @@ The code in this lecture shows how to parallelise serial code using Pthreads. It
 - Evaluating execution time and speedup.
 
 [Click here to go to Lecture 4](Lecture-4).
+<!-- [Click here to go to Lab 4](Lecture-4). -->
 
 <!-- ## [Lab 3](LAB3) -- Image class using Pthreads
 
