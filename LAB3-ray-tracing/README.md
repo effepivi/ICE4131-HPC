@@ -49,7 +49,6 @@ module load cmake
 module load gnuplot
 module load compiler/gnu/9/2.0
 ```
-
     - `env-intel.sh` that contains
 ```bash
 module purge > /dev/null 2>&1
