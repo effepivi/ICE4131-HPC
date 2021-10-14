@@ -109,14 +109,13 @@ It's going to take ages to start with as it's building 3rd party libraries to lo
 
 6. Enable profiling
 
-By default CMake will enable the `Release` mode for producing code that is fast. You don't want that, at least for now as we need to assess the program to know what is slow.
+By default CMake will enable the `Release` mode for producing code that is fast. You don't want that, at least for now, as we need to assess the program to know what is slow.
 
     - Run  `ccmake .` (yes, two `c`). (One or two dots, it does not matter as CMake already knows where `CMakeLists.txt` is).
-
-```bash
-$ ccmake .
-$
-```
+    ```bash
+    $ ccmake .
+    $
+    ```
     - Change the `CMAKE_BUILD_TYPE` variable to `Debug`
         - Use the arrows to go to the right line.
         - Press `ENTER` to edit.
