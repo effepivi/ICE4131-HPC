@@ -161,11 +161,17 @@ This is were we will add the new program.
     - See Lines 15-16, 34-36, 51, 63-64, 91-96, & 127-142 in [chapter4-3-5.cxx](../Lecture-4/chapter4-3-5.cxx) for an example.
     - Compile.
     - Test.
-7. I created a bash script that submit jobs with various numbers of threads, just run it using
+
+## Run the code on the compute nodes with various numbers of threads
+
+I created a bash script that submit jobs with various numbers of threads.
+
+- Update it. Maybe input your e-mail address at L11.
+- By default, `g++` is enabled. If you want to use the Intel compiler, change `env-gnu.sh` at L34 into `env-intel.sh`, and uncomment L40.
+- Now, just run the script using
 ```bash
 ./submit-pthread.sh
 ```
+It will submit 10 jobs.
 
-
-
-## Run the code on the compute nodes with various numbers of threads
+When they are all done, we can modify `plotRuntime.py` to plot more data.
