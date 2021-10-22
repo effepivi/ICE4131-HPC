@@ -58,7 +58,7 @@ git pull
     # Plot the runtime for each compiler
     for compiler in df["Compiler"].unique():
         test = df["Compiler"] == compiler
-        plt.plot(df[test]["nb pixels"], df[test]["Runtime in sec"], label=compiler)
+        plt.plot(df[test]["nb pixels"], df[test]["Runtime in sec"], 'o-', label=compiler)
 
     # Add the horizontal and vertical labels
     plt.xlabel("Number of pixels")
