@@ -12,127 +12,12 @@ institute: School of Computer Science and Electronic Engineering, Bangor Univers
 I assume you finished the Pthread code and that you ran it using various numbers of threads. Before you carry on, have you plotted the result of your experiments? We will do that to see the performance of our Pthread implementation. In today's lab, you'll also practice what we've seen in the lecture so far:
 
 1.  Parallelise some serial code using OpenMP (i.e. add OpenMP pragmas),
-2.  Run the code on the compute nodes
-3.  Plot graphs of runtimes and of speedups to compare the runtimes between Pthread and OpenMP.
+2.  Run the code on the compute nodes.
+<!-- 3.  Plot graphs of runtimes and of speedups to compare the runtimes between Pthread and OpenMP. -->
 
 Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
 - You'll add your code in `main-omp.cxx`.
-
-
-# Plot the results from last time
-
-- Run
-
-```bash
-$ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv timing-pthread-*.csv > runtime.csv
-$
-```
-
-- Download `runtime.csv` using your preferred SFTP client, e.g. WinSCP on the lab machines.
-- Open the file using MS Excel or equivalent.
-- Create a new text file called `plotPthread.py` that contains:
-
-```python
-#!/usr/bin/env python3
-
-import math
-import matplotlib.pyplot as plt # Plotting liplotRuntime.pybrary
-import pandas as pd # Load the CSV file
-
-# Lad the spreadsheet
-df = pd.read_csv("runtime.csv")
-
-# Sort by resolution
-df = df.sort_values(by=["Number of threads/processes per node"])
-
-resolution = None
-resolution_count = 0
-
-for res in df["Image size"].unique():
-    test = df["Image size"] == res
-    count = df[test]["Image size"].count()
-    if resolution_count < count:
-        resolution_count = count
-        resolution = res
-
-width = int(resolution.split('x')[0])
-height = int(resolution.split('x')[1])
-
-# Create a new figure
-plt.figure()
-
-test_res = df["Image size"] == resolution
-test_pthread = df["Parallelisation"] == "Pthread"
-test = test_res & test_pthread
-
-plt.plot(df[test]["Number of threads/processes per node"], df[test]["Runtime in sec"]/60, "o-", label="Pthread")
-
-
-# Add the horizontal and vertical labels
-plt.xlabel("Number of threads")
-plt.ylabel("Runtime\n(in min)")
-
-"""
-# Get the horizontal ticks
-xtics_values = []
-xtics_labels = []
-
-for res in df["nb pixels"].unique():
-    test = df["nb pixels"] == res
-    xtics_values.append(int(res))
-    xtics_labels.append(df[test]["Image size"].values[0])
-
-# Add the horizontal ticks
-plt.xticks(xtics_values, xtics_labels, rotation=45, ha='right')
-"""
-# Add the legend
-plt.legend()    
-
-# Save the plot
-plt.savefig('runtime-pthread.pdf')
-plt.savefig('runtime-pthread.png')
-
-
-
-# Create a new figure
-plt.figure()
-
-
-
-test_serial = df["Parallelisation"] == "None"
-serial_runtime = df[test_serial & test_res]["Runtime in sec"].min()
-
-plt.plot(df[test]["Number of threads/processes per node"], serial_runtime / df[test]["Runtime in sec"], "o-", label="Pthread")
-
-
-# Add the horizontal and vertical labels
-plt.xlabel("Number of threads")
-plt.ylabel("Speedup factor")
-
-"""
-# Get the horizontal ticks
-xtics_values = []
-xtics_labels = []
-
-for res in df["nb pixels"].unique():
-    test = df["nb pixels"] == res
-    xtics_values.append(int(res))
-    xtics_labels.append(df[test]["Image size"].values[0])
-
-# Add the horizontal ticks
-plt.xticks(xtics_values, xtics_labels, rotation=45, ha='right')
-"""
-# Add the legend
-plt.legend()    
-
-# Save the plot
-plt.savefig('speedup-pthread.pdf')
-plt.savefig('speedup-pthread.png')
-```
-
-
-
 
 # Getting the latest version of the code
 
@@ -143,25 +28,130 @@ $ git pull
 $
 ```
 
+# Plot the results from last time
+
+- Assuming that all the job completed successfullym run:
+
+```bash
+$ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv timing-pthread-*.csv > runtime.csv
+$
+```
+
+- Download `runtime.csv` using your preferred SFTP client, e.g. WinSCP on the lab machines.
+- Open the file using MS Excel or equivalent.
+- Check if the content is OK.
+- Create a new text file called `plotPthread.py` that contains:
+
+```python
+#!/usr/bin/env python3
+
+import matplotlib.pyplot as plt # Plotting library
+import pandas as pd # Load the CSV file
+
+# Load the spreadsheet
+df = pd.read_csv("runtime.csv")
+
+# Sort by number of threads
+df = df.sort_values(by=["Number of threads/processes per node"])
+
+# Consider the runs corresponding to Pthread
+test_pthread = df["Parallelisation"] == "Pthread"
+
+# Find the resolution that was used the most
+resolution = None
+resolution_count = 0
+for res in df[test_pthread]["Image size"].unique():
+    test = df["Image size"] == res
+    count = df[test_pthread & test]["Image size"].count()
+    if resolution_count < count:
+        resolution_count = count
+        resolution = res
+
+# Find the image width and image height
+width = int(resolution.split('x')[0])
+height = int(resolution.split('x')[1])
+
+# Create a new figure
+plt.figure()
+
+# Select the rows corresponding to Pthread and the right image resolution
+test_res = df["Image size"] == resolution
+test = test_res & test_pthread
+
+# Plot the data in min
+plt.plot(df[test]["Number of threads/processes per node"],
+         df[test]["Runtime in sec"]/60,
+         "o-",
+         label="Pthread")
+
+# Add the horizontal and vertical labels
+plt.xlabel("Number of threads")
+plt.ylabel("Runtime\n(in min)")
+
+# Add the legend
+plt.legend()    
+
+# Save the plot
+plt.savefig('runtime-pthread.pdf')
+plt.savefig('runtime-pthread.png')
+
+
+
+
+
+# Create a new figure
+plt.figure()
+
+# Select the rows corresponding to the serial code and of the right image resolution
+test_serial = df["Parallelisation"] == "None"
+print(df[test_serial & test_res])
+serial_runtime = df[test_serial & test_res]["Runtime in sec"].min()
+
+# Plot the speedup factors
+plt.plot(df[test]["Number of threads/processes per node"],
+         serial_runtime / df[test]["Runtime in sec"],
+         "o-",
+         label="Pthread")
+
+# Add the horizontal and vertical labels
+plt.xlabel("Number of threads")
+plt.ylabel("Speedup factor")
+
+# Add the legend
+plt.legend()    
+
+# Save the plot
+plt.savefig('speedup-pthread.pdf')
+plt.savefig('speedup-pthread.png')
+```
+
+## Runtime with Pthread
+
+![Plot of the runtime](runtime-pthread.png)
+
+## Speedup with Pthread
+
+![Plot of the speedup](speedup-pthread.png)
+
 # Loading the modules
 
-1. Reuse `env.sh` from [Lab 3](../LAB3-ray-tracing). It is used to load modules. You need the following modules:
+1. Reuse `env-gnu.sh` from [Lab 3](../LAB3-ray-tracing). It is used to load modules. You need the following modules:
 - cmake
 - gnuplot
-- compiler/intel/2020/2
+- gcc 9.2.0
 
 **You need to do this EVERY TIME you log in.**
 
-If you can't remember where `env.sh` is, run the following command to locate where it is:
+If you can't remember where `env-gnu.sh` is, run the following command to locate where it is:
 
 ```bash
-$ find ~ -name env.sh
+$ find ~ -name env-gnu.sh
 ```
 
 To load the modules using the script, run:
 
 ```bash
-$ source PATH_TO_ENV/env.sh
+$ source PATH_TO_ENV/env-gnu.sh
 ```
 
 (replace `PATH_TO_ENV` with the actual path, as provided by `find ~ -name env.sh`)
@@ -311,9 +301,25 @@ $ ./submit-omp.sh
 
 8. Only go to the next section when everything works as expected. If not, debug your code.
 
+# While you wait
+
+Why don't you work on your report ;-)
+
 # Performance evaluation
 
-1. A shell script - [createTiming.sh](createTiming.sh) - is provided for your own convenience. It will concatenate the runtimes for all the jobs that completed and create a spreadsheet `timing.csv`.
+- Using the same methodology as before, update runtime.csv
+
+```bash
+$ cat timing-omp-*.csv >> runtime.csv
+$
+```
+
+- Copy `plotPthread.py` in a new script `plotPthreadVsOpenMP.py`.
+
+- Update the script to plot two curves, one for Pthread, one for OpenMP.
+
+
+<!-- 1. A shell script - [createTiming.sh](createTiming.sh) - is provided for your own convenience. It will concatenate the runtimes for all the jobs that completed and create a spreadsheet `timing.csv`.
 
 Below is an example of output I obtained on SCW.
 
@@ -355,7 +361,7 @@ For me, it looks like:
 
 ![Speed up](speedup.png)
 
-What do you conclude from the graphs? Compare the relative speed up provided by both APIs!
+What do you conclude from the graphs? Compare the relative speed up provided by both APIs! -->
 
 # Next week
 
