@@ -1,15 +1,15 @@
 ---
-title: Lab 4 -- Parallelisation using OpenMP
+title: Lab 5 -- Parallelisation using OpenMP
 author: Dr Franck P. Vidal
 subtitle: ICE4131 - High Performance Computing (HPC)
-date: Week 8
+date: Week 7
 keywords: ICE4131, High Performance Computing, HPC, C/C++, ray tracing, Pthread, OpenMP, MPI, CUDA, Bangor University, School of Computer Science and Electronic Engineering
 institute: School of Computer Science and Electronic Engineering, Bangor University
 ---
 
 # Objectives
 
-I assume you finished the Pthread code and that you ran it using various numbers of threads. In today's lab, you'll practice what we've seen in the lecture so far:
+I assume you finished the Pthread code and that you ran it using various numbers of threads. Before you carry on, have you plotted the result of your experiments? We will do that to see the performance of our Pthread implementation. In today's lab, you'll also practice what we've seen in the lecture so far:
 
 1.  Parallelise some serial code using OpenMP (i.e. add OpenMP pragmas),
 2.  Run the code on the compute nodes
@@ -18,6 +18,121 @@ I assume you finished the Pthread code and that you ran it using various numbers
 Some code is provided for your convenience. It is available on GitHub at [https://github.com/effepivi/SimpleRayTracing](https://github.com/effepivi/SimpleRayTracing).
 - There is the serial code of a simple ray tracer in `src/main.cxx`.
 - You'll add your code in `main-omp.cxx`.
+
+
+# Plot the results from last time
+
+- Run
+
+```bash
+$ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv timing-pthread-*.csv > runtime.csv
+$
+```
+
+- Download `runtime.csv` using your preferred SFTP client, e.g. WinSCP on the lab machines.
+- Open the file using MS Excel or equivalent.
+- Create a new text file called `plotPthread.py` that contains:
+
+```python
+#!/usr/bin/env python3
+
+import math
+import matplotlib.pyplot as plt # Plotting liplotRuntime.pybrary
+import pandas as pd # Load the CSV file
+
+# Lad the spreadsheet
+df = pd.read_csv("runtime.csv")
+
+# Sort by resolution
+df = df.sort_values(by=["Number of threads/processes per node"])
+
+resolution = None
+resolution_count = 0
+
+for res in df["Image size"].unique():
+    test = df["Image size"] == res
+    count = df[test]["Image size"].count()
+    if resolution_count < count:
+        resolution_count = count
+        resolution = res
+
+width = int(resolution.split('x')[0])
+height = int(resolution.split('x')[1])
+
+# Create a new figure
+plt.figure()
+
+test_res = df["Image size"] == resolution
+test_pthread = df["Parallelisation"] == "Pthread"
+test = test_res & test_pthread
+
+plt.plot(df[test]["Number of threads/processes per node"], df[test]["Runtime in sec"]/60, "o-", label="Pthread")
+
+
+# Add the horizontal and vertical labels
+plt.xlabel("Number of threads")
+plt.ylabel("Runtime\n(in min)")
+
+"""
+# Get the horizontal ticks
+xtics_values = []
+xtics_labels = []
+
+for res in df["nb pixels"].unique():
+    test = df["nb pixels"] == res
+    xtics_values.append(int(res))
+    xtics_labels.append(df[test]["Image size"].values[0])
+
+# Add the horizontal ticks
+plt.xticks(xtics_values, xtics_labels, rotation=45, ha='right')
+"""
+# Add the legend
+plt.legend()    
+
+# Save the plot
+plt.savefig('runtime-pthread.pdf')
+plt.savefig('runtime-pthread.png')
+
+
+
+# Create a new figure
+plt.figure()
+
+
+
+test_serial = df["Parallelisation"] == "None"
+serial_runtime = df[test_serial & test_res]["Runtime in sec"].min()
+
+plt.plot(df[test]["Number of threads/processes per node"], serial_runtime / df[test]["Runtime in sec"], "o-", label="Pthread")
+
+
+# Add the horizontal and vertical labels
+plt.xlabel("Number of threads")
+plt.ylabel("Speedup factor")
+
+"""
+# Get the horizontal ticks
+xtics_values = []
+xtics_labels = []
+
+for res in df["nb pixels"].unique():
+    test = df["nb pixels"] == res
+    xtics_values.append(int(res))
+    xtics_labels.append(df[test]["Image size"].values[0])
+
+# Add the horizontal ticks
+plt.xticks(xtics_values, xtics_labels, rotation=45, ha='right')
+"""
+# Add the legend
+plt.legend()    
+
+# Save the plot
+plt.savefig('speedup-pthread.pdf')
+plt.savefig('speedup-pthread.png')
+```
+
+
+
 
 # Getting the latest version of the code
 
