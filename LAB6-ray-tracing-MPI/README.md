@@ -1,8 +1,8 @@
 ---
-title: Lab 5 -- Parallelisation using MPI
+title: Lab 6 -- Parallelisation using MPI
 author: Dr Franck P. Vidal
 subtitle: ICE4131 - High Performance Computing (HPC)
-date: Week 9
+date: Week 8
 keywords: ICE4131, High Performance Computing, HPC, C/C++, ray tracing, Pthread, OpenMP, MPI, CUDA, Bangor University, School of Computer Science and Electronic Engineering
 institute: School of Computer Science and Electronic Engineering, Bangor University
 ---
@@ -30,36 +30,32 @@ $
 
 # Loading the modules
 
-1. Reuse `env.sh` from [Lab 3](../LAB3-ray-tracing). It is used to load modules. You need the following modules:
-- cmake
-- gnuplot
-- compiler/intel/2020/2
-- mpi/intel
-
-(note the last one)
-
-**You need to do this EVERY TIME you log in.**
-
-If you can't remember where `env.sh` is, run the following command to locate where it is:
+1. Figure out which MPI implementations are available with
 
 ```bash
-$ find ~ -name env.sh
+$ module available mpi
 ```
 
-To load the modules using the script, run:
+2. Edit the file (`env-gnu.sh`) and load an MPI implementation, e.g. OpenMPI
+
+3. Load the file with
 
 ```bash
-$ source PATH_TO_ENV/env.sh
+$ source env-gnu.sh
 ```
-
-(replace `PATH_TO_ENV` with the actual path, as provided by `find ~ -name env.sh`)
-
 
 2. To check that the modules are loaded, use:
 
 ```bash
 $ module list
 ```
+
+# Plot the results from last time
+
+Modify the Python script I provided to plot
+
+- the runtime of both the Pthread and OpenMP implementations, and
+- the speed-up of both the Pthread and OpenMP implementations.
 
 # Add the new executable in `CMakeLists.txt`
 
@@ -133,8 +129,8 @@ Compile often!
 
 ## Workload allocation
 
-From now on, the only function we will modify it renderLoop`. 
-The workload allocation is the same as what we saw with Pthread. Instead of threads, we have processes. 
+From now on, the only function we will modify it renderLoop`.
+The workload allocation is the same as what we saw with Pthread. Instead of threads, we have processes.
 The total number of processes is the world size:
 
 ```cpp
@@ -187,7 +183,7 @@ Compile often!
 
 ## Rendering loop
 
-The 2 nested rendering loops must be replaced with a single loop to process the pixels from `start_id` to `end_id`. 
+The 2 nested rendering loops must be replaced with a single loop to process the pixels from `start_id` to `end_id`.
 The 2D pixel coordinates are computed from the 1D pixel coordinates:
 
 ```cpp
@@ -274,7 +270,7 @@ void checkMPIError(int errorCode) const
 3. I provided a script, [`submit-mpi.sh`](../../SimpleRayTracing/submit-mpi.sh). Edit this file to use your email address in `echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk`.
 `submit-mpi.sh` creates another 4*8=32 scripts `submit-mpi-*-*.sh` and submit the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 processes on each node.
 
-For example, the script below `submit-mpi-4-40.sh` is the script used to submit a job with 40 processes on 4 a total of 160 processes.
+For example, the script below `submit-mpi-4-40.sh` is the script used to submit a job with 40 processes on 4 nodes, i.e. a total of 160 processes.
 
 ```bash
 #!/usr/bin/env bash
@@ -395,4 +391,4 @@ For me, it looks like:
 ![Speed up](speedup.png)
 
 What do you conclude from the graphs? Compare the relative speed up provided by both APIs!
-
+Can you see that processes are "heavier" than threads?
