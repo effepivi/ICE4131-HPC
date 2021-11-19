@@ -163,7 +163,7 @@ Each process must know the index of the first and last pixels it must compute:
     for (int i = 0; i < world_size; ++i)
     {
         start_id = ++last_element;
-        end_id = last_element + element_per_task - 1;
+        end_id = last_element + elements_per_task - 1;
 
         if (remainder > 0)
         {
@@ -233,9 +233,9 @@ Now, you need the code for `checkMPIError`, which makes sure `MPI_Recv` and `MPI
 
 ```cpp
 
-//-------------------------------------
-void checkMPIError(int errorCode) const
-//-------------------------------------
+//-------------------------------
+void checkMPIError(int errorCode)
+//-------------------------------
 {
     if (errorCode == MPI_ERR_COMM)
     {
