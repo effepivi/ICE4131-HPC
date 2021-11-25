@@ -1,5 +1,5 @@
 ---
-title: Lab 6 -- Parallelisation using OpenMP and MPI
+title: Lab 7 -- Parallelisation using OpenMP and MPI
 author: Dr Franck P. Vidal
 subtitle: ICE4131 - High Performance Computing (HPC)
 date: Week 10
@@ -9,7 +9,7 @@ institute: School of Computer Science and Electronic Engineering, Bangor Univers
 
 # Objectives
 
-I assume you finished the Pthread code, the OpenMP code, the MPI code and that you ran them using various numbers of threads and processes. In today's lab, you'll use combine the use of OpenMP and MPI:
+I assume you finished the Pthread code, the OpenMP code, the MPI code and that you ran them using various numbers of threads and processes. In today's lab, you'll use combine the use of OpenMP and MPI. The idea is that using threads on a given node is going to be more computational efficient that running processes. This is because processes are heavier than threads.
 
 # Getting the latest version of the code
 
@@ -20,16 +20,19 @@ $ git pull
 $
 ```
 
-I added a new file (`submit-mpi-omp.sh`) and change one (`createTiming.sh`).
+I added a new file (`submit-mpi-omp.sh`).
+
+# Plot the results from last time
+
+Using the same methodology as previous time, you must:
+
+- Concatenate the results you had so far in a spreadsheet. Some may prefer to do one spreadsheet per lab.
+- Plot the runtimes in minutes for i) the serial implementation, ii) the Pthread implementation, iii) the OpenMP implementation, and iv) the MPI implementation.
+- Plot the speedup factors in minutes for i) the Pthread implementation, ii) the OpenMP implementation, and iii) the MPI implementation.
 
 # Loading the modules
 
-Same old story. Load:
-
-- cmake
-- compiler/intel/2020/2
-- mpi/intel
-
+Same old story. Load your modules.
 
 # Add the new executable in `CMakeLists.txt`
 
@@ -49,15 +52,15 @@ TARGET_LINK_LIBRARIES (main-mpi-omp PUBLIC RayTracing ${ASSIMP_LIBRARY} ${MPI_CX
 # Parallelise the code using OpenMP
 
 Copy/Paste the content of `main-mpi.cxx` into `main-mpi-omp.cxx`.
-Use a `pragma` to parallelise a for loop. See [../LAB4-ray-tracing-omp](../LAB4-ray-tracing-omp).
+Use a `pragma` to parallelise a for loop. See [../LAB5-ray-tracing-omp](../LAB5-ray-tracing-omp).
 Compile.
 
 # Run your program
 
 1. To run your program, launch a job. DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`. Be nice to other users!
 2. See [Lab 2](../LAB2) for an explanation.
-3. I provided a script, [`submit-mpi-omp.sh`](../../SimpleRayTracing/submit-mpi-omp.sh). Edit this file to use your email address in `echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk`.
-`submit-mpi.sh` creates another 4*8=32 scripts `submit-mpi-*-*.sh` and submit the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 threads on each node.
+3. I provided a script, [`submit-mpi-omp.sh`](https://github.com/effepivi/SimpleRayTracing/blob/master/submit-mpi-omp.sh). Edit this file to use your email address in `echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk`.
+`submit-mpi-omp.sh` creates another 4*8=32 scripts `submit-mpi-omp-*-*.sh` and submit the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 threads on each node.
 
 For example, the script below `submit-mpi-omp-4-40.sh` is the script used to submit a job with 40 threads on 4 a total of 160 threads.
 
@@ -107,4 +110,8 @@ $ ./submit-mpi-omp.sh
 
 # Performance evaluation
 
-Same old story. But I haven't doe it myself. Let's see what you can get ;-)
+Same old story. You must create two plots:
+
+- Concatenate the results you had so far in a spreadsheet. Some may prefer to do one spreadsheet per lab.
+- Plot the runtimes in minutes for i) the serial implementation, ii) the Pthread implementation, iii) the OpenMP implementation, iv) the MPI implementation, and v) the MPI-OpenMP implementation.
+- Plot the speedup factors in minutes for i) the Pthread implementation, ii) the OpenMP implementation, iii) the MPI implementation, and iv) the MPI-OpenMP implementation.
