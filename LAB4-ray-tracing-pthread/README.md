@@ -29,11 +29,6 @@ git pull
 2. Make sure you've created `runtime.csv`.
 3. Look at the content of the file as a spreadsheet.
     - I see some errors in mine, make sure the data in yours is fine (you can delete the rows that show errors)
-    - Add a new column `nb pixels`
-        - For an 256x256 image, the corresponding value is 65536, i.e. 256 * 256.
-        - For an 1024*1024 image, the corresponding value is 1048576, i.e. 1024 * 1024.
-        - Process every row.
-        - Save the file as a CSV file.
     - answer the following questions:
         - Was `icc` better than `g++`?
         - Was `g++` better than `icc`?
@@ -46,8 +41,17 @@ git pull
     import matplotlib.pyplot as plt # Plotting liplotRuntime.pybrary
     import pandas as pd # Load the CSV file
 
-    # Lad the spreadsheet
+    # Load the spreadsheet
     df = pd.read_csv("runtime.csv")
+
+    # Create a dummy column
+    df["nb pixels"] = None
+
+    for img_size in df["Image size"].unique():
+        test = df["Image size"] == img_size
+
+        w, h = img_size.split("x")
+        df["nb pixels"][test] = int(w) * int(h)
 
     # Sort by resolution
     df = df.sort_values(by=["nb pixels"])
